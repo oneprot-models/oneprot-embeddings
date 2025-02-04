@@ -1,0 +1,50 @@
+# flexiblemlp_config.yaml
+
+defaults:
+  - _self_
+  - override hydra/sweeper: basic
+
+evaluate_on: ["train", "valid", "test"]
+emb_dir: /p/scratch/hai_oneprot/bazarova1/embeddings/
+results_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints/
+
+# Model configuration
+model:
+  input_dim: 1280  # Adjust based on your embedding size
+  hidden_dims: [512, 256]
+  dropout_rate: 0.3
+  use_batch_norm: true
+  use_layer_norm: false
+  activation: "relu"
+  use_residual: false
+  learning_rate: 0.001
+  batch_size: 32
+  max_epochs: 10
+  early_stopping_patience: 20
+
+threshold: .inf
+
+task_name: EC
+model_type: oneprot_struct_allatom_struct_pocket_text_AdamW
+downstream_model:
+  name: MLP
+
+# Sweep parameters
+sweep:
+  learning_rate: [0.001, 0.01]
+  batch_size: [32, 64]
+  max_epochs: [50]
+  hidden_dims: 
+    - [256]
+    - [512, 256]
+  dropout_rate: [0.1, 0.25]
+  use_batch_norm: [true, false]
+  use_layer_norm: [true, false]
+  activation: ["relu", "gelu"]
+  use_residual: [true, false]
+  model_type: [oneprot_full_A100_last] #[oneprot_struct_allatom_struct_pocket_text_AdamW_1,oneprot_struct_backbone_struct_pocket_text_AdamW_1,oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW,oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW]
+  task_name: ["GO-BP"] #["HumanPPI", "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"] #[, "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"]
+  
+hydra:
+  run:
+    dir: ../outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}

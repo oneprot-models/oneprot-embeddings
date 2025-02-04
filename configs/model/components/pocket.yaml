@@ -1,0 +1,13 @@
+pocket:
+  _target_: src.models.components.struct_graph_encoder.StructEncoder
+  encoder:
+    _target_: dig.threedgraph.method.ProNet
+    level: backbone
+    out_channels: ${..output_dim}
+    euler_noise: True
+    data_augment_eachlayer: True 
+    dropout: 0.25
+  output_dim: ${..sequence.output_dim}
+  proj_type: linear
+  use_logit_scale: true
+  learnable_logit_scale: false

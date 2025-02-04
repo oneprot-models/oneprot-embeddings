@@ -1,0 +1,266 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: oneprot.yaml
+  - model: oneprot.yaml
+  - callbacks: default.yaml
+  - logger: wandb.yaml 
+  - trainer: ddp.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+  - optional local: default.yaml
+  - debug: null
+
+
+task_name: "panda_gpt"
+tags: ["struct", "facebook/esm2_t36_3B_UR50D"]
+seed: 12345
+
+# specify trained OneProt here
+ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
+model_folder: /p/scratch/hai_oneprot/huggingface #/p/scratch/hai_oneprot/pandagpt_models/
+model_name: facebook/galactica-125m
+lora_r: 8 #8
+lora_alpha: 16 #16
+lora_dropout: 0.1
+target_modules: [q_proj, k_proj, v_proj, o_proj]
+modality: sequence
+modality_data_name: text
+max_tgt_len: 123
+dummy_prompt: Describe please.
+top_p: 0.9
+temperature: 1
+modality_cache: False
+num_epochs: 10
+learning_rate: 0.001
+
+
+# data:
+#   data_modalities: ['struct', 'text']
+#   seq_tokenizer: "facebook/esm2_t33_650M_UR50D"
+#   text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+#   batch_size: 64
+
+data:
+  _target_: src.data.oneprot_datamodule.OneProtDataModule
+  default_batch_size: 32
+  num_workers: 12
+  pin_memory: false
+  modalities:
+    pocket:
+      dataset:
+        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        seq_tokenizer: facebook/esm2_t33_650M_UR50D
+        use_struct_mask: true
+        use_struct_coord_noise: true
+        use_struct_deform: true
+        pocket: true
+      batch_size:
+        train: 32
+        val: 25
+        test: 64
+    seqsim:
+      dataset:
+        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        seq_tokenizer: facebook/esm2_t33_650M_UR50D
+        max_length: 1024
+      batch_size:
+        train: 32
+        val: 25
+        test: 16
+    struct_graph:
+      dataset:
+        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        seq_tokenizer: facebook/esm2_t33_650M_UR50D
+        use_struct_mask: true
+        use_struct_coord_noise: true
+        use_struct_deform: true
+        pocket: false
+      batch_size:
+        train: 32
+        val: 25
+        test: 64
+    struct_token:
+      dataset:
+        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        filename: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/train_saprot.h5
+        seq_tokenizer: facebook/esm2_t33_650M_UR50D
+        full: false
+      batch_size:
+        train: 16
+        val: 25
+        test: 64
+    text:
+      dataset:
+        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        seq_tokenizer: facebook/esm2_t33_650M_UR50D
+        text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+      batch_size:
+        train: 32
+        val: 25
+        test: 64
+model:
+  _target_: src.models.oneprot_module.OneProtLitModule
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.0001
+    weight_decay: 0.0
+  components:
+    sequence:
+      _target_: src.models.components.sequence_encoder.SequenceEncoder
+      model_name_or_path: facebook/esm2_t33_650M_UR50D
+      pooling_type: attention1d
+      output_dim: 1024
+      proj_type: linear
+      use_lora: false
+      lora_r: 16
+      lora_alpha: 16
+      lora_dropout: 0.1
+      lora_target_modules:
+      - query
+      - key
+      - value
+      frozen: true
+      use_logit_scale: false
+      learnable_logit_scale: false
+    struct_token:
+      _target_: src.models.components.struct_token_encoder.StructTokenEncoder
+      model_name_or_path: facebook/esm2_t12_35M_UR50D
+      output_dim: ${..sequence.output_dim}
+      pooling_type: mean
+      proj_type: linear
+      use_logit_scale: true
+      learnable_logit_scale: false
+    struct_graph:
+      _target_: src.models.components.struct_graph_encoder.StructEncoder
+      encoder:
+        _target_: dig.threedgraph.method.ProNet
+        level: allatom
+        out_channels: ${..output_dim}
+        euler_noise: true
+        data_augment_eachlayer: true
+        dropout: 0.25
+      output_dim: ${..sequence.output_dim}
+      proj_type: linear
+      use_logit_scale: true
+      learnable_logit_scale: false
+    pocket:
+      _target_: src.models.components.struct_graph_encoder.StructEncoder
+      encoder:
+        _target_: dig.threedgraph.method.ProNet
+        level: allatom
+        out_channels: ${..output_dim}
+        euler_noise: true
+        data_augment_eachlayer: true
+        dropout: 0.25
+      output_dim: ${..sequence.output_dim}
+      proj_type: linear
+      use_logit_scale: true
+      learnable_logit_scale: false
+    text:
+      _target_: src.models.components.text_encoder.TextEncoder
+      model_name_or_path: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+      output_dim: ${..sequence.output_dim}
+      pooling_type: cls
+      proj_type: mlp
+      use_lora: false
+      lora_r: 4
+      lora_alpha: 8
+      lora_dropout: 0.1
+      lora_target_modules:
+      - query
+      - key
+      - value
+      frozen: true
+      use_logit_scale: true
+      learnable_logit_scale: false
+  loss_fn: CLIP
+  local_loss: true
+  gather_with_grad: true
+  use_l1_regularization: false
+  train_on_all_modalities_after_step: 0
+  use_seqsim: false
+trainer:
+  _target_: pytorch_lightning.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 1
+  max_epochs: 100
+  accelerator: gpu
+  devices: 4
+  num_sanity_val_steps: -1
+  deterministic: false
+  num_nodes: 16
+  sync_batchnorm: true
+  strategy: ddp_find_unused_parameters_true
+  val_check_interval: 82
+logger:
+  wandb:
+    _target_: pytorch_lightning.loggers.wandb.WandbLogger
+    save_dir: ${paths.output_dir}
+    offline: true
+    id: null
+    anonymous: null
+    project: oneprot
+    entity: albazarova
+    log_model: false
+    prefix: ''
+    group: ''
+    tags: []
+    job_type: ''
+callbacks:
+  model_checkpoint:
+    _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    dirpath: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
+    monitor: val/loss_best
+    verbose: true
+    save_last: true
+    save_top_k: 500
+    mode: min
+    auto_insert_metric_name: false
+    filename: epoch_{epoch:03d}_{step:05d}
+    save_weights_only: false
+    save_on_train_epoch_end: false
+    every_n_train_steps: 100
+  model_summary:
+    _target_: pytorch_lightning.callbacks.RichModelSummary
+    max_depth: 3
+  rich_progress_bar:
+    _target_: pytorch_lightning.callbacks.TQDMProgressBar
+    refresh_rate: 1
+  lr_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: step
+paths:
+  root_dir: ${oc.env:PROJECT_ROOT}
+  data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+  log_dir: ${paths.root_dir}/logs/
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+extras:
+  ignore_warnings: false
+  enforce_tags: true
+  print_config: true
+# task_name: train
+# train: true
+# test: true
+# compile: false
+# ckpt_path: null
+# seed: 1881
+# tags: all-modalities
+
+dataset:
+  csv_file_path: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/test_all.csv
+  data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/
+  max_sequence_length: 1024
+  text_max_length: 512
+  text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+  seq_tokenizer: facebook/esm2_t33_650M_UR50D
+  remove_hash: true
+  msa_model_name_or_path: /p/scratch/hai_oneprot/huggingface/models/msa/esm_msa1b_t12_100M_UR50S.pt
+  msa_depth: 50
+  max_length: 1024
+
+

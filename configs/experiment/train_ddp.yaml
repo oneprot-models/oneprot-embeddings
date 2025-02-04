@@ -1,0 +1,25 @@
+# @package _global_
+
+defaults:
+  - override /data: oneprot
+  - override /model: oneprot
+  - override /trainer: ddp
+  - override /logger: wandb
+
+seed: 12345
+
+data:
+  default_batch_size: 4
+
+trainer:
+  min_epochs: 1
+  max_epochs: 100
+  num_sanity_val_steps: -1
+  val_check_interval: 250
+  strategy: 'ddp_find_unused_parameters_true'
+
+callbacks:
+  model_checkpoint:
+    filename: "epoch_{epoch:03d}_struct_pocket"
+
+ckpt_path: null

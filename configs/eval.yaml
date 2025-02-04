@@ -1,0 +1,104 @@
+# config.yaml
+
+model:
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v82.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v83.ckpt
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_00-15-12/best-v15.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_18-55-50/best-v20.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v32.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-14_16-49-04/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_029_19400.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
+  
+  #full_allatom_A100
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_008_06600.ckpt #6600
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_016_13200.ckpt #13200
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_024_19800.ckpt #19800
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_032_26400.ckpt #26400
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+
+# #full_allatom_no_seqsim_A100
+
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-04_22-53-05/checkpoints/epoch_010_06600.ckpt #6600
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
+
+  # ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-04_22-53-05/checkpoints/epoch_020_13200.ckpt #13200
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml 
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_009_06300.ckpt #19800
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_019_12900.ckpt #26400
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
+
+# #full_allatom_no_l1_A100
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_004_03500.ckpt #6600
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-06_14-32-34/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_012_10100.ckpt #13200
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-06_14-32-34/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_020_16700.ckpt #19800
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-06_14-32-34/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_028_23300.ckpt #26400
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-06_14-32-34/config.yaml
+
+
+# #full_allatom_no_seqsim_no_l1_A100
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_003_02100.ckpt #6600
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_013_08700.ckpt #13200
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_023_15300.ckpt #19800
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
+
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_033_21900.ckpt #26400
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
+
+  ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt #26400
+  config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_16-37-44/config.yaml
+
+
+dataset:
+  csv_file_path: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/test_all.csv
+  data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/
+  max_sequence_length: 1024
+  text_max_length: 512
+  text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
+  seq_tokenizer: facebook/esm2_t33_650M_UR50D
+  remove_hash: true
+  msa_model_name_or_path: /p/scratch/hai_oneprot/huggingface/models/msa/esm_msa1b_t12_100M_UR50S.pt
+  msa_depth: 50
+  max_length: 1024
+
+dataloader:
+  batch_size: 50
+  shuffle: false
+  num_workers: 4
+
+output:
+  csv_path: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/retrieval_4000_full_allatom_no_seqsim_no_l1_A100_26400.csv
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}

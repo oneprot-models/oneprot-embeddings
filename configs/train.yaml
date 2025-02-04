@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - data: oneprot
+  - model: oneprot
+  - trainer: default
+  - logger: wandb
+  - callbacks: default.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - hydra: default.yaml
+  - _self_
+
+task_name: "train"
+
+
+
+# set False to skip model training
+train: True
+
+# evaluate on test set, using best model weights achieved during training
+# lightning chooses best weights based on the metric specified in checkpoint callback
+test: True
+
+# compile model for faster training with pytorch 2.0
+compile: False
+
+# simply provide checkpoint path to resume training
+ckpt_path: null 
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 1881

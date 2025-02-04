@@ -1,0 +1,45 @@
+# saprot_sweep.yaml
+
+defaults:
+  - _self_
+  - downstream_model: xgboost_cls
+  - override hydra/sweeper: basic
+
+evaluate_on: ["train", "valid", "test"]
+emb_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/embeddings/
+
+results_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/
+
+sort_by: accuracy
+
+model_type: oneprot-struct-graph-pocket-text-seqsim
+
+
+task_name: TopEnzyme
+
+threshold: .inf
+
+hydra:
+  sweeper:
+    params:
+      +threshold: .inf
+      ++downstream_model.max_depth: 5
+      ++downstream_model.learning_rate: 0.1
+      ++downstream_model.min_child_weight: 1, 5
+      ++downstream_model.n_estimators: 250
+      ++downstream_model.gamma: 0, 0.1
+      ++downstream_model.subsample: 0.8, 1.0
+      ++downstream_model.colsample_bytree: 0.8, 1.0
+      ++downstream_model.reg_alpha: 0, 0.1
+      ++downstream_model.reg_lambda: 10
+      ++downstream_model.tree_method: gpu_hist
+      ++task_name: TopEnzyme #EC #, GO-BP, GO-MF, GO-CC, DeepLoc2, DeepLoc10, TopEnzyme
+      ++model_type: oneprot-struct-graph-pocket-text-seqsim
+
+
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}
