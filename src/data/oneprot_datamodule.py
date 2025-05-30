@@ -10,6 +10,7 @@ from src.data.datasets.struct_graph_dataset import StructDataset
 from src.data.datasets.text_dataset import TextDataset
 from src.data.datasets.struct_token_dataset import StructTokenDataset
 from src.data.datasets.seqsim_dataset import SequenceSimDataset
+from src.data.datasets.md_dataset import MDDataset
 
 # Dictionary mapping modality names to their respective dataset classes
 DATASET_CLASSES = {
@@ -18,6 +19,7 @@ DATASET_CLASSES = {
     "pocket": StructDataset,
     "text": TextDataset,
     "struct_token": StructTokenDataset,
+    "md": MDDataset,
     "seqsim": SequenceSimDataset,
 
 }

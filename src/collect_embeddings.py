@@ -12,6 +12,10 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 import pyrootutils
 import ast
+# from esm.models.esm3 import ESM3
+# from esm.sdk.api import ESM3InferenceClient, ESMProtein, LogitsConfig, LogitsOutput,ESMProteinError
+# from esm.sdk import batch_executor
+
 
 
 
@@ -44,6 +48,11 @@ class SequenceDataset(Dataset):
     def __init__(self, csv_file: str, label_type: str = "classification"):
         logger.info(f"Initializing SequenceDataset with {csv_file}")
         self.data = pd.read_csv(csv_file)
+        #print(csv_file," yay!!!")
+        #print(self.data.shape," shape!!!")
+        # if "train" in csv_file:
+        #     #print("yay!")
+        #     self.data=self.data.iloc[[0,1]+list(range(10,24))]
         self.label_type = label_type
 
         if self.label_type == "classification" or self.label_type == "ppi":
@@ -78,12 +87,12 @@ class SequenceDataset(Dataset):
         else:
             sequence = self.data.iloc[idx]["sequence"]
             label_fitness = self.labels_fitness[idx]
-            return sequence, label_fitness
+            return sequence, label_fitness, idx
 
 class SequenceEmbedding(pl.LightningModule):
     def __init__(
         self, model: pl.LightningModule, tokenizer, is_esm2: bool, output_dir: str, is_saprot: bool = False,
-        is_protrek: bool = False
+        is_protrek: bool = False,is_esm3: bool = False
     ):
         super().__init__()
         self.model = model
@@ -92,8 +101,21 @@ class SequenceEmbedding(pl.LightningModule):
         self.output_dir = output_dir
         self.is_saprot = is_saprot
         self.is_protrek = is_protrek
+        self.is_esm3 = is_esm3
 
-    def forward(self, sequences: List[str]):
+    # def embed_sequence(self, client: ESM3InferenceClient, sequence: str) -> LogitsOutput:
+    #     max_length = 1024
+    #     if len(sequence) > max_length:
+    #         logging.info(f"Truncating sequence from {len(sequence)} to {max_length}")
+    #         sequence = sequence[:max_length]
+    #     protein = ESMProtein(sequence=sequence)
+    #     protein_tensor = client.encode(protein)
+    #     if isinstance(protein_tensor, ESMProteinError):
+    #         raise protein_tensor
+    #     output = client.logits(protein_tensor, LogitsConfig(sequence=True, return_embeddings=True))
+    #     return output
+
+    def forward(self, sequences: List[str],idx):
         inputs = self.tokenizer(
             sequences,
             return_tensors="pt",
@@ -101,6 +123,7 @@ class SequenceEmbedding(pl.LightningModule):
             truncation=True,
             max_length=1024,
         )
+        print(inputs.keys(), " inputs keys!!!!!!!!!!!!!")
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
         if self.is_esm2:
@@ -123,17 +146,30 @@ class SequenceEmbedding(pl.LightningModule):
             with torch.no_grad():
                 embeddings=self.model.get_protein_repr(sequences)
             return embeddings
+
+        elif self.is_esm3:            
+            with torch.no_grad():
+
+
+                #print(len(sequences[0]), self.global_rank, idx, " len seq!!!!!!!!!!!!!!!!!!!!!")
+
+                outputs=self.embed_sequence(self.model, sequences[0])
+                all_embeddings=torch.mean(outputs.embeddings,dim=1).squeeze(1)
+                return all_embeddings
+
+
         else:
             with torch.no_grad():
+                print(inputs["input_ids"].shape, self.global_rank, idx, " len seq!!!!!!!!!!!!!!!!!!!!!")
                 outputs = self.model(inputs["input_ids"])
             return outputs
 
     def predict_step(self, batch: Any, batch_idx: int, dataloader_idx: int = 0):
-        if len(batch) == 2:  # single sequence task
-            sequences, labels_fitness = batch
-            embeddings = self(sequences)
-        elif len(batch) == 3:  # PPI task
-            sequences_1, sequences_2, labels_fitness = batch
+        if len(batch) == 3:  # single sequence task
+            sequences, labels_fitness, idx = batch
+            embeddings = self(sequences, idx)
+        elif len(batch) == 4:  # PPI task
+            sequences_1, sequences_2, labels_fitness, idx = batch
             embeddings_1 = self(sequences_1)
             embeddings_2 = self(sequences_2)
             embeddings = torch.cat((embeddings_1, embeddings_2), dim=1)
@@ -237,7 +273,7 @@ def generate_single_embeddings(
         batch_size=cfg.batch_size,
         num_workers=cfg.num_workers,
         shuffle=False,
-        pin_memory=True,
+        pin_memory=False,
         collate_fn=collate_fn if task_config.label_type == "ppi" else None,
     )
 
@@ -287,6 +323,16 @@ def generate_single_embeddings(
         is_esm2 = False
         is_saprot = False
         is_protrek=True
+    
+    elif cfg.model.name=="esm3":
+        tokenizer = AutoTokenizer.from_pretrained(cfg.tokenizer_name)
+
+        #model=ESM3.from_pretrained("esm3_sm_open_v1").to("cuda")
+        model=torch.load('/p/scratch/hai_oneprot/huggingface/models/esm3_sm_open_v1_full.pth',weights_only=False)
+        is_esm2 = False
+        is_saprot = False
+        is_protrek=False
+        is_esm3=True        
 
     else:
         model = load_custom_model(cfg)
@@ -294,12 +340,13 @@ def generate_single_embeddings(
         is_esm2 = False
         is_saprot = False
         is_protrek=False
+        is_esm3=False
 
     # Create a unique output directory for each task and split
     task_output_dir = os.path.join(cfg.output_dir, task_name, split, "single_embs")
     os.makedirs(task_output_dir, exist_ok=True)
 
-    sequence_embedding = SequenceEmbedding(model, tokenizer, is_esm2, task_output_dir, is_saprot,is_protrek)
+    sequence_embedding = SequenceEmbedding(model, tokenizer, is_esm2, task_output_dir, is_saprot,is_protrek,is_esm3)
 
     trainer = pl.Trainer(
         accelerator="gpu",

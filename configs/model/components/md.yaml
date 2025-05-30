@@ -1,0 +1,11 @@
+md:
+  _target_: src.models.components.md_encoder.TrajectoryEncoder
+  output_dim: 1024  # This should match your global output dimension
+  hidden_size: 21  # Set to match the actual output dim from your model
+  num_layers: 4
+  num_heads: 8
+  pretrained: false
+  frozen: false
+  proj_type: linear
+  use_logit_scale: true
+  learnable_logit_scale: false

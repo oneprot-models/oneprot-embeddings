@@ -72,6 +72,7 @@ class MLP(nn.Module):
         layers = []
         in_features = input_dim
 
+
         for i, hidden_dim in enumerate(hidden_dims):
             layers.append(nn.Linear(in_features, hidden_dim))
             
@@ -127,6 +128,8 @@ class EvaluationModule(pl.LightningModule):
             input_dim = 256
         elif cfg.model_type in ["oneprot_15", "oneprot_16"]:
             input_dim = 1280
+        elif "esm3" in cfg.model_type:
+            input_dim=1536
         else:
             input_dim = 1024
         if self.cfg.task_name == "HumanPPI":
@@ -331,7 +334,7 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             results[f"{partition}_f1_micro"] = f1_micro
             if cfg.task_name in ["TopEnzyme"]:
                 if accuracy>0.80:
-                    filename = f"TopEnzyme_{cfg.sweep.model_type}_{accuracy:.3f}_{partition}.txt"
+                    filename = f"/p/scratch/hai_oneprot/TopEnzyme_results/TopEnzyme_{cfg.sweep.model_type}_{accuracy:.3f}_{partition}.txt"
                     data = np.column_stack((y_true, y_pred))
                     header = "y_true y_pred"
                     np.savetxt(filename, data, header=header, comments='', fmt='%s')

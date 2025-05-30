@@ -13,11 +13,13 @@ tokenizer_name: facebook/esm2_t33_650M_UR50D #westlake-repl/SaProt_650M_AF2 #fac
 saprot_model: westlake-repl/SaProt_650M_AF2
 
 # Output directory
-output_dir: "/p/scratch/hai_oneprot/bazarova1/embeddings/{model_name}"
+#output_dir: "/p/scratch/hai_oneprot/bazarova1/embeddings/{model_name}"
+output_dir: "/p/scratch/hai_profound/bazarova1/embeddings/{model_name}"
+
 
 # Data processing parameters
 batch_size: 1
-num_workers: 16
+num_workers: 4
 
 # GPU configuration
 num_gpus: 4
@@ -26,7 +28,64 @@ single_batch_mode: true
 
 # List of model configurations
 models:
-  - name: protrek_35
+  #- name: esm3
+  # - name: oneprot_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:38:53/epoch_002_00700-v4.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-39-37/config.yaml
+
+  # - name: oneprot_pocket_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:40:40/epoch_034_05600-v4.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-41-31/config.yaml
+  
+  # - name: oneprot_pocket_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:42:56/epoch_000_00300-v4.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_07-03-15/config.yaml
+ 
+  - name: oneprot_struct_graph_32900
+    ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__07:24:23/epoch_008_02600-v4.ckpt
+    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-19_07-26-29/config.yaml
+
+  # - name: oneprot_struct_graph_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__08:14:16/epoch_003_01900-v5.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-19_08-45-31/config.yaml
+
+  # - name: oneprot_struct_graph_pocket_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__09:34:43/epoch_020_06600-v2.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_05-15-56/config.yaml
+
+  # - name: oneprot_struct_graph_pocket_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml
+
+  # - name: oneprot_struct_token_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__23:06:41/epoch_020_10400-v1.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_23-08-49/config.yaml
+
+  # - name: oneprot_struct_token_pocket_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-21__09:33:58/epoch_012_04100-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_11-27-46/config.yaml
+
+  # - name: oneprot_struct_token_pocket_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:24:49/epoch_008_04200-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config.yaml
+
+  # - name: oneprot_struct_token_struct_graph_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:28:01/epoch_005_03300-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_12-13-12/config.yaml
+
+  # - name: oneprot_struct_token_struct_graph_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:29:48/epoch_009_09300-v2.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_12-55-40/config.yaml
+
+  # - name: oneprot_struct_token_struct_graph_pocket_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_13-37-36/config.yaml
+
+  # - name: oneprot_struct_token_text_32900
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-23__15:25:52/epoch_006_03300-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-23_16-29-17/config.yaml
+
+  # - name: protrek_35
   # - name: saprot
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW  #10439741 #5200
   #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
@@ -510,22 +569,22 @@ tasks:
 #       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_train.csv
 #       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_valid.csv
 #       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_test.csv    
-#   DeepLoc2:
-#     label_type: classification
-#     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_test.csv
-#   DeepLoc10:
-#     label_type: classification
-#     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_test.csv
-#   ThermoStability:
-#     label_type: regression
-#     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_test.csv
+  # DeepLoc2:
+  #   label_type: classification
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_train.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_valid.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_test.csv
+  # DeepLoc10:
+  #   label_type: classification
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_train.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_valid.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_test.csv
+  # ThermoStability:
+  #   label_type: regression
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_train.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_valid.csv
+  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_test.csv
 

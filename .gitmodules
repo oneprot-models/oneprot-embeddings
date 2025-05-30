@@ -1,0 +1,3 @@
+[submodule "external/mdgen"]
+	path = external/mdgen
+	url = https://github.com/bjing2016/mdgen.git

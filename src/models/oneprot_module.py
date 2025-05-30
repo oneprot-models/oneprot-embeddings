@@ -103,6 +103,8 @@ class OneProtLitModule(LightningModule, PyTorchModelHubMixin):
 
         if modality in ["sequence", "seqsim"]:
             modality = "sequence"
+        elif modality in ['md']:
+            return self.network[modality](x['latents'],0,**x['model_kwargs'])
         return self.network[modality](x)
 
 

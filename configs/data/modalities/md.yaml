@@ -1,0 +1,19 @@
+md:
+  dataset:
+    data_dir: /p/scratch/hai_profound/data/mdCATH_data
+    num_frames: 39
+    frame_interval: null
+    crop: 1024
+    overfit: false
+    overfit_peptide: null
+    overfit_frame: false
+    copy_frames: false
+    no_frames: false
+    atlas: true
+    suffix: "_i1"
+    repeat: 1
+
+  batch_size:
+    train: 2
+    val: 2
+    test: 2

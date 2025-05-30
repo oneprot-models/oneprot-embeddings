@@ -1,0 +1,74 @@
+# @package _global_
+
+defaults:
+  - override /data: oneprot_md
+  - override /model: oneprot_md
+  - override /trainer: ddp
+  - override /logger: wandb
+  - override /callbacks: default
+
+tags: all-modalities-with-md
+
+data:
+  modalities:
+    md:
+      dataset:
+        num_frames: 499
+        crop: 512
+        data_dir: /p/scratch/hai_profound/data/atlas_data
+        data_dir_csv: /p/project1/hai_oneprot/bazarova1/mdgen/splits/atlas
+        suffix: "_i40"
+      batch_size:
+        train: 1
+        val: 1
+    seqsim:  
+      batch_size:
+        train: 32
+        val: 32
+
+model:
+  _target_: src.models.oneprot_module.OneProtLitModule
+  train_on_all_modalities_after_step: 0
+
+  components:
+    sequence:
+      model_name_or_path: facebook/esm2_t33_650M_UR50D
+      pooling_type: attention1d
+      output_dim: 1024
+      proj_type: linear
+      frozen: true
+      use_logit_scale: false
+      learnable_logit_scale: false    
+    md:
+      output_dim: 1024  # Match this to sequence.output_dim for consistency
+      hidden_size: 21  # Set this to match the actual output dimension from your model
+      num_layers: 4
+      num_heads: 8
+      num_frames: 499
+      pretrained: true
+      frozen: true
+      proj_type: linear  # Use linear to avoid dimension mismatches
+      use_logit_scale: true
+      learnable_logit_scale: false
+      suffix: "_i40"
+  loss_fn: CLIP
+  use_l1_regularization: false
+  use_seqsim: false
+trainer:
+  num_nodes: 2
+  num_sanity_val_steps: -1
+  val_check_interval: 40
+
+callbacks:
+  model_checkpoint:
+    every_n_train_steps: 100
+    filename: "epoch_{epoch:03d}_{step:05d}"
+    save_last: True 
+    #dirpath: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
+    save_top_k: 500
+    auto_insert_metric_name: false
+    #mode: "max" 
+    save_on_train_epoch_end: false 
+
+task_name: train
+ckpt_path: null

@@ -149,7 +149,8 @@ def encode_inputs(model: pl.LightningModule, batch: Dict[str, torch.Tensor]) -> 
     
     with torch.no_grad():
         for modality, data in batch.items():
-            if modality not in ['ids']:
+            #if modality not in ['ids']:
+            if modality in ['struct_token','sequence','struct_graph','pocket']:
                 data = data.to(device)
                 encoded_outputs[modality] = model(data, modality)
     
@@ -237,20 +238,29 @@ def main(cfg: DictConfig):
     dataloader = create_dataloader(cfg)
     
     # Check for available modalities
+    #print(cfg,"config!!!")
+    #print(config_path,"config path!!!!!!!!")
     available_modalities = list(next(iter(dataloader)).keys())
     logger.info(f"Available modalities: {available_modalities}")
     
-    all_embeddings = {modality: [] for modality in available_modalities if modality != 'ids'}
-    
+    #all_embeddings = {modality: [] for modality in available_modalities if modality != 'ids'}
+    all_embeddings = {modality: [] for modality in ['struct_token','sequence','struct_graph','pocket']}
+
     # Process dataset
     for batch in dataloader:
         embedded_tokens = encode_inputs(model, batch)
+        #print(embedded_tokens," embedded tokens!!!!!!!")
         for modality, embeddings in embedded_tokens.items():
-            if modality != 'ids':
+            # if modality != 'ids':
+            if modality in ['struct_token','sequence','struct_graph','pocket']:
+                #print(modality, embeddings," embeddings!!!!!!!")
                 all_embeddings[modality].append(embeddings.cpu().numpy())
+                #print(all_embeddings[modality]," all embeddings!!!!!!!")
+
     
     # Concatenate embeddings
     for modality in all_embeddings:
+        #print(modality,"modality!!!!!!!")
         all_embeddings[modality] = np.concatenate(all_embeddings[modality], axis=0)
         logger.info(f"Final dimensions of {modality} embeddings: {all_embeddings[modality].shape}")
     

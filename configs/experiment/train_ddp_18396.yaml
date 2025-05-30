@@ -12,22 +12,22 @@ tags: all-modalities
 
 data:
   modalities:
-    pocket:
-      dataset:
-        pocket: true
-      batch_size:
-        train: 16
-        val: 25
-    struct_graph:
-      batch_size:
-        train: 16
-        val: 25
-    struct_token:
-      dataset:
-        full: false
-      batch_size:
-        train: 8
-        val: 25
+    # pocket:
+    #   dataset:
+    #     pocket: true
+    #   batch_size:
+    #     train: 16
+    #     val: 25
+    # struct_graph:
+    #   batch_size:
+    #     train: 16
+    #     val: 25
+    # struct_token:
+    #   dataset:
+    #     full: false
+    #   batch_size:
+    #     train: 8
+    #     val: 25
     text:
       dataset:
         text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
@@ -64,22 +64,22 @@ model:
       frozen: true
       use_logit_scale: false
       learnable_logit_scale: false
-    struct_token:
-      model_name_or_path: facebook/esm2_t30_150M_UR50D #facebook/esm2_t30_150M_UR50D #facebook/esm2_t12_35M_UR50D
-      pooling_type: mean
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
-    struct_graph:
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
-      encoder:
-        level: allatom
-    pocket:
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
+    # struct_token:
+    #   model_name_or_path: facebook/esm2_t30_150M_UR50D #facebook/esm2_t30_150M_UR50D #facebook/esm2_t12_35M_UR50D
+    #   pooling_type: mean
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
+    # struct_graph:
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
+    #   encoder:
+    #     level: allatom
+    # pocket:
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
     text:
       pooling_type: cls
       proj_type: mlp
@@ -109,7 +109,7 @@ model:
   use_l1_regularization: true
   use_seqsim: true
 trainer:
-  num_nodes: 16
+  num_nodes: 2
   num_sanity_val_steps: -1
   val_check_interval: 82
 
@@ -126,6 +126,6 @@ callbacks:
     save_on_train_epoch_end: false 
 
 task_name: train
-ckpt_path: /p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__20:10:18/epoch_008_13940.ckpt #null #/p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__20:10:18/epoch_008_13940.ckpt
+ckpt_path: null #/p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__20:10:18/epoch_008_13940.ckpt #null #/p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__20:10:18/epoch_008_13940.ckpt
 #ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v32.ckpt
 

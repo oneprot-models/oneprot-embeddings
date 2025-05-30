@@ -72,8 +72,8 @@ model:
   # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_033_21900.ckpt #26400
   # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
 
-  ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt #26400
-  config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_16-37-44/config.yaml
+  ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt #26400
+  config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_13-37-36/config.yaml
 
 
 dataset:
@@ -94,7 +94,7 @@ dataloader:
   num_workers: 4
 
 output:
-  csv_path: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/retrieval_4000_full_allatom_no_seqsim_no_l1_A100_26400.csv
+  csv_path: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/retrieval_4000_oneprot_struct_token_struct_graph_pocket_32900.csv
 
 hydra:
   run:

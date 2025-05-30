@@ -5,12 +5,12 @@ defaults:
   - override hydra/sweeper: basic
 
 evaluate_on: ["train", "valid", "test"]
-emb_dir: /p/scratch/hai_oneprot/bazarova1/embeddings/
+emb_dir: /p/scratch/hai_profound/bazarova1/embeddings/
 results_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints/
 
 # Model configuration
 model:
-  input_dim: 1280  # Adjust based on your embedding size
+  input_dim: 1536 #1280  # Adjust based on your embedding size
   hidden_dims: [512, 256]
   dropout_rate: 0.3
   use_batch_norm: true
