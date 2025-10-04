@@ -1,17 +1,18 @@
 #!/bin/bash -x
 
 ##SBATCH --account westai0009 
-#SBATCH --account besl
+#SBATCH --account profound
 ##SBATCH --account training2431                                                  # specify the account name, otherwise the job will not run
-#SBATCH --time 0:10:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
+##SBATCH --account loki
+#SBATCH --time 0:20:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
 #SBATCH --cpus-per-task=12                                                         # do not change
 #SBATCH --ntasks-per-node 4                                                        # number of tasks per node; each node has 4 GPUs
-#SBATCH --nodes 1 # the number of nodes; if you request 4 nodes you get 16 GPUs
+#SBATCH --nodes 2 # the number of nodes; if you request 4 nodes you get 16 GPUs
 #SBATCH --output /p/scratch/hai_oneprot/bazarova1/slurms/%j.out  # specify the file for the slurm output; make sure to change it to your folder
 #SBATCH --error /p/scratch/hai_oneprot/bazarova1/slurms/%j_err.out
 ##SBATCH --dependency=afterany:10458759
 ##SBATCH --partition dc-gpu
-#SBATCH --partition develbooster  
+#SBATCH --partition booster  
 ##SBATCH --partition dc-hwai                                                    # the walltime on develbooster is 2 hours, on booster 24 hours; maximum number of nodes on develbooster is 4 nodes
 #SBATCH --gres gpu:4
 ##SBATCH --mail-user al.bazarova@fz-juelich.de
@@ -46,11 +47,12 @@ export NCCL_IB_RETRY_CNT=10
 # export https_proxy=$http_proxy
 # export HTTP_PROXY=$http_proxy
 # export HTTPS_PROXY=$http_proxy;
+export PROJECT_ROOT='/p/project1/hai_oneprot/bazarova1/oneprot-panda'
 
 
 module purge
 module load Stages/2024  GCCcore/.12.3.0 Apptainer-Tools/2024
-#module load Apptainer-Tools
+module load Apptainer-Tools
 
 
 #echo "-------- Inside of the container ------------"
@@ -72,9 +74,27 @@ if [ -f "$last_ckpt" ]; then
     mv "$last_ckpt" "$2/last.ckpt"
 fi
 
-#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES="0,1,2,3";export PYTHONPATH="";  export HYDRA_FULL_ERROR=1; source /p/project1/hai_oneprot/bazarova1/oneprot-refined/sc_venv_booster/activate.sh && python src/train.py +experiment=train_ddp_10440880.yaml"
+export sif_path="/p/project1/hai_oneprot/bazarova1/oneprot-refined/container/oneprot_panda_test.sif" 
 
-srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project1/hai_oneprot/bazarova1/sc_venv_template_erinc/venv/bin/activate && python src/train.py +experiment=train_ddp_10414526.yaml ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\""
+
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES="0,1,2,3";export PYTHONPATH="";  export HYDRA_FULL_ERROR=1; source /p/project1/hai_oneprot/bazarova1/oneprot-refined/sc_venv_booster/activate.sh && python src/train.py +experiment=train_ddp_10440880.yaml"
+srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"/p/project1/hai_oneprot/bazarova1/oneprot-panda\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project1/hai_oneprot/bazarova1/sc_venv_erinc2/venv/bin/activate && python /p/project1/hai_oneprot/bazarova1/oneprot-panda/src/train_oneprot.py +experiment=train_ddp_allatom.yaml ckpt_path=${ckpt_path}  callbacks.model_checkpoint.dirpath=${run_dir}\"" # --cfg job --resolve\"" #  ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\"" 
+
+
+# srun --cpu-bind=none bash -c 'export CUDA_VISIBLE_DEVICES="0,1,2,3"; \
+# apptainer run --bind /p/project1/hai_oneprot/bazarova1/oneprot-panda:/app --pwd /app --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif \
+# bash -c "source /p/project1/profound/sc_venv_template/venv/bin/activate && \
+# export PYTHONPATH=/app && \
+# python /app/src/train.py +experiment=train_ddp_md"'
+
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project1/hai_oneprot/bazarova1/sc_venv_erinc2/venv/bin/activate && python src/train_oneprot.py +experiment=train_ddp_md\"" #  ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\""
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/atmlaml/kasravi1/mlperf/appatiner-image/openfold/oneprot-pandas-pyg-24-09-py3-final-amd64.sif bash -c \"python src/train.py +experiment=train_ddp_allatom_no_seqsim.yaml  ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\""
+
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/scratch/hai_oneprot/container_jedi/alina_singularity/oneprot_amd64_3.sif bash -c \" python src/train.py +experiment=train_ddp_allatom_no_seqsim.yaml\""
+# source /p/scratch/hai_oneprot/sc_venv_torch2/activate.sh
+# export HYDRA_FULL_ERROR=1
+# srun python src/train.py +experiment=train_ddp_allatom_no_seqsim.yaml
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; source /p/scratch/hai_oneprot/sc_venv_torch2/activate.sh  bash -c \" python src/train.py +experiment=train_ddp_allatom_no_seqsim.yaml\""
 
 # srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; \
 #     export PYTHONPATH=\"\"; \
