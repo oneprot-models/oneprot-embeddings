@@ -126,7 +126,7 @@ def load_custom_model(cfg: DictConfig) -> pl.LightningModule:
     if cfg.model.ckpt_path is not None:
         logger.info(f"Loading model checkpoint from: {cfg.model.ckpt_path}")
         if torch.cuda.is_available():
-            model.load_state_dict(torch.load(cfg.model.ckpt_path)["state_dict"])
+            model.load_state_dict(torch.load(cfg.model.ckpt_path)["state_dict"],strict=False)
             model.cuda()
         else:
             model.load_state_dict(
@@ -149,8 +149,8 @@ def encode_inputs(model: pl.LightningModule, batch: Dict[str, torch.Tensor]) -> 
     
     with torch.no_grad():
         for modality, data in batch.items():
-            #if modality not in ['ids']:
-            if modality in ['struct_token','sequence','struct_graph','pocket']:
+            if modality not in ['ids']:
+            #if modality in ['sequence','struct_graph','pocket','text']:
                 data = data.to(device)
                 encoded_outputs[modality] = model(data, modality)
     
@@ -179,28 +179,28 @@ def calculate_retrieval_metrics(embeddings: Dict[str, np.ndarray]) -> Dict[str, 
                 metrics[f"{name}_median_rank"] = int(np.floor(np.median(preds)) + 1)
                 for k in [1, 10, 100, 500]:
                     metrics[f"{name}_R@{k}"] = np.mean(preds < k)
-                    if k==1:
-                        if mod2 == 'struct_graph':
-                            mask = preds < k
-# Add debug prints and fixed indexing:
+#                     if k==1:
+#                         if mod2 == 'struct_graph':
+#                             mask = preds < k
+# # Add debug prints and fixed indexing:
 
-                            print(f"Mask shape: {mask.shape}")
-                            print(f"Logit shape: {logit.shape}")
+#                             print(f"Mask shape: {mask.shape}")
+#                             print(f"Logit shape: {logit.shape}")
 
-# If mask is 1D
-                            if len(mask.shape) == 1:
-                                indices = np.where(mask)[0]
-                                for idx in indices:
-                                    #print(f"logit shape at idx: {logit[idx].shape}")  
-                                    similarity_score = float(logit[idx][preds[idx]]) 
-                                    if similarity_score >0.5:
-                                        print(f"Row/Index {idx}, Score: {similarity_score:.4f}")
-                            else:
-    # If mask is 2D
-                                row_indices, col_indices = np.where(mask)
-                                for row, col in zip(row_indices, col_indices):
-                                    similarity_score = logit[row, col]
-                                    print(f"Row {row}, Col {col}, Score: {similarity_score:.4f}")
+# # If mask is 1D
+#                             if len(mask.shape) == 1:
+#                                 indices = np.where(mask)[0]
+#                                 for idx in indices:
+#                                     #print(f"logit shape at idx: {logit[idx].shape}")  
+#                                     similarity_score = float(logit[idx][preds[idx]]) 
+#                                     if similarity_score >0.5:
+#                                         print(f"Row/Index {idx}, Score: {similarity_score:.4f}")
+#                             else:
+#     # If mask is 2D
+#                                 row_indices, col_indices = np.where(mask)
+#                                 for row, col in zip(row_indices, col_indices):
+#                                     similarity_score = logit[row, col]
+#                                     print(f"Row {row}, Col {col}, Score: {similarity_score:.4f}")
             
             results[f'{mod1}-{mod2}'] = metrics
     
@@ -243,16 +243,16 @@ def main(cfg: DictConfig):
     available_modalities = list(next(iter(dataloader)).keys())
     logger.info(f"Available modalities: {available_modalities}")
     
-    #all_embeddings = {modality: [] for modality in available_modalities if modality != 'ids'}
-    all_embeddings = {modality: [] for modality in ['struct_token','sequence','struct_graph','pocket']}
+    all_embeddings = {modality: [] for modality in available_modalities if modality != 'ids'}
+    #all_embeddings = {modality: [] for modality in ['text','sequence','struct_graph','pocket']}
 
     # Process dataset
     for batch in dataloader:
         embedded_tokens = encode_inputs(model, batch)
         #print(embedded_tokens," embedded tokens!!!!!!!")
         for modality, embeddings in embedded_tokens.items():
-            # if modality != 'ids':
-            if modality in ['struct_token','sequence','struct_graph','pocket']:
+            if modality != 'ids':
+            #if modality in ['text','sequence','struct_graph','pocket']:
                 #print(modality, embeddings," embeddings!!!!!!!")
                 all_embeddings[modality].append(embeddings.cpu().numpy())
                 #print(all_embeddings[modality]," all embeddings!!!!!!!")

@@ -72,9 +72,26 @@ model:
   # ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_033_21900.ckpt #26400
   # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_19-20-45/config.yaml
 
-  ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt #26400
-  config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_13-37-36/config.yaml
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt #26400
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_13-37-36/config.yaml
+  
+  #ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-09-02__07:58:24/epoch_007_03000-v4.ckpt
+  #config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-09-03_04-20-52/config.yaml
 
+  # ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
+  # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml
+
+  # ckpt_path: /p/scratch/profound/bazarova1/text_lora_64/epoch_029_09800.ckpt
+  # config_path: /p/scratch/profound/bazarova1/text_lora_64/config.yaml
+
+  # ckpt_path: /p/scratch/profound/bazarova1/text_4_8_seq_4_8_lora/epoch_007_19800-v1.ckpt
+  # config_path: /p/scratch/profound/bazarova1/text_4_8_seq_4_8_lora/config.yaml
+
+  ckpt_path: /p/scratch/profound/bazarova1/text_16_32_lora/epoch_027_09000.ckpt
+  config_path: /p/scratch/profound/bazarova1/text_16_32_lora/config.yaml
+
+  # ckpt_path: /p/scratch/profound/bazarova1/seq_lora_8/epoch_007_19900-v1.ckpt
+  # config_path: /p/scratch/profound/bazarova1/seq_lora_8/config.yaml
 
 dataset:
   csv_file_path: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/test_all.csv
@@ -94,7 +111,7 @@ dataloader:
   num_workers: 4
 
 output:
-  csv_path: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/retrieval_4000_oneprot_struct_token_struct_graph_pocket_32900.csv
+  csv_path: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/retrieval_4000_oneprot_full_text_16_32_lora_jupiter_5.csv
 
 hydra:
   run:

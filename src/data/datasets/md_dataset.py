@@ -153,116 +153,156 @@ class MDDataset(Dataset):
 
         if self.atlas:
             #i=1
-            if 'mdCATH' in self.data_dir:
+            if 'combined' in self.data_dir_csv:
                 replicas = [self.df.at[n, 'replicas'] for n in name]
                 r_nums = []
                 for replica_str in replicas:
+                    #print(self.df.name[n], replica_str, "replica_str", flush=True)
+                    if pd.notna(replica_str):                        
                 # Split the string by comma and convert to list of integers
-                    replica_options = [int(r) for r in str(replica_str).split(',')]
+                        replica_options = [int(r) for r in str(replica_str).split(',')]
                 # Choose a random replica from the available options
-                    r_nums.append(np.random.choice(replica_options))
+                        r_nums.append(np.random.choice(replica_options))
+                    else:
+                        r_num = np.random.randint(1, 4)
+
+                        r_nums.append(r_num)
                 full_name = [f"{n}_R{r}" for n, r in zip(name, r_nums)]
             else:
+                #print(len(name), "name length", flush=True)
+                full_name = []
                 for n in name:
-                    r_num = np.random.randint(0, 4)
-                    full_name = f"{n}_R{r_num}"
+                    r_num = np.random.randint(1, 4)
+ 
+                    full_name.append(f"{n}_R{r_num}")
+
         else:
             full_name = [n for n in name]
 
 
-        md_input=[]
         trajectory_data_list=[]
-    
-        for i,n in enumerate(full_name):
-            arr = np.lib.format.open_memmap(f'{self.data_dir}/{n}{self.suffix}.npy', 'r')
-            if self.frame_interval:
-                arr = arr[::self.frame_interval]
 
+        if type(full_name) is not list:
+            #print(f"full_name: {full_name} not a list",flush=True)
+            if len(full_name.split('_')[0])>4 and len(n.split('_')[0])<8:
+                self.data_dir='/p/scratch/hai_profound/data/mdCATH_data'
+                self.suffix='_i1'
+            elif len(full_name.split('_')[0])>8:
+                self.data_dir='/p/data1/profound_data/GPCRmd_processed'
+                self.suffix='_i5'
+            else:
+                self.data_dir='/p/scratch/hai_profound/data/atlas_data'
+                self.suffix='_i100'
+            arr = np.lib.format.open_memmap(f'{self.data_dir}/{full_name}{self.suffix}.npy', 'r')
+        else:
+            #print(f"full_name: {full_name} is a list",flush=True)
+            for i,n in enumerate(full_name):
+                if len(n.split('_')[0])>4 and len(n.split('_')[0])<8:
+                    #print(i,n,n.split('_')[0], "n name!!!!!!!!", flush=True)
+                    self.data_dir='/p/scratch/hai_profound/data/mdCATH_data'
+                    self.suffix='_i1'
+                elif len(n.split('_')[0])>8:
+                    #print(i,n,n.split('_')[0], "n name!!!!!!!!", flush=True)
+                    self.data_dir='/p/data1/profound_data/GPCRmd_processed'
+                    self.suffix='_i5'
+                else:
+                    self.data_dir='/p/scratch/hai_profound/data/atlas_data'
+                    self.suffix='_i100'
+                #print(n, "n name!!!!!!!!", flush=True)
+                arr = np.lib.format.open_memmap(f'{self.data_dir}/{n}{self.suffix}.npy', 'r')
+                #print(arr.shape, "arr shape", flush=True)
+                #print(arr.shape, "arr shape", flush=True)
+                if self.frame_interval:
+                    arr = arr[::self.frame_interval]
 
-        
-            frame_start = np.random.choice(np.arange(arr.shape[0] - self.num_frames))
-            if self.overfit_frame:
-                rame_start = 0
-            end = frame_start + self.num_frames
-            # arr = np.copy(arr[frame_start:end]) * 10 # convert to angstroms
-            arr = np.copy(arr[frame_start:end]).astype(np.float32) # / 10.0 # convert to nm
-            if self.copy_frames:
-                arr[1:] = arr[0]
+                if arr.shape[0] - self.num_frames<=0:
+                    print(n, arr.shape,arr.shape[0] - self.num_frames, "name and arr shape!!!!!!!!!!", flush=True)
+                frame_start = np.random.choice(np.arange(arr.shape[0] - self.num_frames))
+                if self.overfit_frame:
+                    frame_start = 0
+                end = frame_start + self.num_frames
+                # arr = np.copy(arr[frame_start:end]) * 10 # convert to angstroms
+                arr = np.copy(arr[frame_start:end]).astype(np.float32) # / 10.0 # convert to nm
+                if self.copy_frames:
+                    arr[1:] = arr[0]
 
-        # arr should be in ANGSTROMS
-            frames = atom14_to_frames(torch.from_numpy(arr))
-            seqres = np.array([restype_order[c] for c in sequences[i]])
-            aatype = torch.from_numpy(seqres)[None].expand(self.num_frames, -1)
-            # print(f"arr shape: {arr.shape}")
-            # print(f"aatype shape: {aatype.shape}")
-            # print(f"type of arr: {type(arr)}")
-            # print(f"type of aatype: {type(aatype)}")
-            atom37 = torch.from_numpy(atom14_to_atom37(arr, aatype)).float()
+                # arr should be in ANGSTROMS
+                frames = atom14_to_frames(torch.from_numpy(arr))
+                seqres = np.array([restype_order[c] for c in sequences[i]])
+                aatype = torch.from_numpy(seqres)[None].expand(self.num_frames, -1)
+                # print(f"arr shape: {arr.shape}, {n}")
+                # print(f"aatype shape: {aatype.shape}")
+                # print(f"type of arr: {type(arr)}")
+                # print(f"type of aatype: {type(aatype)}")
+                if arr.shape[1] !=len(seqres):
+                    print(n, " arr shape does not match seqres length", arr.shape, len(seqres), flush=True)
         
-            L = frames.shape[1]
-            mask = np.ones(L, dtype=np.float32)
+                atom37 = torch.from_numpy(atom14_to_atom37(arr, aatype)).float()
+
+                L = frames.shape[1]
+                mask = np.ones(L, dtype=np.float32)
         
-            if self.no_frames:
-                return {
-                    'name': full_name,
-                    'frame_start': frame_start,
-                    'atom37': atom37,
-                    'seqres': seqres,
-                    'mask': restype_atom37_mask[seqres], # (L,)
-                }
-            torsions, torsion_mask = atom37_to_torsions(atom37, aatype)
+                if self.no_frames:
+                    return {
+                        'name': full_name,
+                        'frame_start': frame_start,
+                        'atom37': atom37,
+                        'seqres': seqres,
+                        'mask': restype_atom37_mask[seqres], # (L,)
+                    }
+                torsions, torsion_mask = atom37_to_torsions(atom37, aatype)
         
-            torsion_mask = torsion_mask[0]
+                torsion_mask = torsion_mask[0]
         
-            if self.atlas:
-                if L > self.crop:
-                    start = np.random.randint(0, L - self.crop + 1)
-                    torsions = torsions[:,start:start+self.crop]
-                    frames = frames[:,start:start+self.crop]
-                    seqres = seqres[start:start+self.crop]
-                    mask = mask[start:start+self.crop]
-                    torsion_mask = torsion_mask[start:start+self.crop]
+                if self.atlas:
+                    if L > self.crop:
+                        start = np.random.randint(0, L - self.crop + 1)
+                        torsions = torsions[:,start:start+self.crop]
+                        frames = frames[:,start:start+self.crop]
+                        seqres = seqres[start:start+self.crop]
+                        mask = mask[start:start+self.crop]
+                        torsion_mask = torsion_mask[start:start+self.crop]
                 
             
-                elif L < self.crop:
-                    pad = self.crop - L
-                    frames = Rigid.cat([
-                        frames, 
-                        Rigid.identity((self.num_frames, pad), requires_grad=False, fmt='rot_mat')
-                    ], 1)
-                    mask = np.concatenate([mask, np.zeros(pad, dtype=np.float32)])
-                    seqres = np.concatenate([seqres, np.zeros(pad, dtype=int)])
-                    torsions = torch.cat([torsions, torch.zeros((torsions.shape[0], pad, 7, 2), dtype=torch.float32)], 1)
-                    torsion_mask = torch.cat([torsion_mask, torch.zeros((pad, 7), dtype=torch.float32)])
+                    elif L < self.crop:
+                        pad = self.crop - L
+                        frames = Rigid.cat([
+                            frames, 
+                            Rigid.identity((self.num_frames, pad), requires_grad=False, fmt='rot_mat')
+                        ], 1)
+                        mask = np.concatenate([mask, np.zeros(pad, dtype=np.float32)])
+                        seqres = np.concatenate([seqres, np.zeros(pad, dtype=int)])
+                        torsions = torch.cat([torsions, torch.zeros((torsions.shape[0], pad, 7, 2), dtype=torch.float32)], 1)
+                        torsion_mask = torch.cat([torsion_mask, torch.zeros((pad, 7), dtype=torch.float32)])
 
         
 
-            trajectory_data={
+                trajectory_data={
+                    'name': full_name,
+                    'frame_start': frame_start,
+                    'torsions': torsions.unsqueeze(0),
+                    'torsion_mask': torsion_mask.unsqueeze(0),
+                    'trans': frames._trans.unsqueeze(0),
+                    'rots': frames._rots._rot_mats.unsqueeze(0),
+                    'seqres': torch.from_numpy(seqres).unsqueeze(0),
+                    'mask': torch.from_numpy(mask).unsqueeze(0), # (L,)
+                    }
+        
+                trajectory_data_list.append(trajectory_data)
+
+            combined_traj = {
                 'name': full_name,
-                'frame_start': frame_start,
-                'torsions': torsions.unsqueeze(0),
-                'torsion_mask': torsion_mask.unsqueeze(0),
-                'trans': frames._trans.unsqueeze(0),
-                'rots': frames._rots._rot_mats.unsqueeze(0),
-                'seqres': torch.from_numpy(seqres).unsqueeze(0),
-                'mask': torch.from_numpy(mask).unsqueeze(0), # (L,)
-                }
-        
-            trajectory_data_list.append(trajectory_data)
-
-        combined_traj = {
-            'name': full_name,
-            'frame_start': [td['frame_start'] for td in trajectory_data_list],
-            'torsions': torch.cat([td['torsions'] for td in trajectory_data_list]),
-            'torsion_mask': torch.cat([td['torsion_mask'] for td in trajectory_data_list]),
-            'trans': torch.cat([td['trans'] for td in trajectory_data_list]),
-            'rots': torch.cat([td['rots'] for td in trajectory_data_list]),
-            'seqres': torch.cat([td['seqres'] for td in trajectory_data_list]),
-            'mask': torch.cat([td['mask'] for td in trajectory_data_list]),
-        }
+                'frame_start': [td['frame_start'] for td in trajectory_data_list],
+                'torsions': torch.cat([td['torsions'] for td in trajectory_data_list]),
+                'torsion_mask': torch.cat([td['torsion_mask'] for td in trajectory_data_list]),
+                'trans': torch.cat([td['trans'] for td in trajectory_data_list]),
+                'rots': torch.cat([td['rots'] for td in trajectory_data_list]),
+                'seqres': torch.cat([td['seqres'] for td in trajectory_data_list]),
+                'mask': torch.cat([td['mask'] for td in trajectory_data_list]),
+            }
 
 
-        mdgen_batch=self.mdgen_wrapper.prep_batch(combined_traj)
+            mdgen_batch=self.mdgen_wrapper.prep_batch(combined_traj)
 
         modality='md'
 

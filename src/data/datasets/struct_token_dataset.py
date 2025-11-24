@@ -25,7 +25,7 @@ class StructTokenDataset(Dataset):
             if full:
                 txt_file = f'{data_dir}/{self.split}_saprot_full.txt'
             else:
-                txt_file = f'{data_dir}/{self.split}_saprot.txt'
+                txt_file = f'{data_dir}/{self.split}_saprot_4.txt'
         else:
             txt_file = f'{data_dir}/{self.split}_saprot.txt'
   

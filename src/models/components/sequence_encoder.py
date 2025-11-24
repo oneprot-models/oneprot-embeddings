@@ -4,6 +4,9 @@ from torch import TensorType
 from transformers import AutoModel, AutoConfig
 from peft import LoraConfig, TaskType, get_peft_model
 from src.models.components.base_encoder import BaseEncoder
+import sys
+sys.path.append('/p/project1/profound/bazarova1/ilora/')
+from ilora import make_1lora, count_train_params
 
 def create_model_function(pretrained, local_only=True):
     def func(model_name_or_path, config=None, **kwargs):
@@ -34,7 +37,8 @@ class SequenceEncoder(BaseEncoder):
         lora_alpha: int = 16,
         lora_dropout: float = 0.1,
         lora_target_modules: list = ["query", "key", "value"],
-        frozen: bool = True
+        frozen: bool = True,
+        ilora: bool = False
     ):
         self.config = AutoConfig.from_pretrained(model_name_or_path)
         super().__init__(
@@ -57,6 +61,10 @@ class SequenceEncoder(BaseEncoder):
         if frozen:
             for param in self.transformer.parameters():
                 param.requires_grad = False
+        elif ilora:
+            target_modules = [name for name, module in self.transformer.named_modules() if isinstance(module, torch.nn.Linear)]
+            self.transformer=make_1lora(self.transformer, target_modules=target_modules, verbose=False)
+            
         
         if use_lora:
             if lora_target_modules is None:

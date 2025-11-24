@@ -16,6 +16,60 @@ import os
 import sys
 import numpy as np
 
+import random
+
+def set_partial_seed(seed, deterministic_level="medium"):
+    """
+    Set seeds with different levels of determinism
+    
+    Args:
+        seed: Random seed
+        deterministic_level: "low", "medium", or "high"
+    """
+    
+    if deterministic_level == "high":
+        # Your current approach - fully deterministic
+        random.seed(seed)
+        np.random.seed(seed)
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
+        pl.seed_everything(seed, workers=True)
+    
+    elif deterministic_level == "medium":
+        # Fix initialization but allow some training randomness
+        random.seed(seed)
+        np.random.seed(seed) 
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+        # Allow CUDNN to be non-deterministic for better performance
+        torch.backends.cudnn.deterministic = False
+        torch.backends.cudnn.benchmark = True
+        pl.seed_everything(seed, workers=False)  # Don't seed workers
+    
+    elif deterministic_level == "low":
+        # Only fix weight initialization
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+        # Keep everything else random
+        torch.backends.cudnn.deterministic = False
+        torch.backends.cudnn.benchmark = True
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    # For deterministic behavior (may slow down training)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+#pl.seed_everything(cfg.seed, workers=True)
 # Get the directory containing this script
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -131,12 +185,19 @@ class EvaluationModule(pl.LightningModule):
         elif "esm3" in cfg.model_type:
             input_dim=1536
         else:
-            input_dim = 1024
+            input_dim = 1024 #normal
+            if cfg.model_type == "esmIF-08-31-2025":
+                input_dim = 512
+            elif cfg.model_type == "embeddings_saprot":
+                input_dim = 1280
+            #input_dim = 512 #esmIF
+            #input_dim=1280 #openfold
         if self.cfg.task_name == "HumanPPI":
             input_dim = input_dim * 2
 
         # Determine output_dim based on task_name
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI", "ThermoStability"]:
+
+        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI", "ThermoStability","Thermostability"]:
             output_dim = 1
         elif self.cfg.task_name == "EC":
             output_dim = 585
@@ -167,7 +228,7 @@ class EvaluationModule(pl.LightningModule):
         # Set loss function based on task_name
         if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI", "EC", "GO-BP", "GO-MF", "GO-CC"]:
             self.loss_fn = F.binary_cross_entropy_with_logits
-        elif self.cfg.task_name in ["ThermoStability"]:
+        elif self.cfg.task_name in ["ThermoStability","Thermostability"]:
             self.loss_fn = F.mse_loss
         else:  # multi_class
             self.loss_fn = F.cross_entropy
@@ -192,7 +253,7 @@ class EvaluationModule(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI"]:
+        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI","Thermostability"]:
             y_hat = y_hat.squeeze(1)
             y = y.float()
         elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
@@ -231,7 +292,7 @@ class EvaluationModule(pl.LightningModule):
             preds = torch.sigmoid(y_hat)
         elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
             preds = torch.sigmoid(y_hat)
-        elif self.cfg.task_name in ["ThermoStability"]:
+        elif self.cfg.task_name in ["ThermoStability", "Thermostability"]:
             preds = y_hat.squeeze(1)
         else:  # multi_class
             preds = torch.softmax(y_hat, dim=1)
@@ -315,7 +376,7 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             f1_max = count_f1_max(y_pred, y_true)
             results[f"{partition}_f1_max"] = f1_max
 
-        elif cfg.task_name in ["ThermoStability"]:
+        elif cfg.task_name in ["ThermoStability","Thermostability"]:
             y_pred = torch.cat([p[0] for p in predictions]).cpu().numpy()
             y_true = torch.cat([p[1] for p in predictions]).cpu().numpy()
             mse = mean_squared_error(y_true, y_pred)
@@ -334,7 +395,7 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             results[f"{partition}_f1_micro"] = f1_micro
             if cfg.task_name in ["TopEnzyme"]:
                 if accuracy>0.80:
-                    filename = f"/p/scratch/hai_oneprot/TopEnzyme_results/TopEnzyme_{cfg.sweep.model_type}_{accuracy:.3f}_{partition}.txt"
+                    filename = f"/p/scratch/hai_oneprot/TopEnzyme_results_{cfg.seed}/TopEnzyme_{cfg.sweep.model_type}_{accuracy:.3f}_{partition}.txt"
                     data = np.column_stack((y_true, y_pred))
                     header = "y_true y_pred"
                     np.savetxt(filename, data, header=header, comments='', fmt='%s')
@@ -350,6 +411,10 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
     config_name="saprot_mlp.yaml",
 )
 def main(cfg: DictConfig) -> None:
+    #set_seed(42)
+    #pl.seed_everything(cfg.seed, workers=True)
+    #set_partial_seed(cfg.seed, deterministic_level="medium")
+
     if torch.cuda.is_available():
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.benchmark = True

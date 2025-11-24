@@ -1,0 +1,10 @@
+defaults:
+  - default
+ #- modalities/msa
+  - modalities/pocket
+  - modalities/seqsim
+  #- modalities/struct_graph
+  - modalities/md
+  - modalities/text
+  - modalities/struct_token
+  # Add more modalities as needed

@@ -5,12 +5,12 @@ defaults:
   - override hydra/sweeper: basic
 
 evaluate_on: ["train", "valid", "test"]
-emb_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/embeddings/
-results_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints/
+emb_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/embeddings/
+results_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_1/
 
 # Model configuration
 model:
-  input_dim: 1280  # Adjust based on your embedding size
+  input_dim: 1536 #1280  # Adjust based on your embedding size
   hidden_dims: [512, 256]
   dropout_rate: 0.3
   use_batch_norm: true
@@ -42,8 +42,8 @@ sweep:
   use_layer_norm: [true, false]
   activation: ["relu", "gelu"]
   use_residual: [true, false]
-  model_type: [oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_1000] #[oneprot_struct_allatom_struct_pocket_text_AdamW_1,oneprot_struct_backbone_struct_pocket_text_AdamW_1,oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW,oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW]
-  task_name: ["HumanPPI", "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"] #[, "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"]
+  model_type: [oneprot_full_A100_last] #[oneprot_struct_allatom_struct_pocket_text_AdamW_1,oneprot_struct_backbone_struct_pocket_text_AdamW_1,oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW,oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW]
+  task_name: ["GO-BP"] #["HumanPPI", "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"] #[, "MetalIonBinding", "EC", "GO-BP", "GO-MF", "GO-CC", "ThermoStability", "DeepLoc2", "DeepLoc10"]
   
 hydra:
   run:

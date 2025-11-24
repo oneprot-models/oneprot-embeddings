@@ -121,7 +121,7 @@ class TrajectoryEncoder(BaseEncoder):
         # Load the MDGen model
         if pretrained and model_path is not None:
             #self.transformer = LatentMDGenModel.load_from_checkpoint('/p/scratch/profound/bazarova1/forward_sim.ckpt')
-            checkpoint = torch.load(model_path, map_location='cpu')
+            checkpoint = torch.load(model_path, map_location='cpu', weights_only=False)
             if 'state_dict' in checkpoint:
                     # Extract just the model part (remove 'model.' prefix if needed)
                 state_dict = {k.replace('model.', ''): v for k, v in checkpoint['state_dict'].items() 

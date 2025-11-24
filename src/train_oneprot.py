@@ -72,12 +72,32 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
     
     if cfg.get("ckpt_path"):
         log.info("Loading model weights from checkpoint!")
-        checkpoint = torch.load(cfg.ckpt_path)
+        checkpoint = torch.load(cfg.ckpt_path, weights_only=False)
+
+    # Get state dicts
+        ckpt_state_dict = checkpoint["state_dict"]
+        model_state_dict = model.state_dict()
+
+    # Compare keys
+        ckpt_keys = set(ckpt_state_dict.keys())
+        model_keys = set(model_state_dict.keys())
+
+        print("\n=== CHECKPOINT KEYS NOT IN MODEL ===")
+        for key in sorted(ckpt_keys - model_keys):
+            print(f"  {key}",flush=True)
+
+        print("\n=== MODEL KEYS NOT IN CHECKPOINT ===")
+        for key in sorted(model_keys - ckpt_keys):
+            print(f"  {key}",flush=True)
+
+        print(f"\nCheckpoint has {len(ckpt_keys)} keys", flush=True)
+        print(f"Model has {len(model_keys)} keys", flush=True)
+
         model_state_dict = checkpoint['state_dict']
         
         if 'model.' in next(iter(checkpoint['state_dict'].keys())):
             model_state_dict = {k.replace('model.', ''): v for k, v in checkpoint['state_dict'].items() if k.startswith('model.')}
-        incompatible_keys = model.load_state_dict(model_state_dict, strict=True)
+        incompatible_keys = model.load_state_dict(model_state_dict, strict=False)
         del checkpoint, model_state_dict
         torch.cuda.empty_cache()
         #model.load_state_dict(checkpoint['state_dict'])

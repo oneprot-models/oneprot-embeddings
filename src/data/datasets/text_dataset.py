@@ -15,9 +15,11 @@ class TextDataset(Dataset):
         self.max_length = max_length
         self.h5_file = f'{data_dir}/seqstruc.h5'
         self.split = split
-        csv_file = f'{data_dir}/{split}_text.csv'
+        if split=='train':
+            csv_file = f'{data_dir}/{split}_text_4.csv'
+        else:
+            csv_file = f'{data_dir}/{split}_text.csv'
 
-        
         try:
             self.df = pd.read_csv(csv_file, header=None)
         except FileNotFoundError:

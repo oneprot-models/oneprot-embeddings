@@ -62,6 +62,8 @@ def count_f1_max(pred, target):
 def save_results_to_csv(results: Dict, cfg: DictConfig) -> None:
     output_dir = Path(cfg.results_dir) / "downstream_results"
     output_dir.mkdir(parents=True, exist_ok=True)
+    if cfg.task_name=="Thermostability":
+        cfg.task_name="ThermoStability"
     csv_path = output_dir / f"{cfg.task_name}_{cfg.downstream_model.name}_results.csv"
 
     results_df = pd.DataFrame([results])
@@ -133,6 +135,8 @@ def load_data(cfg: DictConfig) -> Dict[str, np.ndarray]:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
             embeddings_w_target = torch.load(embedding_path, map_location=device)
             embeddings = embeddings_w_target["embeddings"]
+            if cfg.model_type == "esmIF-08-31-2025":
+                embeddings=torch.squeeze(embeddings) #esmIF
             targets = embeddings_w_target["labels_fitness"]
             print(
                 f"Embeddins Size {embeddings.size()[0], embeddings.size()[1]}, Targets Size {targets.size()[0]}"

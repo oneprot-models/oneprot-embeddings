@@ -13,13 +13,13 @@ data:
   modalities:
     md:
       dataset:
-        num_frames: 499
+        num_frames: 250
         crop: 512
         data_dir: /p/scratch/hai_profound/data/atlas_data
         data_dir_csv: /p/project1/hai_oneprot/bazarova1/mdgen/splits/atlas
         suffix: "_i40"
       batch_size:
-        train: 1
+        train: 2
         val: 1
     seqsim:  
       batch_size:
@@ -44,7 +44,7 @@ model:
       hidden_size: 21  # Set this to match the actual output dimension from your model
       num_layers: 4
       num_heads: 8
-      num_frames: 499
+      num_frames: 250
       pretrained: true
       frozen: true
       proj_type: linear  # Use linear to avoid dimension mismatches
@@ -55,9 +55,9 @@ model:
   use_l1_regularization: false
   use_seqsim: false
 trainer:
-  num_nodes: 2
+  num_nodes: 16
   num_sanity_val_steps: -1
-  val_check_interval: 40
+  val_check_interval: 10
 
 callbacks:
   model_checkpoint:

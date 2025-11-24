@@ -5,8 +5,11 @@ defaults:
   - override hydra/sweeper: basic
 
 evaluate_on: ["train", "valid", "test"]
-emb_dir: /p/scratch/hai_profound/bazarova1/embeddings/
-results_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints/
+#emb_dir: /p/scratch/hai_oneprot/bazarova1/embeddings/
+emb_dir: /p/project1/hai_oneprot/merdivan1/oneprot/embeddings/
+seed: 1
+results_dir: /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_${seed}/
+
 
 # Model configuration
 model:

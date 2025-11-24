@@ -1,8 +1,8 @@
 # @package _global_
 
 defaults:
-  - override /data: oneprot
-  - override /model: oneprot
+  - override /data: oneprot_md
+  - override /model: oneprot_md
   - override /trainer: ddp
   - override /logger: wandb
   - override /callbacks: default
@@ -12,22 +12,22 @@ tags: all-modalities
 
 data:
   modalities:
-    pocket:
-      dataset:
-        pocket: true
-      batch_size:
-        train: 32
-        val: 25
-    struct_graph:
-      batch_size:
-        train: 32
-        val: 25
-    struct_token:
-      dataset:
-        full: false
-      batch_size:
-        train: 16
-        val: 25
+    # pocket:
+    #   dataset:
+    #     pocket: true
+    #   batch_size:
+    #     train: 32
+    #     val: 25
+    # struct_graph:
+    #   batch_size:
+    #     train: 32
+    #     val: 25
+    # struct_token:
+    #   dataset:
+    #     full: false
+    #   batch_size:
+    #     train: 16
+    #     val: 25
     text:
       dataset:
         text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
@@ -65,24 +65,24 @@ model:
       frozen: true
       use_logit_scale: false
       learnable_logit_scale: false
-    struct_token:
-      model_name_or_path: facebook/esm2_t12_35M_UR50D #facebook/esm2_t30_150M_UR50D #facebook/esm2_t12_35M_UR50D
-      pooling_type: mean
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
-    struct_graph:
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
-      encoder:
-        level: allatom
-    pocket:
-      proj_type: linear
-      use_logit_scale: true
-      learnable_logit_scale: false
-      encoder:
-        level: allatom
+    # struct_token:
+    #   model_name_or_path: facebook/esm2_t12_35M_UR50D #facebook/esm2_t30_150M_UR50D #facebook/esm2_t12_35M_UR50D
+    #   pooling_type: mean
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
+    # struct_graph:
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
+    #   encoder:
+    #     level: allatom
+    # # pocket:
+    #   proj_type: linear
+    #   use_logit_scale: true
+    #   learnable_logit_scale: false
+    #   encoder:
+    #     level: allatom
     text:
       pooling_type: cls
       proj_type: mlp
@@ -109,10 +109,10 @@ model:
     #   use_all_msa: true
       
   loss_fn: CLIP
-  use_l1_regularization: true
+  use_l1_regularization: false
   use_seqsim: false
 trainer:
-  num_nodes: 16
+  num_nodes: 2
   num_sanity_val_steps: -1
   val_check_interval: 82
 
@@ -127,6 +127,6 @@ callbacks:
     save_on_train_epoch_end: false 
 
 task_name: train
-#ckpt_path: null
-ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-04_22-53-05/checkpoints/epoch_020_13500.ckpt
+ckpt_path: null #/p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
+#ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-04_22-53-05/checkpoints/epoch_020_13500.ckpt
 

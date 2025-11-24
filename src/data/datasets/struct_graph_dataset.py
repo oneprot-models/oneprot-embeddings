@@ -23,8 +23,11 @@ class StructDataset(Dataset):
         self.use_struct_coord_noise = use_struct_coord_noise
         self.use_struct_deform = use_struct_deform
 
-        csv_file = f'{data_dir}/{split}_{"pocket" if pocket else "seqstruc"}.csv'
-        
+        if split=='train':
+            csv_file = f'{data_dir}/{split}_{"pocket_4" if pocket else "seqstruc_4"}.csv'
+        else:
+            csv_file = f'{data_dir}/{split}_{"pocket" if pocket else "seqstruc"}.csv'
+
         try:
             with open(csv_file, 'r') as file:
                 self.id_list = [line.split(',')[0].strip() for line in file]

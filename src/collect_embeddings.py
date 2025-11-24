@@ -12,6 +12,7 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 import pyrootutils
 import ast
+#from modelgenerator.tasks import Embed
 # from esm.models.esm3 import ESM3
 # from esm.sdk.api import ESM3InferenceClient, ESMProtein, LogitsConfig, LogitsOutput,ESMProteinError
 # from esm.sdk import batch_executor
@@ -35,14 +36,14 @@ pyrootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
 import sys
 import os
-os.chdir('/p/project1/hai_oneprot/bazarova1/ProTrek/')
+# os.chdir('/p/project1/hai_oneprot/bazarova1/ProTrek/')
 
-sys.path.append('/p/project1/hai_oneprot/bazarova1/ProTrek/model/ProTrek')
-from protrek_trimodal_model import ProTrekTrimodalModel
-#sys.path.remove('/p/project1/hai_oneprot/bazarova1/ProTrek/model/ProTrek')
-sys.path.append('/p/project1/hai_oneprot/bazarova1/ProTrek/utils')
-#from utils.foldseek_util import get_struc_seq
-from foldseek_util import get_struc_seq
+# sys.path.append('/p/project1/hai_oneprot/bazarova1/ProTrek/model/ProTrek')
+# from protrek_trimodal_model import ProTrekTrimodalModel
+# #sys.path.remove('/p/project1/hai_oneprot/bazarova1/ProTrek/model/ProTrek')
+# sys.path.append('/p/project1/hai_oneprot/bazarova1/ProTrek/utils')
+# #from utils.foldseek_util import get_struc_seq
+# from foldseek_util import get_struc_seq
 
 class SequenceDataset(Dataset):
     def __init__(self, csv_file: str, label_type: str = "classification"):
@@ -54,6 +55,7 @@ class SequenceDataset(Dataset):
         #     #print("yay!")
         #     self.data=self.data.iloc[[0,1]+list(range(10,24))]
         self.label_type = label_type
+        #print(label_type," label_type!!!!!!!!!!!!",flush=True)
 
         if self.label_type == "classification" or self.label_type == "ppi":
             self.labels_fitness = torch.tensor(
@@ -79,11 +81,13 @@ class SequenceDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
+        #print(self.label_type," label type!!!!!!!! getitem")
         if self.label_type == "ppi":
             sequence_1 = self.data.iloc[idx]["sequence_1"]
             sequence_2 = self.data.iloc[idx]["sequence_2"]
             label_fitness = self.labels_fitness[idx]
-            return sequence_1, sequence_2, label_fitness
+            #print(sequence_1,sequence_2,label_fitness," getitem!!!!!!!!!")
+            return sequence_1, sequence_2, label_fitness, idx
         else:
             sequence = self.data.iloc[idx]["sequence"]
             label_fitness = self.labels_fitness[idx]
@@ -92,7 +96,7 @@ class SequenceDataset(Dataset):
 class SequenceEmbedding(pl.LightningModule):
     def __init__(
         self, model: pl.LightningModule, tokenizer, is_esm2: bool, output_dir: str, is_saprot: bool = False,
-        is_protrek: bool = False,is_esm3: bool = False
+        is_protrek: bool = False,is_esm3: bool = False,is_moe: bool = False
     ):
         super().__init__()
         self.model = model
@@ -102,6 +106,7 @@ class SequenceEmbedding(pl.LightningModule):
         self.is_saprot = is_saprot
         self.is_protrek = is_protrek
         self.is_esm3 = is_esm3
+        self.is_moe=is_moe
 
     # def embed_sequence(self, client: ESM3InferenceClient, sequence: str) -> LogitsOutput:
     #     max_length = 1024
@@ -116,15 +121,19 @@ class SequenceEmbedding(pl.LightningModule):
     #     return output
 
     def forward(self, sequences: List[str],idx):
-        inputs = self.tokenizer(
-            sequences,
-            return_tensors="pt",
-            padding=True,
-            truncation=True,
+        if not self.is_moe:
+            inputs = self.tokenizer(
+                sequences,
+                return_tensors="pt",
+                padding=True,
+                truncation=True,
             max_length=1024,
-        )
-        print(inputs.keys(), " inputs keys!!!!!!!!!!!!!")
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            )
+        #print(inputs.keys(), " inputs keys!!!!!!!!!!!!!")
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+        else:
+            seq_dict={}
+            seq_dict['sequences']=sequences
 
         if self.is_esm2:
             with torch.no_grad():
@@ -157,23 +166,40 @@ class SequenceEmbedding(pl.LightningModule):
                 all_embeddings=torch.mean(outputs.embeddings,dim=1).squeeze(1)
                 return all_embeddings
 
+        elif self.is_moe:
+            outputs=self.model.transform(seq_dict)
+            embeddings=self.model(outputs)
+            embeddings=embeddings.mean(dim=1)
+            return embeddings
 
         else:
             with torch.no_grad():
-                print(inputs["input_ids"].shape, self.global_rank, idx, " len seq!!!!!!!!!!!!!!!!!!!!!")
+                #print(inputs["input_ids"].shape, self.global_rank, idx, " len seq!!!!!!!!!!!!!!!!!!!!!")
                 outputs = self.model(inputs["input_ids"])
             return outputs
 
     def predict_step(self, batch: Any, batch_idx: int, dataloader_idx: int = 0):
+        # print(len(batch), batch, " batch predict!!!!!!!!")
+        # print(len(batch[0][0]), " batch[0]!!!!!!!!!!!!!!!")
+        #sequences_1, sequences_2, labels_fitness, idx = batch
+        #print(labels_fitness, " labels fitness!!!!!!!!!!!!!!! before")
+        #label_type='ppi'
         if len(batch) == 3:  # single sequence task
+            # print(batch, " batch!!!!!!!!!!!!!!!")
+            # print(batch[0]," batch[0]!!!!!!!!!!!!!!!")
+            # print(batch[1]," batch[1]!!!!!!!!!!!!!!!")
+            # print(batch[2]," batch[2]!!!!!!!!!!!!!!!")
             sequences, labels_fitness, idx = batch
             embeddings = self(sequences, idx)
         elif len(batch) == 4:  # PPI task
             sequences_1, sequences_2, labels_fitness, idx = batch
-            embeddings_1 = self(sequences_1)
-            embeddings_2 = self(sequences_2)
+            #sequences_1, sequences_2, labels_fitness = batch
+            #print(batch, " batch!!!!!!!!!!!!!!!")
+            embeddings_1 = self(sequences_1,idx)
+            embeddings_2 = self(sequences_2,idx)
             embeddings = torch.cat((embeddings_1, embeddings_2), dim=1)
         
+        #print(labels_fitness, " labels fitness!!!!!!!!!!!!!!!")
         labels_fitness = labels_fitness.to(self.device)
 
         self.save_embeddings_to_disk(embeddings, labels_fitness, batch_idx)
@@ -190,6 +216,110 @@ class SequenceEmbedding(pl.LightningModule):
             output_file,
         )
 
+# def load_custom_model(cfg: DictConfig) -> pl.LightningModule:
+#     logger.info("Loading custom model configuration")
+#     model_config_path = cfg.model.config_path
+#     print(model_config_path," model config path!!!!!!!!")
+    
+#     if not os.path.exists(model_config_path):
+#         raise FileNotFoundError(f"Model config file not found: {model_config_path}")
+    
+#     model_cfg = OmegaConf.load(model_config_path)
+    
+#     # Set seeds before instantiation to ensure reproducibility
+#     import random
+#     import numpy as np
+#     torch.manual_seed(42)
+#     random.seed(42)
+#     np.random.seed(42)
+#     if torch.cuda.is_available():
+#         torch.cuda.manual_seed_all(42)
+    
+#     logger.info("Instantiating custom model")
+#     model = hydra.utils.instantiate(model_cfg.model)
+    
+#     if cfg.model.ckpt_path is not None:
+#         logger.info(f"Loading model checkpoint from: {cfg.model.ckpt_path}")
+        
+#         checkpoint = torch.load(
+#             cfg.model.ckpt_path, 
+#             map_location="cpu", 
+#             weights_only=False
+#         )
+        
+#         # Get detailed information about what's missing
+#         model_state = model.state_dict()
+#         ckpt_state = checkpoint["state_dict"]
+        
+#         missing_in_ckpt = set(model_state.keys()) - set(ckpt_state.keys())
+#         logger.info(f"\n{'='*60}")
+#         logger.info(f"Keys in model but NOT in checkpoint: {len(missing_in_ckpt)}")
+#         logger.info(f"{'='*60}")
+#         for key in sorted(missing_in_ckpt):
+#             # Get the shape to understand what's missing
+#             shape = model_state[key].shape
+#             logger.info(f"  MISSING: {key} (shape: {shape})")
+#         logger.info(f"{'='*60}\n")
+        
+#         # Load with strict=False
+#         result = model.load_state_dict(ckpt_state, strict=False)
+        
+#         if torch.cuda.is_available():
+#             model.cuda()
+    
+#     model = model.network["sequence"]
+#     model.eval()
+    
+#     # Make sure model is in eval mode and dropout is disabled
+#     for module in model.modules():
+#         if isinstance(module, torch.nn.Dropout):
+#             module.p = 0.0
+#             logger.info(f"Set dropout to 0.0 for {module}")
+    
+#     logger.info("Custom model loaded successfully")
+#     return model
+
+# Test if loading is deterministic
+def test_reproducibility(cfg: DictConfig):
+    embeddings_list = []
+    
+    dummy_input = torch.randint(0, 32, (1, 10)).cuda() if torch.cuda.is_available() else torch.randint(0, 32, (1, 10))
+
+
+    for i in range(3):
+        logger.info(f"\n{'='*60}")
+        logger.info(f"Loading attempt {i+1}")
+        logger.info(f"{'='*60}")
+        
+        model = load_custom_model(cfg)
+        
+        # Create a dummy input and get embeddings
+        
+        with torch.no_grad():
+            output = model.transformer(dummy_input)
+            embeddings = output.last_hidden_state
+        
+        embeddings_list.append(embeddings.cpu())
+        logger.info(f"Embedding mean: {embeddings.mean().item():.6f}")
+        logger.info(f"Embedding std: {embeddings.std().item():.6f}")
+        
+        # Clean up
+        del model
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    
+    # Check if embeddings are identical
+    logger.info(f"\n{'='*60}")
+    logger.info("Reproducibility Check:")
+    logger.info(f"{'='*60}")
+    for i in range(1, len(embeddings_list)):
+        diff = torch.abs(embeddings_list[0] - embeddings_list[i]).max().item()
+        logger.info(f"Max difference between run 0 and run {i}: {diff:.10f}")
+        if diff < 1e-6:
+            logger.info(f"  ✓ Results are identical")
+        else:
+            logger.info(f"  ✗ Results differ - NOT reproducible!")
+
 def load_custom_model(cfg: DictConfig) -> pl.LightningModule:
     logger.info("Loading custom model configuration")
     
@@ -203,10 +333,33 @@ def load_custom_model(cfg: DictConfig) -> pl.LightningModule:
     logger.info("Instantiating custom model")
     model = hydra.utils.instantiate(model_cfg.model)
 
+
+    checkpoint = torch.load(cfg.model.ckpt_path, 
+                        map_location="cpu" if not torch.cuda.is_available() else None,
+                        weights_only=False)
+    # Get state dicts
+    ckpt_state_dict = checkpoint["state_dict"]
+    model_state_dict = model.state_dict()
+
+    # Compare keys
+    ckpt_keys = set(ckpt_state_dict.keys())
+    model_keys = set(model_state_dict.keys())
+
+    print("\n=== CHECKPOINT KEYS NOT IN MODEL ===")
+    for key in sorted(ckpt_keys - model_keys):
+        print(f"  {key}")
+
+    print("\n=== MODEL KEYS NOT IN CHECKPOINT ===")
+    for key in sorted(model_keys - ckpt_keys):
+        print(f"  {key}")
+
+    print(f"\nCheckpoint has {len(ckpt_keys)} keys")
+    print(f"Model has {len(model_keys)} keys")
+
     if cfg.model.ckpt_path is not None:
         logger.info(f"Loading model checkpoint from: {cfg.model.ckpt_path}")
         if torch.cuda.is_available():
-            model.load_state_dict(torch.load(cfg.model.ckpt_path)["state_dict"])
+            model.load_state_dict(torch.load(cfg.model.ckpt_path, weights_only=False)["state_dict"],strict=False)
             model.cuda()
         else:
             model.load_state_dict(
@@ -247,8 +400,8 @@ def combine_embeddings_for_split(split_dir: str, output_file: str):
     logger.info(f"Final labels shape: {final_labels.shape}")
 
 def collate_fn(batch):
-    sequences_1, sequences_2, labels = zip(*batch)
-    return list(sequences_1), list(sequences_2), torch.stack(labels)
+    sequences_1, sequences_2, labels, indices = zip(*batch)
+    return list(sequences_1), list(sequences_2), torch.stack(labels), list(indices)
 
 def generate_single_embeddings(
     cfg: DictConfig, task_name: str, task_config: DictConfig, csv_file: str
@@ -268,6 +421,7 @@ def generate_single_embeddings(
     )
 
     dataset = SequenceDataset(csv_file, task_config.label_type)
+    #print(len(dataset[0])," dataset!!!!!!!!!!!!!!!")
     dataloader = DataLoader(
         dataset,
         batch_size=cfg.batch_size,
@@ -277,18 +431,27 @@ def generate_single_embeddings(
         collate_fn=collate_fn if task_config.label_type == "ppi" else None,
     )
 
+    #print(next(iter(dataloader)), " first batch!!!!!!!!!!!!!!!")
+    #print(len(next(iter(dataloader))), " second batch!!!!!!!!!!!!!!!")
+    # print(next(iter(dataloader)[0])," 1!!!!!!!!!!!!!!!!!")
+    # print(next(iter(dataloader)[1]), " 2!!!!!!!!!!!!!!!!!")
+    # print(next(iter(dataloader)[2]), " 3!!!!!!!!!!!!!!!!!")
+
+
     if cfg.model.name == "esm2":
         model = AutoModel.from_pretrained(cfg.esm_model)
         tokenizer = AutoTokenizer.from_pretrained(cfg.tokenizer_name)
         is_esm2 = True
         is_saprot = False
         is_protrek=False
+        is_moe=False
     elif cfg.model.name =="saprot":
         model = EsmForMaskedLM.from_pretrained(cfg.saprot_model)
         tokenizer = EsmTokenizer.from_pretrained(cfg.tokenizer_name)
         is_saprot = True
         is_esm2 = False
         is_protrek=False
+        is_moe=False
     elif cfg.model.name=="protrek":
 
         config = {
@@ -306,6 +469,8 @@ def generate_single_embeddings(
         is_esm2 = False
         is_saprot = False
         is_protrek=True
+        is_esm3=False
+        is_moe=False
 
     elif cfg.model.name=="protrek_35":
         config = {
@@ -323,6 +488,8 @@ def generate_single_embeddings(
         is_esm2 = False
         is_saprot = False
         is_protrek=True
+        is_esm3=False
+        is_moe=False
     
     elif cfg.model.name=="esm3":
         tokenizer = AutoTokenizer.from_pretrained(cfg.tokenizer_name)
@@ -332,21 +499,34 @@ def generate_single_embeddings(
         is_esm2 = False
         is_saprot = False
         is_protrek=False
-        is_esm3=True        
+        is_esm3=True  
+        is_moe=False      
 
+    elif cfg.model.name=='moe':
+        tokenizer = AutoTokenizer.from_pretrained(cfg.tokenizer_name)
+        model = Embed.from_config({"model.backbone": "aido_protein_16b"}).eval()
+        #device = "cuda"
+        #model=model.to(device)
+        is_esm2 = False
+        is_saprot = False
+        is_protrek=False
+        is_esm3=False  
+        is_moe=True 
     else:
+        #test_reproducibility(cfg)
         model = load_custom_model(cfg)
         tokenizer = AutoTokenizer.from_pretrained(cfg.tokenizer_name)
         is_esm2 = False
         is_saprot = False
         is_protrek=False
         is_esm3=False
+        is_moe=False
 
     # Create a unique output directory for each task and split
     task_output_dir = os.path.join(cfg.output_dir, task_name, split, "single_embs")
     os.makedirs(task_output_dir, exist_ok=True)
 
-    sequence_embedding = SequenceEmbedding(model, tokenizer, is_esm2, task_output_dir, is_saprot,is_protrek,is_esm3)
+    sequence_embedding = SequenceEmbedding(model, tokenizer, is_esm2, task_output_dir, is_saprot,is_protrek,is_esm3,is_moe)
 
     trainer = pl.Trainer(
         accelerator="gpu",
@@ -400,6 +580,8 @@ def main(cfg: DictConfig) -> None:
 
     # Store the original output directory template
     output_dir_template = cfg.output_dir
+
+    
 
     for model_config in cfg.models:
         logger.info(f"Processing model: {model_config.name}")
