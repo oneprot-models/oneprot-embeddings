@@ -44,6 +44,7 @@ slurm-*.err
 *.tar.gz
 *.tar
 *.zip
+*.json
 
 # Data / cache dirs (relative/project-specific)
 pdb_files/
