@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in results_checkpoints/downstream_results/*_results.csv; do
+for file in /p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints/downstream_results/*_results.csv; do
     taskname=$(basename "$file" _results.csv)
     if [ "$taskname" = "ThermoStability_MLP" ]; then
         

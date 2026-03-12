@@ -15,13 +15,13 @@ saprot_model: westlake-repl/SaProt_650M_AF2
 # Output directory
 #output_dir: "/p/scratch/hai_oneprot/bazarova1/embeddings/{model_name}"
 #output_dir: "/p/scratch/hai_profound/bazarova1/embeddings/{model_name}"
-output_dir: "/p/data1/profound_data/bazarova1/embeddings/{model_name}"
+output_dir: "/p/data1/bio-ai/bazarova1/embeddings/{model_name}"
 
 
 
 # Data processing parameters
-batch_size: 16
-num_workers: 16
+batch_size: 1
+num_workers: 4
 
 # GPU configuration
 num_gpus: 4
@@ -67,7 +67,7 @@ models:
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-11_10-17-53/config.yaml
 
   # - name: oneprot_md_combined_gpcr_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt
+  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-20_21-23-57/config.yaml
 
   # - name: oneprot_md_combined_gpcr_last
@@ -88,17 +88,17 @@ models:
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-07_23-43-45/config.yaml
   
   #- name: esm3
-  # - name: oneprot_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:38:53/epoch_002_00700-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-39-37/config.yaml
+  - name: oneprot_text_32900
+    ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:38:53/epoch_002_00700-v4.ckpt
+    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-39-37/config.yaml
 
   # - name: oneprot_pocket_32900
   #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:40:40/epoch_034_05600-v4.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-41-31/config.yaml
   
-  # - name: oneprot_pocket_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:42:56/epoch_000_00300-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_07-03-15/config.yaml
+  - name: oneprot_pocket_text_32900
+    ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:42:56/epoch_000_00300-v4.ckpt
+    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_07-03-15/config.yaml
  
   # - name: oneprot_struct_graph_32900
   #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__07:24:23/epoch_008_02600-v4.ckpt
@@ -113,8 +113,8 @@ models:
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_05-15-56/config.yaml
 
   # - name: oneprot_struct_graph_pocket_text_32900_sanity
-    # ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
-    # config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml
 
   # - name: oneprot_struct_token_32900
   #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__23:06:41/epoch_020_10400-v1.ckpt
@@ -142,7 +142,7 @@ models:
 
 
   # - name: oneprot_md_combined_gpcr_no_struct_graph_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt
+  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-27_06-21-43/config.yaml
 
   # - name: oneprot_md_combined_gpcr_text_32900
@@ -151,16 +151,16 @@ models:
 
 
   # - name: oneprot_md_combined_gpcr_no_struct_token_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-25__17:42:35/epoch_015_01100-v4.ckpt
+  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__17:42:35/epoch_015_01100-v4.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-26_20-02-45/config.yaml
 
 
   # - name: oneprot_md_combined_gpcr_text_struct_token_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-29__15:09:07/epoch_066_03600-v1.ckpt
+  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-29__15:09:07/epoch_066_03600-v1.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-30_22-55-26/config.yaml
 
   # - name: oneprot_md_combined_gpcr_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-28__08:59:31/epoch_161_05800-v1.ckpt
+  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-28__08:59:31/epoch_161_05800-v1.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-30_18-29-18/config.yaml
 
   # - name: oneprot_struct_token_text_32900
@@ -516,9 +516,9 @@ models:
   #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_038_25500.ckpt
   #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_16-37-44/config.yaml
 
-  - name: oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity # running 
-    ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
-    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_16-37-44/config.yaml
+  # - name: oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity # running 
+  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
+  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config_1.yaml
 
 
 
@@ -542,71 +542,84 @@ models:
 
 
 tasks:
-  HumanPPI:
-    label_type: "ppi"
-    csv_files:
-     - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_train.csv
-     - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_valid.csv
-     - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_test.csv
+  # HumanPPI:
+  #   label_type: "ppi"
+  #   csv_files:
+  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_train.csv
+  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_valid.csv
+  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_test.csv
 
-  GO-BP:
-    label_type: "multi-label"
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_test.csv
+  # GO-BP:
+  #   label_type: "multi-label"
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_test.csv
 
-  GO-CC:
-    label_type: "multi-label"
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_test.csv
+  # GO-CC:
+  #   label_type: "multi-label"
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_test.csv
 
-  GO-MF:
-    label_type: "multi-label"
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_test.csv
+  # GO-MF:
+  #   label_type: "multi-label"
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_test.csv
    
-  EC:
-    label_type: "multi-label"
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_test.csv
+  # EC:
+  #   label_type: "multi-label"
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_test.csv
    
-  MetalIonBinding:
-    label_type: classification
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_test.csv
+  # MetalIonBinding:
+  #   label_type: classification
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_test.csv
   # TopEnzyme:
   #   label_type: classification
   #   csv_files:
   #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_train_seq.csv
   #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_valid_seq.csv
   #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_test_seq.csv
-  DeepLoc2:
-    label_type: classification
+  # DeepLoc2:
+  #   label_type: classification
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_test.csv
+  # DeepLoc10:
+  #   label_type: classification
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_test.csv
+  # ThermoStability:
+  #   label_type: regression
+  #   csv_files:
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_train.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_valid.csv
+  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_test.csv
+  ASD:
+    label_type: "multi-label"
     csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_test.csv
-  DeepLoc10:
-    label_type: classification
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_test.csv
-  ThermoStability:
-    label_type: regression
-    csv_files:
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_train.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_valid.csv
-      - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_test.csv
+      - /p/data1/bio-ai/bazarova1/ASD_train.csv
+      - /p/data1/bio-ai/bazarova1/ASD_valid.csv
+      - /p/data1/bio-ai/bazarova1/ASD_test.csv
+
+  # PL8:
+  #   label_type: "multi-label"
+  #   csv_files:
+  #     - /p/data1/bio-ai/bazarova1/PL8_train_fixed.csv
+  #     - /p/data1/bio-ai/bazarova1/PL8_valid_fixed.csv
+  #     - /p/data1/bio-ai/bazarova1/PL8_test_fixed.csv
 
 
 # tasks:

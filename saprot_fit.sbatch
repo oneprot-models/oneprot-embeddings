@@ -1,18 +1,18 @@
 #!/bin/bash -x
 
-##SBATCH --account besl
+##SBATCH --account profound
 ##SBATCH --account westai0009
-##SBATCH --account loki
-#SBATCH --account profound                                                # specify the account name, otherwise the job will not run
-#SBATCH --time 10:00:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
+#SBATCH --account loki
+##SBATCH --account atmlaml                                                # specify the account name, otherwise the job will not run
+#SBATCH --time 1:30:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
 #SBATCH --cpus-per-task=4                                                         # do not change
 #SBATCH --ntasks-per-node 4                                                        # number of tasks per node; each node has 4 GPUs
 #SBATCH --nodes 1                                                                  # the number of nodes; if you request 4 nodes you get 16 GPUs
 ##SBATCH --partition batch
 ##SBATCH --partition dc-hwai
-##SBATCH --partition dc-gpu-devel
-#SBATCH --partition booster
-##SBATCH --partition dc-gpu                                                  # the walltime on develbooster is 2 hours, on booster 24 hours; maximum number of nodes on develbooster is 4 nodes
+#SBATCH --partition dc-gpu
+##SBATCH --partition booster
+##SBATCH --partition dc-gpu-devel                                                  # the walltime on develbooster is 2 hours, on booster 24 hours; maximum number of nodes on develbooster is 4 nodes
 #SBATCH --gres gpu:4
 ##SBATCH --begin=01:30:00     
 #SBATCH --output /p/project1/hai_oneprot/bazarova1/oneprot-refined/slurms/SaProt_fit_%j_out.out  # specify the file for the slurm output; make sure to change it to your folder
@@ -40,6 +40,8 @@ export RANK=$SLURM_PROCID
 export WORLD_SIZE=$SLURM_NTASKS
 export LOCAL_RANK=$SLURM_LOCALID
 RESULTS_SUFFIX="$1"
+TASK_NAME="$2"
+MODEL_NAME="$3"
 
 
 module purge
@@ -60,6 +62,6 @@ module load Stages/2024  GCCcore/.12.3.0 Apptainer-Tools/2024
 #srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project/hai_oneprot/bazarova1/sc_venv_template_erinc/venv/bin/activate && python src/saprot_fit_cls.py \""
 #srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES="0,1,2,3"; export PYTHONPATH=""; export HYDRA_FULL_ERROR=1; export LD_LIBRARY_PATH=/p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif:/usr/local/lib/python3.10/dist-packages/xgboost/lib:$LD_LIBRARY_PATH; apptainer run --nv /p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c "source /p/project/hai_oneprot/bazarova1/sc_venv_template_erinc/venv/bin/activate && python src/saprot_fit.py transform_func=$BITVECTOR system=$SYSTEM classifier=$CLASSIFIER task_name=$TASK_NAME\""
 #srun --cpu-bind=none bash -c 'export CUDA_VISIBLE_DEVICES="0,1,2,3"; export PYTHONPATH=""; export HYDRA_FULL_ERROR=1; export LD_LIBRARY_PATH=/p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif:/usr/local/lib/python3.10/dist-packages/xgboost/lib:$LD_LIBRARY_PATH; apptainer run --nv /p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c "source /p/project/hai_oneprot/bazarova1/sc_venv_template_erinc/venv/bin/activate && python src/saprot_fit.py transform_func=$BITVECTOR system=$SYSTEM classifier=$CLASSIFIER task_name=$TASK_NAMEC"'
-srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"python3.10 src/saprot_fit_mlp.py +sweep.task_name=[TopEnzyme] +sweep.model_type=[oneprot_struct_token_32900] emb_dir=/p/scratch/hai_oneprot/bazarova1/embeddings results_dir=/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_${RESULTS_SUFFIX}/ seed=${RESULTS_SUFFIX}\""
+srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"python3.10 src/saprot_fit_mlp_balanced.py +sweep.task_name=[$TASK_NAME] +sweep.model_type=[$MODEL_NAME] emb_dir=/p/project1/hai_oneprot/bazarova1/oneprot-panda/embeddings/ results_dir=/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_${RESULTS_SUFFIX}/ seed=${RESULTS_SUFFIX}\""
 
 

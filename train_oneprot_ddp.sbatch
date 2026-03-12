@@ -4,10 +4,10 @@
 #SBATCH --account profound
 ##SBATCH --account training2431                                                  # specify the account name, otherwise the job will not run
 ##SBATCH --account loki
-#SBATCH --time 0:20:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
+#SBATCH --time 0:30:00                                                            # pecify the running time; on develbooster it is limited to 2 hours
 #SBATCH --cpus-per-task=12                                                         # do not change
 #SBATCH --ntasks-per-node 4                                                        # number of tasks per node; each node has 4 GPUs
-#SBATCH --nodes 2 # the number of nodes; if you request 4 nodes you get 16 GPUs
+#SBATCH --nodes 64 # the number of nodes; if you request 4 nodes you get 16 GPUs
 #SBATCH --output /p/scratch/hai_oneprot/bazarova1/slurms/%j.out  # specify the file for the slurm output; make sure to change it to your folder
 #SBATCH --error /p/scratch/hai_oneprot/bazarova1/slurms/%j_err.out
 ##SBATCH --dependency=afterany:10458759
@@ -34,9 +34,14 @@ export HF_DATASETS_OFFLINE=1
 export TRANSFORMERS_OFFLINE=1
 #export CUDA_VISIBLE_DEVICES=0,1,2,3
 
+
 MASTER_ADDR="$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)"
 # Allow communication over InfiniBand cells.
 export MASTER_ADDR="${MASTER_ADDR}i"
+
+# export NCCL_SOCKET_IFNAME=eth0         # replace eth0 with the correct interface
+# export NCCL_IB_DISABLE=1              # disable InfiniBand if not configured
+#export NCCL_DEBUG=INFO 
 
 export NCCL_IB_TIMEOUT=50
 export UCX_RC_TIMEOUT=4s
@@ -74,11 +79,27 @@ if [ -f "$last_ckpt" ]; then
     mv "$last_ckpt" "$2/last.ckpt"
 fi
 
-export sif_path="/p/project1/hai_oneprot/bazarova1/oneprot-refined/container/oneprot_panda_test.sif" 
-
+#export sif_path="/p/project1/hai_oneprot/bazarova1/oneprot-refined/container/oneprot_panda_test.sif" 
+export sif_path="/p/project1/profound/apptainer_img/oneprot_pyg-25-08-py3-amd64.sif"
 
 #srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES="0,1,2,3";export PYTHONPATH="";  export HYDRA_FULL_ERROR=1; source /p/project1/hai_oneprot/bazarova1/oneprot-refined/sc_venv_booster/activate.sh && python src/train.py +experiment=train_ddp_10440880.yaml"
-srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"/p/project1/hai_oneprot/bazarova1/oneprot-panda\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project1/hai_oneprot/bazarova1/sc_venv_erinc2/venv/bin/activate && python /p/project1/hai_oneprot/bazarova1/oneprot-panda/src/train_oneprot.py +experiment=train_ddp_allatom.yaml ckpt_path=${ckpt_path}  callbacks.model_checkpoint.dirpath=${run_dir}\"" # --cfg job --resolve\"" #  ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\"" 
+#srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"/p/project1/hai_oneprot/bazarova1/oneprot-panda\"; export HYDRA_FULL_ERROR=1; apptainer run --nv /p/project1/hai_oneprot/merdivan1/singularity_docker_jupyter/singularity_docker_jupyter.sif bash -c \"source /p/project1/hai_oneprot/bazarova1/sc_venv_erinc2/venv/bin/activate && python /p/project1/hai_oneprot/bazarova1/oneprot-panda/src/train_oneprot.py +experiment=train_ddp_allatom.yaml\"" #ckpt_path=${ckpt_path}  callbacks.model_checkpoint.dirpath=${run_dir}\"" # --cfg job --resolve\"" #  ckpt_path=${ckpt_path} callbacks.model_checkpoint.dirpath=${run_dir}\"" 
+
+#export sif_path="/p/project1/atmlaml/kasravi1/mlperf/appatiner-image/openfold/oneprot_pyg-25-08-py3-amd64.sif"
+
+
+srun --cpu-bind=none --export=ALL env -u CUDA_VISIBLE_DEVICES \
+  apptainer exec --nv \
+    --bind /p/project1/profound/logs_oneprot_gpt:/root_dir:rw \
+    --bind /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss:/data_dir:ro \
+    --bind .:/work_dir:ro \
+    --writable-tmpfs \
+    "$sif_path" \
+  bash -lc "export PYTHONNOUSERSITE=1; unset PYTHONPATH PYENV_VERSION PYENV_ROOT PYENV; \
+    source /p/project1/hai_oneprot/bazarova1/oneprot-refined/container/sc_venv_panda/venv/bin/activate && \
+    python -c 'import sys, os; print(\"sys.executable:\", sys.executable); print(\"sys.path:\", sys.path[:10])' && \
+    python /p/project1/hai_oneprot/bazarova1/oneprot-panda/src/train_oneprot.py +experiment=train_ddp_md_combined_3.yaml"
+
 
 
 # srun --cpu-bind=none bash -c 'export CUDA_VISIBLE_DEVICES="0,1,2,3"; \

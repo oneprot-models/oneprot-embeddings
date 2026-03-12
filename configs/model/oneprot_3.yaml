@@ -5,7 +5,7 @@ defaults:
   # - components/struct_graph
   # - components/pocket
   - components/text
-  - components/md
+  #- components/md
   #- components/msa
 
 loss_fn: CLIP

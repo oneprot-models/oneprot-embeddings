@@ -19,16 +19,7 @@ import numpy as np
 import random
 
 def set_partial_seed(seed, deterministic_level="medium"):
-    """
-    Set seeds with different levels of determinism
-    
-    Args:
-        seed: Random seed
-        deterministic_level: "low", "medium", or "high"
-    """
-    
     if deterministic_level == "high":
-        # Your current approach - fully deterministic
         random.seed(seed)
         np.random.seed(seed)
         torch.manual_seed(seed)
@@ -37,25 +28,19 @@ def set_partial_seed(seed, deterministic_level="medium"):
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
         pl.seed_everything(seed, workers=True)
-    
     elif deterministic_level == "medium":
-        # Fix initialization but allow some training randomness
         random.seed(seed)
-        np.random.seed(seed) 
+        np.random.seed(seed)
         torch.manual_seed(seed)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(seed)
-        # Allow CUDNN to be non-deterministic for better performance
         torch.backends.cudnn.deterministic = False
         torch.backends.cudnn.benchmark = True
-        pl.seed_everything(seed, workers=False)  # Don't seed workers
-    
+        pl.seed_everything(seed, workers=False)
     elif deterministic_level == "low":
-        # Only fix weight initialization
         torch.manual_seed(seed)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(seed)
-        # Keep everything else random
         torch.backends.cudnn.deterministic = False
         torch.backends.cudnn.benchmark = True
 
@@ -65,15 +50,10 @@ def set_seed(seed):
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
-    # For deterministic behavior (may slow down training)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-#pl.seed_everything(cfg.seed, workers=True)
-# Get the directory containing this script
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Add the current directory and its parent to the Python path
 sys.path.insert(0, current_dir)
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
@@ -116,8 +96,8 @@ class EmbeddingDataModule(LightningDataModule):
         return DataLoader(self.data["test"], batch_size=self.cfg.model.batch_size)
 
 class MLP(nn.Module):
-    def __init__(self, input_dim, output_dim, hidden_dims=[256], dropout_rate=0.0, 
-                 use_batch_norm=False, use_layer_norm=False, activation='relu', 
+    def __init__(self, input_dim, output_dim, hidden_dims=[256], dropout_rate=0.0,
+                 use_batch_norm=False, use_layer_norm=False, activation='relu',
                  use_residual=False):
         super().__init__()
         self.use_residual = use_residual
@@ -126,31 +106,25 @@ class MLP(nn.Module):
         layers = []
         in_features = input_dim
 
-
         for i, hidden_dim in enumerate(hidden_dims):
             layers.append(nn.Linear(in_features, hidden_dim))
-            
             if use_batch_norm:
                 layers.append(nn.BatchNorm1d(hidden_dim))
             elif use_layer_norm:
                 layers.append(nn.LayerNorm(hidden_dim))
-            
             if activation == 'relu':
                 layers.append(nn.ReLU())
             elif activation == 'gelu':
                 layers.append(nn.GELU())
             elif activation == 'leaky_relu':
                 layers.append(nn.LeakyReLU())
-            
             if dropout_rate > 0:
                 layers.append(nn.Dropout(dropout_rate))
-            
             in_features = hidden_dim
 
         self.hidden_layers = nn.ModuleList(layers)
         self.output_layer = nn.Linear(in_features, output_dim)
 
-        # Add a projection layer for residual connections if needed
         if self.use_residual and input_dim != hidden_dims[-1]:
             self.residual_projection = nn.Linear(input_dim, hidden_dims[-1])
         else:
@@ -159,15 +133,12 @@ class MLP(nn.Module):
     def forward(self, x):
         if self.use_residual:
             residual = x
-
         for layer in self.hidden_layers:
             x = layer(x)
-
         if self.use_residual:
             if self.residual_projection:
                 residual = self.residual_projection(residual)
             x = x + residual
-
         return self.output_layer(x)
 
 class EvaluationModule(pl.LightningModule):
@@ -183,21 +154,57 @@ class EvaluationModule(pl.LightningModule):
         elif cfg.model_type in ["oneprot_15", "oneprot_16"]:
             input_dim = 1280
         elif "esm3" in cfg.model_type:
-            input_dim=1536
+            input_dim = 1536
         else:
-            input_dim = 1024 #normal
+            input_dim = 1024
             if cfg.model_type == "esmIF-08-31-2025":
                 input_dim = 512
             elif cfg.model_type == "embeddings_saprot":
                 input_dim = 1280
-            #input_dim = 512 #esmIF
-            #input_dim=1280 #openfold
-        if self.cfg.task_name == "HumanPPI":
+
+        if self.cfg.task_name in [
+            "HumanPPI", "ASD_pocket_sequence100", "ASD_pockets_sequence",
+            "Kinase_combined", "merged_pocket_sequence",
+            "ASD_pockets_sequence_binary", "merged_pocket_sequence_binary",
+            "ASD_merged_pocket_sequence_binary",
+            "Kinase_pocket_text",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text", "ASD_merged_pocket_binary_text",
+            # _no_comp variants
+            "ASD_pockets_sequence_binary_comp", "merged_pocket_sequence_binary_comp",
+            "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp",
+        ]:
             input_dim = input_dim * 2
 
-        # Determine output_dim based on task_name
+        if self.cfg.task_name in [
+            "Kinase_combined_text", "ASD_pockets_sequence_binary_text",
+            "merged_pocket_sequence_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+             "ASD_pockets_sequence_binary_text_comp",
+            "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
+            input_dim = input_dim * 3
 
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI", "ThermoStability","Thermostability"]:
+        if self.cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "HumanPPI", "ThermoStability", "Thermostability",
+            "Kinase_combined", "Kinase_pocket",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            "Kinase_combined_text", "Kinase_pocket_text",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text",
+            "ASD_pockets_sequence_binary_text", "merged_pocket_sequence_binary_text",
+            "ASD_merged_pocket_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_pockets_sequence_binary_text_comp", "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp", "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
             output_dim = 1
         elif self.cfg.task_name == "EC":
             output_dim = 585
@@ -209,8 +216,16 @@ class EvaluationModule(pl.LightningModule):
             output_dim = 320
         elif self.cfg.task_name == "DeepLoc10":
             output_dim = 10
+        elif self.cfg.task_name in ["ASD_pockets", "ASD_pockets_sequence", "merged_pocket", "merged_pocket_sequence"]:
+            output_dim = 3
         elif self.cfg.task_name == "TopEnzyme":
             output_dim = 826
+        elif self.cfg.task_name == "ASD":
+            output_dim = 1024 * 5
+        elif self.cfg.task_name == "PL8":
+            output_dim = 3
+        elif self.cfg.task_name in ["ASD_pockets100", "ASD_pocket_sequence100"]:
+            output_dim = 100
         else:
             raise ValueError(f"Unknown task_name: {self.cfg.task_name}")
 
@@ -225,12 +240,23 @@ class EvaluationModule(pl.LightningModule):
             use_residual=cfg.model.use_residual
         )
 
-        # Set loss function based on task_name
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI", "EC", "GO-BP", "GO-MF", "GO-CC"]:
+        if self.cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "HumanPPI", "EC", "GO-BP", "GO-MF", "GO-CC", "PL8",
+            "ASD_pockets100", "ASD_pocket_sequence100",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+        ]:
             self.loss_fn = F.binary_cross_entropy_with_logits
-        elif self.cfg.task_name in ["ThermoStability","Thermostability"]:
+        elif self.cfg.task_name in ["ThermoStability", "Thermostability"]:
             self.loss_fn = F.mse_loss
-        else:  # multi_class
+        elif self.cfg.task_name == "ASD":
+            self.loss_fn = None
+        else:
             self.loss_fn = F.cross_entropy
 
     def forward(self, x):
@@ -239,27 +265,86 @@ class EvaluationModule(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI"]:
+        if self.cfg.task_name == "ASD":
+            y_hat = y_hat.view(-1, 1024, 5)
+            y = y.long()
+            loss = F.cross_entropy(y_hat.permute(0, 2, 1), y, ignore_index=-100)
+        elif self.cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI",
+            "Kinase_combined", "Kinase_pocket", "Kinase_combined_text", "Kinase_pocket_text",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text",
+            "ASD_pockets_sequence_binary_text", "merged_pocket_sequence_binary_text",
+            "ASD_merged_pocket_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_pockets_sequence_binary_text_comp", "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp", "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
             y_hat = y_hat.squeeze(1)
             y = y.float()
-        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
+            loss = self.loss_fn(y_hat, y)
+        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC", "PL8"]:
             y_hat = y_hat.float()
             y = y.float()
-
-        loss = self.loss_fn(y_hat, y)
+            loss = self.loss_fn(y_hat, y)
+        elif self.cfg.task_name in ["ASD_pockets100", "ASD_pocket_sequence100"]:
+            y_hat = y_hat.float()
+            y = y.float()
+            mask = y != -1
+            y_hat = y_hat[mask]
+            y = y[mask]
+            loss = self.loss_fn(y_hat, y)
+        else:
+            loss = self.loss_fn(y_hat, y)
         self.log("train_loss", loss)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI","Thermostability"]:
+        if self.cfg.task_name == "ASD":
+            y_hat = y_hat.view(-1, 1024, 5)
+            y = y.long()
+            loss = F.cross_entropy(y_hat.permute(0, 2, 1), y, ignore_index=-100)
+        elif self.cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "ThermoStability", "HumanPPI", "Thermostability",
+            "Kinase_combined", "Kinase_pocket", "Kinase_combined_text", "Kinase_pocket_text",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text",
+            "ASD_pockets_sequence_binary_text", "merged_pocket_sequence_binary_text",
+            "ASD_merged_pocket_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_pockets_sequence_binary_text_comp", "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp", "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
             y_hat = y_hat.squeeze(1)
             y = y.float()
-        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
+            loss = self.loss_fn(y_hat, y)
+        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC", "PL8"]:
             y_hat = y_hat.float()
             y = y.float()
-        loss = self.loss_fn(y_hat, y)
+            loss = self.loss_fn(y_hat, y)
+        elif self.cfg.task_name in ["ASD_pockets100", "ASD_pocket_sequence100"]:
+            y_hat = y_hat.float()
+            y = y.float()
+            mask = y != -1
+            y_hat = y_hat[mask]
+            y = y[mask]
+            loss = self.loss_fn(y_hat, y)
+        else:
+            loss = self.loss_fn(y_hat, y)
         self.log("val_loss", loss)
 
     def on_validation_epoch_end(self):
@@ -286,26 +371,41 @@ class EvaluationModule(pl.LightningModule):
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         x, y = batch
         y_hat = self(x)
-
-        if self.cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI"]:
+        if self.cfg.task_name == "ASD":
+            y_hat = y_hat.view(-1, 1024, 5)
+            preds = torch.argmax(y_hat, dim=-1)
+        elif self.cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "HumanPPI",
+            "Kinase_combined", "Kinase_pocket", "Kinase_combined_text", "Kinase_pocket_text",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text",
+            "ASD_pockets_sequence_binary_text", "merged_pocket_sequence_binary_text",
+            "ASD_merged_pocket_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_pockets_sequence_binary_text_comp", "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp", "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
             y_hat = y_hat.squeeze(1)
             preds = torch.sigmoid(y_hat)
-        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
+        elif self.cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC", "PL8", "ASD_pockets100", "ASD_pocket_sequence100"]:
             preds = torch.sigmoid(y_hat)
         elif self.cfg.task_name in ["ThermoStability", "Thermostability"]:
             preds = y_hat.squeeze(1)
-        else:  # multi_class
+        else:
             preds = torch.softmax(y_hat, dim=1)
             preds = torch.argmax(preds, dim=1)
-
         return preds, y
-
 
 
 def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
     model = EvaluationModule(cfg)
 
-    # Determine the accelerator and devices based on GPU availability
     if torch.cuda.is_available():
         accelerator = "gpu"
         fit_devices = 4
@@ -341,7 +441,6 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
 
     fit_trainer.fit(model, data_module)
 
-    # Load the best model
     best_model_path = checkpoint_callback.best_model_path
     model = EvaluationModule.load_from_checkpoint(best_model_path)
 
@@ -360,7 +459,23 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
                 model, getattr(data_module, f"{partition}_dataloader")()
             )
 
-        if cfg.task_name in ["MetalIonBinding", "DeepLoc2", "HumanPPI"]:
+        if cfg.task_name in [
+            "MetalIonBinding", "DeepLoc2", "HumanPPI",
+            "Kinase_combined", "Kinase_pocket", "Kinase_combined_text", "Kinase_pocket_text",
+            "ASD_pockets_binary", "ASD_pockets_sequence_binary",
+            "merged_pocket_sequence_binary", "merged_pocket_binary",
+            "ASD_merged_pocket_binary", "ASD_merged_pocket_sequence_binary",
+            "ASD_pockets_binary_text", "merged_pocket_binary_text",
+            "ASD_pockets_sequence_binary_text", "merged_pocket_sequence_binary_text",
+            "ASD_merged_pocket_binary_text", "ASD_merged_pocket_sequence_binary_text",
+            # _no_comp variants
+            "ASD_pockets_binary_comp", "ASD_pockets_sequence_binary_comp",
+            "merged_pocket_sequence_binary_comp", "merged_pocket_binary_comp",
+            "ASD_merged_pocket_binary_comp", "ASD_merged_pocket_sequence_binary_comp",
+            "ASD_pockets_binary_text_comp", "merged_pocket_binary_text_comp",
+            "ASD_pockets_sequence_binary_text_comp", "merged_pocket_sequence_binary_text_comp",
+            "ASD_merged_pocket_binary_text_comp", "ASD_merged_pocket_sequence_binary_text_comp",
+        ]:
             y_pred = torch.cat([p[0] for p in predictions]).cpu().numpy()
             y_true = torch.cat([p[1] for p in predictions]).cpu().numpy()
             accuracy = accuracy_score(y_true, y_pred > 0.5)
@@ -369,14 +484,52 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             results[f"{partition}_accuracy"] = accuracy
             results[f"{partition}_f1_micro"] = f1_micro
             results[f"{partition}_auc"] = auc
+            pred_binary = (y_pred > 0.5).astype(int)
+            tp = int(((pred_binary == 1) & (y_true == 1)).sum())
+            tn = int(((pred_binary == 0) & (y_true == 0)).sum())
+            results[f"{partition}_tp"] = tp
+            results[f"{partition}_tn"] = tn
 
-        elif cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC"]:
+        elif cfg.task_name in ["EC", "GO-BP", "GO-MF", "GO-CC", "PL8"]:
             y_pred = torch.cat([p[0] for p in predictions]).cpu()
             y_true = torch.cat([p[1] for p in predictions]).cpu()
             f1_max = count_f1_max(y_pred, y_true)
             results[f"{partition}_f1_max"] = f1_max
-
-        elif cfg.task_name in ["ThermoStability","Thermostability"]:
+        elif cfg.task_name in ["ASD_pockets100", "ASD_pocket_sequence100"]:
+            y_pred = torch.cat([p[0] for p in predictions]).cpu()
+            y_true = torch.cat([p[1] for p in predictions]).cpu()
+            mask = y_true != -1
+            if y_pred.dim() == 2 and y_true.dim() == 2:
+                valid_samples = mask.any(dim=1)
+                y_pred = y_pred[valid_samples]
+                y_true = y_true[valid_samples]
+                mask = mask[valid_samples]
+            if mask.all():
+                f1_max = count_f1_max(y_pred, y_true)
+            else:
+                y_pred_flat = y_pred[mask]
+                y_true_flat = y_true[mask]
+                y_pred_2d = y_pred_flat.unsqueeze(0)
+                y_true_2d = y_true_flat.unsqueeze(0)
+                f1_max = count_f1_max(y_pred_2d, y_true_2d)
+            results[f"{partition}_f1_max"] = f1_max
+        elif cfg.task_name == "ASD":
+            y_pred = torch.cat([p[0] for p in predictions]).cpu().numpy()
+            y_true = torch.cat([p[1] for p in predictions]).cpu().numpy()
+            y_pred_flat = y_pred.flatten()
+            y_true_flat = y_true.flatten()
+            mask = y_true_flat != -100
+            y_pred_filtered = y_pred_flat[mask]
+            y_true_filtered = y_true_flat[mask]
+            accuracy = accuracy_score(y_true_filtered, y_pred_filtered)
+            f1_micro = f1_score(y_true_filtered, y_pred_filtered, average="micro", zero_division=0)
+            f1_macro = f1_score(y_true_filtered, y_pred_filtered, average="macro", zero_division=0)
+            f1_per_class = f1_score(y_true_filtered, y_pred_filtered, average=None, zero_division=0, labels=[0, 1, 2, 3])
+            results[f"{partition}_accuracy"] = accuracy
+            results[f"{partition}_f1_micro"] = f1_micro
+            results[f"{partition}_f1_macro"] = f1_macro
+            results[f"{partition}_f1_per_class"] = f1_per_class.tolist()
+        elif cfg.task_name in ["ThermoStability", "Thermostability"]:
             y_pred = torch.cat([p[0] for p in predictions]).cpu().numpy()
             y_true = torch.cat([p[1] for p in predictions]).cpu().numpy()
             mse = mean_squared_error(y_true, y_pred)
@@ -385,8 +538,7 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             results[f"{partition}_mse"] = mse
             results[f"{partition}_r2"] = r2
             results[f"{partition}_spearman_rho"] = spearman_rho
-
-        else:  # multi_class
+        else:
             y_pred = torch.cat([p[0] for p in predictions]).cpu().numpy()
             y_true = torch.cat([p[1] for p in predictions]).cpu().numpy()
             accuracy = accuracy_score(y_true, y_pred)
@@ -394,14 +546,11 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
             results[f"{partition}_accuracy"] = accuracy
             results[f"{partition}_f1_micro"] = f1_micro
             if cfg.task_name in ["TopEnzyme"]:
-                if accuracy>0.80:
+                if accuracy > 0.80:
                     filename = f"/p/scratch/hai_oneprot/TopEnzyme_results_{cfg.seed}/TopEnzyme_{cfg.sweep.model_type}_{accuracy:.3f}_{partition}.txt"
                     data = np.column_stack((y_true, y_pred))
                     header = "y_true y_pred"
                     np.savetxt(filename, data, header=header, comments='', fmt='%s')
-
-
-
 
     return results
 
@@ -411,10 +560,6 @@ def evaluate(cfg: DictConfig, data_module: EmbeddingDataModule) -> Dict:
     config_name="saprot_mlp.yaml",
 )
 def main(cfg: DictConfig) -> None:
-    #set_seed(42)
-    #pl.seed_everything(cfg.seed, workers=True)
-    #set_partial_seed(cfg.seed, deterministic_level="medium")
-
     if torch.cuda.is_available():
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.benchmark = True
@@ -422,7 +567,6 @@ def main(cfg: DictConfig) -> None:
     else:
         print("CUDA is not available. Running on CPU.")
 
-    # Generate all combinations of hyperparameters
     param_combinations = product(
         cfg.sweep.learning_rate,
         cfg.sweep.batch_size,
@@ -438,19 +582,10 @@ def main(cfg: DictConfig) -> None:
     )
 
     for (
-        lr,
-        batch_size,
-        max_epochs,
-        hidden_dims,
-        dropout_rate,
-        use_batch_norm,
-        use_layer_norm,
-        activation,
-        use_residual,
-        task_name,
-        model_type,
+        lr, batch_size, max_epochs, hidden_dims, dropout_rate,
+        use_batch_norm, use_layer_norm, activation, use_residual,
+        task_name, model_type,
     ) in param_combinations:
-        # Update the configuration with the current hyperparameters
         cfg.model.learning_rate = lr
         cfg.model.batch_size = batch_size
         cfg.model.max_epochs = max_epochs
@@ -465,8 +600,6 @@ def main(cfg: DictConfig) -> None:
 
         data_module = EmbeddingDataModule(cfg)
         results = evaluate(cfg, data_module)
-
-        # Save results to CSV using the utility function
         save_results_to_csv(results, cfg)
 
         print(f"Results for {task_name}:")

@@ -1,0 +1,19 @@
+SEQUENCE-BASED TRAIN/VAL/TEST SPLIT SUMMARY (MMseqs2)
+======================================================================
+
+Total entries: 3566
+Split ratios: 70%/15%/15%
+Sequence identity threshold: 30%
+Clustering method: MMseqs2
+
+Train: 2531 entries (71.0%)
+  Competitive: 2420
+  Allosteric: 111
+
+Validation: 540 entries (15.1%)
+  Competitive: 496
+  Allosteric: 44
+
+Test: 495 entries (13.9%)
+  Competitive: 476
+  Allosteric: 19

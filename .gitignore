@@ -1,0 +1,68 @@
+# Byte-compiled / caches
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.pytest_cache/
+
+# Virtual envs / python env
+venv/
+.env
+.env.*
+.venv/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs and outputs
+*.log
+create_dataset.log
+*.out
+*.err
+slurm-*.out
+slurm-*.err
+
+
+
+# Large model / data / binary files
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.sif
+*.tar.gz
+*.tar
+*.zip
+
+# Data / cache dirs (relative/project-specific)
+pdb_files/
+embeddings/
+datasets/
+data/
+scratch/
+*/scratch/
+huggingface/
+HF_DATASETS_CACHE/
+TRANSFORMERS_CACHE/
+HF_MODULES_CACHE/
+HF_METRICS_CACHE/
+lightning_logs/
+TopEnzyme_results/
+logs/
+splits/
+external/
+
+# OS
+.DS_Store
+Thumbs.db

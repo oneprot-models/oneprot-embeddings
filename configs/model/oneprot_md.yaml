@@ -3,8 +3,8 @@ defaults:
   - components/sequence
   - components/md
   #- components/struct_token
-  #- components/struct_graph
-  #- components/pocket
+  - components/struct_graph
+  - components/pocket
   - components/text
   #- components/msa
 

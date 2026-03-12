@@ -6,7 +6,7 @@ defaults:
  # - modalities/struct_graph
   - modalities/struct_token
   - modalities/text
-  - modalities/md
+  #- modalities/md
   # Add more modalities as needed
 
   

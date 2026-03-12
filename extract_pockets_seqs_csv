@@ -1,0 +1,410 @@
+import h5py
+import numpy as np
+import pandas as pd
+from Bio.PDB import PDBParser
+import requests
+import os
+from scipy.spatial import distance
+
+def parse_excel_row(row):
+    """
+    Parse a row from the Excel file to extract binding pocket information.
+    
+    Returns a dictionary with:
+        - pdb_id: PDB ID
+        - chain: Chain (extracted from Uniprot ID or default 'A')
+        - ligand_id: Ligand ID from CHEMBL ID or Ligand ID column
+        - mechanism: Competitive or Allosteric
+        - uniprot_id: Uniprot ID
+    """
+    pdb_id = str(row['PDB ID']).strip()
+    ligand_id = str(row['Ligand ID']).strip()
+    mechanism = str(row['Mechanism']).strip()
+    uniprot_id = str(row['Uniprot ID']).strip() if 'Uniprot ID' in row else ''
+    
+    # Extract chain from Uniprot ID if available (format: Q9H4A3_HUMAN)
+    # Or try to get from PDB structure - for now default to 'A'
+    chain = 'A'  # Default, will be refined when parsing PDB
+    
+    return {
+        'pdb_id': pdb_id,
+        'chain': chain,
+        'ligand_id': ligand_id,
+        'mechanism': mechanism,
+        'uniprot_id': uniprot_id
+    }
+
+def download_pdb_file(pdb_id, output_dir='pdb_files'):
+    """Download PDB file from RCSB."""
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    output_path = os.path.join(output_dir, f"{pdb_id}.pdb")
+    
+    if os.path.exists(output_path):
+        print(f"  Using cached PDB file: {output_path}")
+        return output_path
+    
+    url = f"https://files.rcsb.org/download/{pdb_id}.pdb"
+    
+    try:
+        print(f"  Downloading PDB file from: {url}")
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(output_path, 'w') as f:
+                f.write(response.text)
+            print(f"  ✓ Downloaded: {output_path}")
+            return output_path
+        else:
+            print(f"  Error: HTTP {response.status_code}")
+    except Exception as e:
+        print(f"  Error downloading {pdb_id}: {str(e)}")
+    
+    return None
+
+def find_ligand_in_structure(pdb_file, ligand_id):
+    """
+    Find the ligand in the PDB structure and return its chain and residue info.
+    
+    Returns: (chain_id, ligand_name, ligand_resid, center_coords) or None
+    """
+    parser = PDBParser(QUIET=True)
+    
+    try:
+        structure = parser.get_structure('protein', pdb_file)
+        
+        # Try to convert ligand_id to different formats
+        ligand_search_ids = []
+        try:
+            ligand_search_ids.append(int(ligand_id))
+        except:
+            pass
+        ligand_search_ids.append(ligand_id)
+        ligand_search_ids.append(ligand_id.upper())
+        
+        # Search all chains for the ligand
+        for model in structure:
+            for chain in model:
+                chain_id = chain.id
+                
+                for residue in chain:
+                    res_name = residue.resname.strip()
+                    res_id = residue.id[1]
+                    hetflag = residue.id[0]
+                    
+                    # Look for HETATM residues (ligands)
+                    if hetflag.strip() and hetflag != 'W':  # Not water
+                        # Check if this could be our ligand
+                        if res_id in ligand_search_ids or res_name in ligand_search_ids:
+                            # Calculate center
+                            coords = []
+                            for atom in residue:
+                                coords.append(atom.coord)
+                            
+                            if coords:
+                                center = np.mean(coords, axis=0)
+                                print(f"  Found ligand: {res_name}-{res_id} in chain {chain_id}")
+                                return chain_id, res_name, res_id, center
+        
+        print(f"  Warning: Could not find ligand {ligand_id} in structure")
+        return None
+        
+    except Exception as e:
+        print(f"  Error parsing PDB file: {str(e)}")
+        return None
+
+def extract_structure_data_from_pdb(pdb_file, chain_id):
+    """
+    Extract structure data from PDB file.
+    Returns: atom_amino_id, atom_names, atom_pos, amino_types
+    """
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure('protein', pdb_file)
+    
+    atom_amino_ids = []
+    atom_names_list = []
+    atom_positions = []
+    amino_types = []
+    
+    # Standard amino acid three-letter to one-letter code
+    aa_3to1 = {
+        'ALA': 'A', 'CYS': 'C', 'ASP': 'D', 'GLU': 'E', 'PHE': 'F',
+        'GLY': 'G', 'HIS': 'H', 'ILE': 'I', 'LYS': 'K', 'LEU': 'L',
+        'MET': 'M', 'ASN': 'N', 'PRO': 'P', 'GLN': 'Q', 'ARG': 'R',
+        'SER': 'S', 'THR': 'T', 'VAL': 'V', 'TRP': 'W', 'TYR': 'Y'
+    }
+    
+    residue_counter = 1
+    residue_to_id = {}
+    
+    for model in structure:
+        if chain_id in model:
+            chain = model[chain_id]
+            
+            for residue in chain:
+                # Only process standard amino acids
+                if residue.id[0] == ' ' and residue.resname in aa_3to1:
+                    res_key = (residue.id[1], residue.id[2])
+                    
+                    if res_key not in residue_to_id:
+                        residue_to_id[res_key] = residue_counter
+                        amino_types.append(aa_3to1[residue.resname])
+                        residue_counter += 1
+                    
+                    res_id = residue_to_id[res_key]
+                    
+                    for atom in residue:
+                        atom_amino_ids.append(res_id)
+                        atom_names_list.append(atom.name)
+                        atom_positions.append(atom.coord)
+    
+    atom_amino_id = np.array(atom_amino_ids, dtype=np.int32)
+    atom_names = np.array(atom_names_list, dtype='S4')
+    atom_pos = np.array(atom_positions, dtype=np.float32)
+    amino_types = ''.join(amino_types)
+    
+    return atom_amino_id, atom_names, atom_pos, amino_types
+
+def count_cut2(center, count, atom_amino_id, atom_names, atom_pos, amino_types):
+    """
+    Extract the closest 'count' residues to the binding pocket center.
+    """
+    data = np.column_stack((atom_amino_id, atom_names, atom_pos))
+    indices = data[:, 0].astype(int)
+    center = np.array(center).reshape(1, -1)
+    amino_types = np.array(list(amino_types))
+    
+    x = []
+    y = []
+    z = []
+    
+    for i in np.unique(indices):
+        mask = np.where(indices == i)
+        x.append(np.average(data[:, 2][mask].astype(float)))
+        y.append(np.average(data[:, 3][mask].astype(float)))
+        z.append(np.average(data[:, 4][mask].astype(float)))
+    
+    average_xyz = np.column_stack((x, y, z))
+    distance_mask = distance.cdist(center, average_xyz, "euclidean")[0]
+    binding_data = np.column_stack((np.unique(indices), distance_mask))
+    binding_data = binding_data[binding_data[:, 1].argsort()]
+    new_indices = binding_data[0:count]
+    
+    amino_types = amino_types[np.isin(np.arange(1, len(amino_types)+1), new_indices[:, 0].astype(int))]
+    binding_site = data[np.isin(data[:, 0].astype(int), new_indices[:, 0].astype(int))]
+    
+    atom_amino_id = binding_site[:, 0].astype(int)
+    atom_names = binding_site[:, 1]
+    atom_pos = binding_site[:, 2:5].astype(float)
+    
+    return atom_amino_id, atom_names, atom_pos, amino_types
+
+def write_to_h5(output_h5, identifier, atom_amino_id, atom_names, atom_pos, amino_types,
+                chain='A', full_chain_sequence=None):
+    """
+    Write binding pocket data to H5 file.
+    """
+    with h5py.File(output_h5, 'a') as f:
+        # Create the hierarchy
+        if identifier in f:
+            del f[identifier]
+        
+        grp = f.create_group(identifier)
+
+        # Store full-chain sequence at the identifier root level
+        if full_chain_sequence is not None:
+            if isinstance(full_chain_sequence, np.ndarray):
+                full_seq_str = ''.join(full_chain_sequence)
+            else:
+                full_seq_str = str(full_chain_sequence)
+            grp.create_dataset('full_sequence', data=full_seq_str.encode('utf-8'))
+
+        struct_grp = grp.create_group('structure')
+        model_grp = struct_grp.create_group('0')
+        chain_grp = model_grp.create_group(chain)
+        
+        # Residues group
+        residues_grp = chain_grp.create_group('residues')
+        
+        # Store pocket sequence as bytes
+        if isinstance(amino_types, np.ndarray):
+            seq_str = ''.join(amino_types)
+        else:
+            seq_str = amino_types
+        
+        residues_grp.create_dataset('seq1', data=seq_str.encode('utf-8'))
+        
+        # Polypeptide group
+        poly_grp = chain_grp.create_group('polypeptide')
+        
+        # Renumber atom_amino_id to start from 1 and be consecutive
+        unique_ids = np.unique(atom_amino_id)
+        id_mapping = {old_id: new_id for new_id, old_id in enumerate(unique_ids, start=1)}
+        atom_amino_id_renumbered = np.array([id_mapping[old_id] for old_id in atom_amino_id], dtype=np.int32)
+        
+        poly_grp.create_dataset('atom_amino_id', data=atom_amino_id_renumbered)
+        poly_grp.create_dataset('type', data=atom_names)
+        poly_grp.create_dataset('xyz', data=atom_pos)
+    
+    print(f"  ✓ Saved to H5: {identifier}/{chain}")
+    print(f"    Full-chain sequence length: {len(full_seq_str) if full_chain_sequence is not None else 'N/A'}")
+    print(f"    Pocket sequence length: {len(seq_str)}")
+    print(f"    Number of atoms: {len(atom_amino_id)}")
+
+def process_excel_row_to_h5(row, output_h5, count=100):
+    """
+    Process a single Excel row and write binding pocket to H5 file.
+    
+    Args:
+        row: Pandas Series from Excel
+        output_h5: Output H5 file path
+        count: Number of closest residues to extract
+    
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        # Parse row
+        parsed = parse_excel_row(row)
+        pdb_id = parsed['pdb_id']
+        ligand_id = parsed['ligand_id']
+        mechanism = parsed['mechanism']
+        
+        print(f"\n{'='*70}")
+        print(f"Processing: PDB={pdb_id}, Ligand={ligand_id}, Mechanism={mechanism}")
+        print(f"{'='*70}")
+        
+        # Download PDB file
+        pdb_file = download_pdb_file(pdb_id)
+        if not pdb_file:
+            print("  ✗ Error: Could not download PDB file")
+            return False
+        
+        # Find ligand in structure
+        ligand_info = find_ligand_in_structure(pdb_file, ligand_id)
+        if not ligand_info:
+            print(f"  ✗ Error: Could not find ligand {ligand_id} in structure")
+            return False
+        
+        chain_id, ligand_name, ligand_resid, center = ligand_info
+        print(f"  Pocket center: [{center[0]:.3f}, {center[1]:.3f}, {center[2]:.3f}]")
+        
+        # Extract structure data from PDB
+        atom_amino_id, atom_names, atom_pos, amino_types = extract_structure_data_from_pdb(pdb_file, chain_id)
+        
+        # Save full chain sequence before clipping
+        full_chain_sequence = amino_types
+        
+        print(f"  Full chain residues: {len(full_chain_sequence)}")
+        print(f"  Total atoms: {len(atom_amino_id)}")
+        
+        # Apply count_cut2 to get binding pocket
+        pocket_atom_amino_id, pocket_atom_names, pocket_atom_pos, pocket_amino_types = count_cut2(
+            center, count, atom_amino_id, atom_names, atom_pos, amino_types
+        )
+        
+        print(f"  Binding pocket (top {count} residues):")
+        print(f"    Pocket residues: {len(pocket_amino_types)}")
+        print(f"    Pocket atoms: {len(pocket_atom_amino_id)}")
+        
+        # Create identifier for H5 file
+        identifier = f"{pdb_id}_{chain_id}_{ligand_name}_{ligand_resid}"
+        
+        # Write to H5 file
+        write_to_h5(output_h5, identifier, pocket_atom_amino_id, pocket_atom_names, 
+                    pocket_atom_pos, pocket_amino_types, chain=chain_id,
+                    full_chain_sequence=full_chain_sequence)
+        
+        print(f"  ✓ Successfully processed {pdb_id}")
+        return True
+        
+    except Exception as e:
+        print(f"  ✗ Error processing row: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+def process_excel_file(excel_file, competitive_h5='competitive_pockets.h5', 
+                       allosteric_h5='allosteric_pockets.h5', count=100):
+    """
+    Process Excel file and create two H5 files based on mechanism.
+    
+    Args:
+        excel_file: Path to Excel file
+        competitive_h5: Output H5 file for competitive mechanism
+        allosteric_h5: Output H5 file for allosteric mechanism
+        count: Number of closest residues to extract
+    """
+    print("="*70)
+    print("PROCESSING EXCEL FILE TO H5")
+    print("="*70)
+    
+    # Read Excel file
+    try:
+        df = pd.read_excel(excel_file)
+        print(f"\n✓ Loaded Excel file: {excel_file}")
+        print(f"  Total rows: {len(df)}")
+    except Exception as e:
+        print(f"✗ Error reading Excel file: {str(e)}")
+        return
+    
+    # Verify required columns
+    required_cols = ['PDB ID', 'Ligand ID', 'Mechanism']
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        print(f"✗ Error: Missing columns: {missing_cols}")
+        print(f"  Available columns: {df.columns.tolist()}")
+        return
+    
+    # Split by mechanism
+    df_competitive = df[df['Mechanism'].str.strip().str.lower() == 'competitive']
+    df_allosteric = df[df['Mechanism'].str.strip().str.lower() == 'allosteric']
+    
+    print(f"\n  Competitive entries: {len(df_competitive)}")
+    print(f"  Allosteric entries: {len(df_allosteric)}")
+    
+    # Process competitive
+    if len(df_competitive) > 0:
+        print(f"\n{'='*70}")
+        print("PROCESSING COMPETITIVE MECHANISM")
+        print(f"{'='*70}")
+        
+        success_count = 0
+        for idx, row in df_competitive.iterrows():
+            print(f"\n[Competitive {success_count + 1}/{len(df_competitive)}]")
+            if process_excel_row_to_h5(row, competitive_h5, count):
+                success_count += 1
+        
+        print(f"\n  Competitive: {success_count}/{len(df_competitive)} successful")
+        print(f"  Output: {competitive_h5}")
+    
+    # Process allosteric
+    if len(df_allosteric) > 0:
+        print(f"\n{'='*70}")
+        print("PROCESSING ALLOSTERIC MECHANISM")
+        print(f"{'='*70}")
+        
+        success_count = 0
+        for idx, row in df_allosteric.iterrows():
+            print(f"\n[Allosteric {success_count + 1}/{len(df_allosteric)}]")
+            if process_excel_row_to_h5(row, allosteric_h5, count):
+                success_count += 1
+        
+        print(f"\n  Allosteric: {success_count}/{len(df_allosteric)} successful")
+        print(f"  Output: {allosteric_h5}")
+    
+    print("\n" + "="*70)
+    print("PROCESSING COMPLETE")
+    print("="*70)
+
+# Example usage
+if __name__ == "__main__":
+    # Specify your Excel file path here
+    excel_file = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/Allosteric_and_competitive_inhibitors.csv-1.xls'  # Change this to your actual file path
+    
+    process_excel_file(
+        excel_file=excel_file,
+        competitive_h5='competitive_pockets.h5',
+        allosteric_h5='allosteric_pockets.h5',
+        count=100
+    )

@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 from mdgen.mdgen.geometry import atom37_to_torsions, atom14_to_atom37, atom14_to_frames
 from mdgen.mdgen.wrapper import NewMDGenWrapper
-#from mdgen.mdgen.parsing import parse_train_args
+from mdgen.mdgen.parsing import parse_train_args
 
 # Add this class definition after the imports:
 class MDGenArgsData:
