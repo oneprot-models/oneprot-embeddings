@@ -1,15 +1,15 @@
 """
 concatenate_text_embeddings_asd_merged.py  —  run as BATCH JOB (GPU)
 
-Loads ASD_merged_pocket_binary and ASD_merged_pocket_sequence_binary .pt files,
-encodes text annotations for ALL rows (both the head portion from merged_pocket_binary
-/ merged_pocket_sequence_binary, and the tail portion from ASD_pocket_sequence100),
+Loads ASD_merged_pocket and ASD_merged_pocket_sequence .pt files,
+encodes text annotations for ALL rows (both the head portion from merged_pocket
+/ merged_pocket_sequence, and the tail portion from ASD_pocket_sequence100),
 and writes new *_text versions.
 
 Rows with no text annotation are DROPPED from the output.
 
 File structure of the source merged files:
-    HEAD: rows from merged_pocket_binary / merged_pocket_sequence_binary
+    HEAD: rows from merged_pocket / merged_pocket_sequence
           (Kinase + ASD allosteric/competitive/noncompetitive binary)
           Row order: Kinase rows first, then ASD rows
           Text join key for this portion: h5_identifier
@@ -20,8 +20,8 @@ File structure of the source merged files:
           Text join key: pdb_id + chain, parsed from H5 identifier (e.g. '2z78_A')
           Text source:  train_df_pdb_text.csv / test_df_pdb_text.csv
 
-Head row counts come from the already-saved merged_pocket_binary /
-merged_pocket_sequence_binary files (before ASD_pocket_sequence100 was appended),
+Head row counts come from the already-saved merged_pocket /
+merged_pocket_sequence files (before ASD_pocket_sequence100 was appended),
 which are still on disk in their non-merged versions.
 
 Processes ONE model subfolder (set MODEL_DIR below).
@@ -58,7 +58,7 @@ KINASE_SPLIT_DIR = '0.3'   # contains train.csv, val.csv, test.csv
 ASD_SPLIT_DIRS = {
     'allosteric':     '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
     'competitive':    '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-    'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
+#    'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
 }
 ASD_MECHANISM_ORDER = [('allosteric', 0), ('competitive', 1), ('noncompetitive', 2)]
 
@@ -80,15 +80,15 @@ TOKENIZER_SNAPSHOT = (
 
 # Source merged folders -> output folder
 SOURCE_TYPES = {
-    'ASD_merged_pocket_binary':          'ASD_merged_pocket_binary_text',
-    'ASD_merged_pocket_sequence_binary': 'ASD_merged_pocket_sequence_binary_text',
+    'ASD_merged_pocket':          'ASD_merged_pocket_text',
+    'ASD_merged_pocket_sequence': 'ASD_merged_pocket_sequence_text',
 }
 
 # The corresponding pre-append source (to measure head size)
 # These are the files BEFORE ASD_pocket_sequence100 was appended
 HEAD_SOURCE = {
-    'ASD_merged_pocket_binary':          'merged_pocket_binary',
-    'ASD_merged_pocket_sequence_binary': 'merged_pocket_sequence_binary',
+    'ASD_merged_pocket':          'merged_pocket',
+    'ASD_merged_pocket_sequence': 'merged_pocket_sequence',
 }
 
 
@@ -378,11 +378,11 @@ def load_model_and_tokenizer(config_path: str, checkpoint_path: str, device: str
     print("Initializing model components...")
     components = {
         'sequence':     hydra.utils.instantiate(cfg.model.components.sequence),
-        'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
+        #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket':       hydra.utils.instantiate(cfg.model.components.pocket),
         'text':         hydra.utils.instantiate(cfg.model.components.text),
-        'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
-        'md':           hydra.utils.instantiate(cfg.model.components.md)
+        #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
+        #'md':           hydra.utils.instantiate(cfg.model.components.md)
     }
     model = OneProtLitModule(
         components=components,

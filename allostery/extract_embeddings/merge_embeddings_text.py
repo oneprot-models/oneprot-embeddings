@@ -36,16 +36,10 @@ SPLITS          = ['train', 'valid', 'test']
 
 # (kinase_source_folder, asd_source_folder, output_folder)
 MERGE_PAIRS = [
-    (
-        'Kinase_pocket_text',
-        'ASD_pockets_binary_text',
-        'merged_pocket_binary_text',
-    ),
-    (
-        'Kinase_combined_text',
-        'ASD_pockets_sequence_binary_text',
-        'merged_pocket_sequence_binary_text',
-    ),
+    ('Kinase_pocket_text',    'ASD_pockets_text',          'merged_pocket_text'),
+    ('Kinase_combined_text',  'ASD_pockets_sequence_text',  'merged_pocket_sequence_text'),
+    ('Kinase_pocket',         'ASD_pockets',                       'merged_pocket'),
+    ('Kinase_combined',       'ASD_pockets_sequence',              'merged_pocket_sequence'),
 ]
 
 # Explicit label remapping for each source.

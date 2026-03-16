@@ -36,7 +36,7 @@ from src.models.oneprot_module import OneProtLitModule
 # Configuration — EDIT THESE
 # ---------------------------------------------------------------------------
 MODEL_DIR   = 'embeddings/oneprot_struct_token_pocket_text_32900'
-SPLIT_DIR   = '0.3'
+SPLIT_DIR   = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3'
 SPLITS      = ['train', 'valid', 'test']
 
 CONFIG_PATH     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config.yaml'

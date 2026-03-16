@@ -391,10 +391,10 @@ if __name__ == "__main__":
     components = {
         'sequence': hydra.utils.instantiate(cfg.model.components.sequence),
         #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
-        'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
+        #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket': hydra.utils.instantiate(cfg.model.components.pocket),
         'text': hydra.utils.instantiate(cfg.model.components.text),
-        'md': hydra.utils.instantiate(cfg.model.components.md)
+        #'md': hydra.utils.instantiate(cfg.model.components.md)
     }
 
     # Create model

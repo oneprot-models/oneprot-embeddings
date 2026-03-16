@@ -181,9 +181,9 @@ def process_all_splits(h5_files, split_dirs, model, modality='pocket',
     
     # Define labels (0-indexed for compatibility with your multi-class setup)
     labels = {
-        'allosteric': 0,
-        'competitive': 1,
-        'noncompetitive': 2
+        'allosteric': 1,
+        'competitive': 0,
+        #'noncompetitive': 2
     }
     
     # Process each split (train, valid, test)
@@ -272,8 +272,8 @@ if __name__ == "__main__":
     # Prepare components
     components = {
         'sequence': hydra.utils.instantiate(cfg.model.components.sequence),
-        'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
-        'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
+        #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
+        #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket': hydra.utils.instantiate(cfg.model.components.pocket),
         'text': hydra.utils.instantiate(cfg.model.components.text),
         #'md': hydra.utils.instantiate(cfg.model.components.md)
@@ -301,14 +301,14 @@ if __name__ == "__main__":
     h5_files = {
         'allosteric': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_allosteric.h5',
         'competitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_orthosteric_competitive.h5',
-        'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_orthosteric_noncompetitive.h5'
+        #'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_orthosteric_noncompetitive.h5'
     }
     
     # Define split directories
     split_dirs = {
         'allosteric': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
         'competitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-        'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive'
+        #'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive'
     }
     
     # Process all splits

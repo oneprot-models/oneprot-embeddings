@@ -47,10 +47,11 @@ SPLITS    = ['train', 'valid', 'test']
 SPLIT_DIRS = {
     'allosteric':    '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
     'competitive':   '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-    'noncompetitive':'/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
+    # 'noncompetitive':'/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
 }
 # Original label assigned to each mechanism in the extraction script
-MECHANISM_ORDER = [('allosteric', 0), ('competitive', 1), ('noncompetitive', 2)]
+# MECHANISM_ORDER = [('allosteric', 0), ('competitive', 1), ('noncompetitive', 2)]
+MECHANISM_ORDER = [('allosteric', 1), ('competitive', 0)]
 
 CONFIG_PATH     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-27_06-21-43/config.yaml'
 CHECKPOINT_PATH = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt'
@@ -63,8 +64,10 @@ TOKENIZER_SNAPSHOT = (
 )
 
 SOURCE_TYPES = {
-    'ASD_pockets_binary':          'ASD_pockets_binary_text',
-    'ASD_pockets_sequence_binary': 'ASD_pockets_sequence_binary_text',
+    # 'ASD_pockets_binary':          'ASD_pockets_binary_text',
+    # 'ASD_pockets_sequence_binary': 'ASD_pockets_sequence_binary_text',
+    'ASD_pockets':          'ASD_pockets_text',
+    'ASD_pockets_sequence': 'ASD_pockets_sequence_text',
 }
 
 
@@ -222,8 +225,8 @@ def load_model_and_tokenizer(config_path: str, checkpoint_path: str, device: str
         #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket':       hydra.utils.instantiate(cfg.model.components.pocket),
         'text':         hydra.utils.instantiate(cfg.model.components.text),
-        'md':           hydra.utils.instantiate(cfg.model.components.md),
-        'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
+        #'md':           hydra.utils.instantiate(cfg.model.components.md),
+        #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
     }
     model = OneProtLitModule(
         components=components,

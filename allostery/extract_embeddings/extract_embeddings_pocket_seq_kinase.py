@@ -458,7 +458,7 @@ if __name__ == "__main__":
     allosteric_h5 = 'allosteric_pockets_csv.h5'
     
     # Split directory (output from step2_create_splits.py)
-    split_dir = '0.3/'  # or 'splits' if using unverified splits
+    split_dir = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3/'  # or 'splits' if using unverified splits
     
     # Output directory for embeddings
     output_dir = 'embeddings/' + model_name
@@ -475,10 +475,10 @@ if __name__ == "__main__":
     print("Initializing model components...")
     components = {
         'sequence': hydra.utils.instantiate(cfg.model.components.sequence),
-        'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
+        #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket': hydra.utils.instantiate(cfg.model.components.pocket),
         'text': hydra.utils.instantiate(cfg.model.components.text),
-        'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
+        #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
         #'md': hydra.utils.instantiate(cfg.model.components.md)
     }
 

@@ -489,7 +489,7 @@ if __name__ == "__main__":
 
     competitive_h5 = 'competitive_pockets_csv.h5'
     allosteric_h5  = 'allosteric_pockets_csv.h5'
-    split_dir      = '0.3/'
+    split_dir      = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3/'
     output_dir     = 'embeddings/' + model_name
 
     # Path to the XLS file described in the prompt (used to extract UniProt annotations)
@@ -505,10 +505,10 @@ if __name__ == "__main__":
     print("Initializing model components...")
     components = {
         'sequence':     hydra.utils.instantiate(cfg.model.components.sequence),
-        'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
+        #'struct_graph': hydra.utils.instantiate(cfg.model.components.struct_graph),
         'pocket':       hydra.utils.instantiate(cfg.model.components.pocket),
         'text':         hydra.utils.instantiate(cfg.model.components.text),
-        'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
+        #'struct_token': hydra.utils.instantiate(cfg.model.components.struct_token),
     }
 
     print("Creating model...")
