@@ -21,6 +21,23 @@ configs/
   collect_embeddings.yaml Model names, config paths, and checkpoint paths
 ```
 
+## Quick Start
+
+Depending on your goal, follow the corresponding workflow:
+
+1. **Set up the execution environment** → [Environment](#environment)
+2. **Train the original OneProt model** → [Original OneProt](#original-oneprot)
+3. **Use the molecular dynamics extension** → [OneProt MD extension](#md-extension)
+4. **Reproduce the allostery study** → [Allostery prediction with OneProt](#allostery-paper)
+
+The allostery workflow consists of:
+
+1. **Generate binding pockets** → [`src/allostery/pocket_generation/`](src/allostery/) *(or the appropriate subdirectory)*
+2. **Extract OneProt embeddings** → [`src/allostery/extract_embeddings/`](src/allostery/)
+3. **Train downstream classifiers** → [`src/allostery/`](src/allostery/)
+4. **Reproduce manuscript figures and analyses** → [`src/allostery/`](src/allostery/)
+5. **Download pretrained checkpoints, processed pocket files (`.h5`), and dataset splits** → [Zenodo](https://doi.org/10.5281/zenodo.20997998)
+
 ## High-Level Data Flow
 
 ```mermaid
