@@ -132,6 +132,31 @@ DownStream Tasks:
 - [**SaProt**](https://www.biorxiv.org/content/10.1101/2023.10.01.)
 <br>
 
+# OneProt MD extension
 
+# Allostery prediction with OneProt
+
+
+This directory contains the code accompanying the manuscript [**Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction.**]()
+
+The study investigates how multimodal protein foundation models can be leveraged for allosteric site prediction across datasets exhibiting markedly different levels of intrinsic separability. Using frozen representations extracted from pretrained OneProt models, we systematically evaluate the contribution of sequence, structural, molecular dynamics, and functional text modalities to downstream allosteric site classification. The benchmark spans four datasets representing distinct separability regimes, allowing us to disentangle the influence of dataset composition from encoder architecture and modality selection.
+
+The repository provides the complete workflow for reproducing the experiments, including:
+
+- dataset preparation,
+- binding-pocket construction,
+- extraction of multimodal OneProt embeddings,
+- downstream MLP training and evaluation,
+- generation of the figures and analyses reported in the manuscript.
+
+Detailed workflows are provided in **`src/allostery/`**.
+
+The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contains:
+
+- pretrained OneProt checkpoints,
+- processed binding-pocket representations (`.h5` files),
+- train/validation/test splits for all benchmark datasets.
+
+These resources enable reproduction of all experiments without regenerating the underlying pocket representations or pretrained model checkpoints.
 
 
