@@ -5,14 +5,66 @@ This repository contains code and documentation for **three related OneProt** st
 | Study | Status | Documentation |
 |---|---:|---|
 | [OneProt: Towards multi-modal protein foundation models via latent space alignment of sequence, structure, binding sites and text encoders](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013679) | PLOS Computational Biology | [Original OneProt](#original-oneprot) |
-| [When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models](https://openreview.net/forum?id=Q6DuJPwH2U) |ICLR 2026 Foundational Models for Science | [MD extension](#md-extension) |
-| [Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction]() | In preparation | [Allostery documentation](#allostery-paper) |
+| [When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models](https://openreview.net/forum?id=Q6DuJPwH2U) |ICLR 2026 Foundational Models for Science | [OneProt MD extension](#md-extension) |
+| [Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction]() | In preparation | [Allostery presiction with OneProt](#allostery-paper) |
 
 - The **original OneProt model** aligns protein sequence, structure, binding-site, and text encoders in a shared latent space.
 - The **MD extension** adds time-resolved molecular-dynamics trajectories as an additional modality.
 - The **Allosteric Site prediction** study uses OneProt-derived representations for downstream analyses of allosteric versus competitive/orthosteric binding sites across a number of different separability regimes
 
 # Environment
+
+
+
+The recommended execution environment is provided as an Apptainer/Singularity container. Rebuilding the environment from scratch involves two stages.
+
+### 1. Build the base container
+
+The base container is built from the **NVIDIA PyG 28.03** image using the Apptainer definition file:
+
+```text
+environment/pyg-28-03.def
+```
+
+This provides the NVIDIA PyG software stack, including the corresponding versions of PyTorch, PyTorch Geometric, CUDA, and Python.
+
+### 2. Build the OneProt container
+
+The base container is then extended with the OneProt-specific software stack using the requirements file
+
+```text
+environment/requirements_pyg_28_03.txt
+```
+
+and the corresponding Apptainer definition file
+
+```text
+environment/pyg-28-03.def
+```
+
+This produces the final `oneprot_pyg-28-03-py3-amd64.sif` container used throughout this repository.
+
+### 3. Create the project virtual environment
+
+Launch the container:
+
+```bash
+apptainer run --nv oneprot_pyg-28-03-py3-amd64.sif bash
+```
+
+Inside the container, create and activate a Python virtual environment, then install the project-specific dependencies:
+
+```bash
+pip install -r environment/requirements_env_dig.txt
+```
+
+Finally, install **Dive into Graphs** separately:
+
+```bash
+pip install dive-into-graphs --no-dependencies
+```
+
+This additional virtual environment contains the packages required for the downstream workflows, including the MD extension and allostery analyses.
 
 
 
