@@ -27,9 +27,9 @@ Files:
 
 Usage:
     python plot_figure3_tpr_tnr.py \
-        --unbalanced_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots \
-        --balanced_dir /p/scratch/hai_oneprot/curve_plots \
-        --output_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/figure3_tpr_tnr \
+        --unbalanced_dir <REPO_ROOT>/curve_plots \
+        --balanced_dir <CURVE_PLOTS_ROOT> \
+        --output_dir <REPO_ROOT>/figure3_tpr_tnr \
         --threshold 0.5
 """
 
@@ -270,15 +270,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--unbalanced_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
     )
     parser.add_argument(
         "--balanced_dir",
-        default="/p/scratch/hai_oneprot/curve_plots",
+        default="<CURVE_PLOTS_ROOT>",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure3_tpr_tnr",
+        default="<REPO_ROOT>/figure3_tpr_tnr",
     )
     parser.add_argument(
         "--threshold",

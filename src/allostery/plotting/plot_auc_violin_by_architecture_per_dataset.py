@@ -10,9 +10,9 @@ Diagnostic figure:
 
 Usage:
     python plot_auc_violin_by_architecture_per_dataset.py \
-        --base_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots \
-        --balanced_dir /p/scratch/hai_oneprot/curve_plots \
-        --output_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/separability_figures
+        --base_dir <REPO_ROOT>/curve_plots \
+        --balanced_dir <CURVE_PLOTS_ROOT> \
+        --output_dir <REPO_ROOT>/separability_figures
 """
 
 import os
@@ -305,15 +305,15 @@ def main():
 
     parser.add_argument(
         "--base_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
     )
     parser.add_argument(
         "--balanced_dir",
-        default="/p/scratch/hai_oneprot/curve_plots",
+        default="<CURVE_PLOTS_ROOT>",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/separability_figures",
+        default="<REPO_ROOT>/separability_figures",
     )
 
     args = parser.parse_args()

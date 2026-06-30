@@ -306,17 +306,17 @@ def main():
 
     parser.add_argument(
         "--base_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
     )
 
     parser.add_argument(
         "--balanced_dir",
-        default="/p/scratch/hai_oneprot/curve_plots",
+        default="<CURVE_PLOTS_ROOT>",
     )
 
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure2_representative",
+        default="<REPO_ROOT>/figure2_representative",
     )
 
     args = parser.parse_args()

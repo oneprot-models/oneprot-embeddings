@@ -537,15 +537,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--unbalanced_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
     )
     parser.add_argument(
         "--balanced_dir",
-        default="/p/scratch/hai_oneprot/curve_plots",
+        default="<CURVE_PLOTS_ROOT>",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure3_tpr_tnr_avg_models",
+        default="<REPO_ROOT>/figure3_tpr_tnr_avg_models",
     )
     parser.add_argument(
         "--threshold",

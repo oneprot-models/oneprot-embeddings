@@ -26,9 +26,9 @@ import pandas as pd
 from sklearn.metrics import precision_recall_curve, auc as sklearn_auc
 
 
-DEFAULT_UNBALANCED_DIR = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots"
-DEFAULT_BALANCED_DIR = "/p/scratch/hai_oneprot/curve_plots"
-DEFAULT_OUTPUT_DIR = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure3_imbalance_pr"
+DEFAULT_UNBALANCED_DIR = "<REPO_ROOT>/curve_plots"
+DEFAULT_BALANCED_DIR = "<CURVE_PLOTS_ROOT>"
+DEFAULT_OUTPUT_DIR = "<REPO_ROOT>/figure3_imbalance_pr"
 
 
 MODELS = [

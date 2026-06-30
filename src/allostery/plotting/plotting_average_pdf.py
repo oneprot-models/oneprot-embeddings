@@ -631,12 +631,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--base_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
         help="Directory with flat-format prediction .npz files.",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/average_roc_plots",
+        default="<REPO_ROOT>/average_roc_plots",
         help="Output directory.",
     )
     parser.add_argument(

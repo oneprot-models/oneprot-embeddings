@@ -15,8 +15,8 @@ Matches the flat file naming scheme from evaluate.py (document 4):
 
 Usage:
     python plot_average_roc.py \
-        --base_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots \
-        --output_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/average_roc_plots
+        --base_dir <REPO_ROOT>/curve_plots \
+        --output_dir <REPO_ROOT>/average_roc_plots
 """
 
 import os
@@ -260,11 +260,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--base_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/average_roc_plots",
+        default="<REPO_ROOT>/average_roc_plots",
     )
     parser.add_argument(
         "--list_files", action="store_true",

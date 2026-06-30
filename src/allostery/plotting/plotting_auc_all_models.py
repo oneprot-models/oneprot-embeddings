@@ -20,9 +20,9 @@ Data sources:
 
 Usage:
     python plot_figure2_model_comparison_roc.py \
-        --base_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots \
-        --balanced_dir /p/scratch/hai_oneprot/curve_plots \
-        --output_dir /p/project1/hai_oneprot/bazarova1/oneprot-panda/figure2_model_comparison \
+        --base_dir <REPO_ROOT>/curve_plots \
+        --balanced_dir <CURVE_PLOTS_ROOT> \
+        --output_dir <REPO_ROOT>/figure2_model_comparison \
         --embedding_key pst
 """
 
@@ -246,17 +246,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--base_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots",
+        default="<REPO_ROOT>/curve_plots",
         help="Directory with flat-format ROC .npz files.",
     )
     parser.add_argument(
         "--balanced_dir",
-        default="/p/scratch/hai_oneprot/curve_plots",
+        default="<CURVE_PLOTS_ROOT>",
         help="Directory with hierarchical balanced ASD results.",
     )
     parser.add_argument(
         "--output_dir",
-        default="/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure2_model_comparison",
+        default="<REPO_ROOT>/figure2_model_comparison",
         help="Output directory for the figure.",
     )
     parser.add_argument(

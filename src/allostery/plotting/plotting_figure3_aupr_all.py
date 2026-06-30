@@ -22,9 +22,9 @@ from sklearn.metrics import precision_recall_curve, auc as sklearn_auc
 
 # ── Hardcoded directories (same style as old script) ─────────────────────────
 
-UNBALANCED_DIR = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/curve_plots"
-BALANCED_DIR   = "/p/scratch/hai_oneprot/curve_plots"
-OUTPUT_DIR     = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/figure3_imbalance_pr"
+UNBALANCED_DIR = "<REPO_ROOT>/curve_plots"
+BALANCED_DIR   = "<CURVE_PLOTS_ROOT>"
+OUTPUT_DIR     = "<REPO_ROOT>/figure3_imbalance_pr"
 
 
 # ── Hardcoded models ──────────────────────────────────────────────────────────
