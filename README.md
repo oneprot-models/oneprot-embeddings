@@ -216,7 +216,7 @@ Use this script for the normal downstream MLP evaluation workflow.
 
 This script is a class-balanced variant of `saprot_fit_mlp.py`.
 
-It follows the same training and evaluation pipeline, but adds one important preprocessing step for selected merged binary [**allostery tasks**](allostery-prediction-with-oneprot): during training data setup, it balances positive and negative classes by subsampling the majority class.
+It follows the same training and evaluation pipeline, but adds one important preprocessing step for selected merged binary [**allostery tasks**](#allostery-prediction-with-oneprot): during training data setup, it balances positive and negative classes by subsampling the majority class.
 
 This is useful when merged binary datasets are strongly imbalanced and the model might otherwise learn to favor the majority class.
 
@@ -269,7 +269,7 @@ The task families covered by `src/saprot_fit_mlp.py` include:
 - Enzyme classification:
   - `TopEnzyme`
 
-- Allostery and pocket/site prediction:
+- [**Allostery**](#allostery-prediction-with-oneprot) and pocket/site prediction:
   - `PL8` / **PPI-Site**
   - `Kinase_pocket` / **KinSite**
   - `Kinase_combined` / **KinSite**
