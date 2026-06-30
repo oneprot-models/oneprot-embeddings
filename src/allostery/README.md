@@ -8,10 +8,6 @@ configuration variables near the bottom or top of each file. Before running a
 script, check and update its input paths, output names, model name, checkpoint,
 configuration file, and radius/count settings.
 
-# Allostery Workflow
-
-This document describes the allostery data preparation, embedding extraction,
-merging, text annotation, and downstream evaluation workflow in this repository.
 
 ## Workflow Overview
 
@@ -462,7 +458,7 @@ This script resolves the sequence tokenizer from the model config, local
 Hugging Face cache, or common cluster cache paths. If tokenizer loading fails,
 pre-download the tokenizer or set `HF_HOME`.
 
-### Add Text to PL8 Embeddings
+### Add Text to PPI-site Embeddings
 
 Script:
 
@@ -556,7 +552,7 @@ Example command:
 python src/allostery/extract_embeddings/extract_embeddings_pocket_seq_kinase.py
 ```
 
-### Add Text to Kinase Embeddings
+### Add Text to KinSite Embeddings
 
 Script:
 
@@ -919,6 +915,8 @@ python src/allostery/utils/test_f1_PL8.py
 
 Note: the script docstring mentions `test_f1_max`, but the current code
 aggregates `test_auc`, `test_tp_norm`, and `test_tn_norm`.
+
+Note that downstream evaluation itself is described in [**Downstream**](https://github.com/oneprot-models/oneprot-embeddings/ReEDME.md#downstream) 
 
 ## Quick Validation Commands
 
