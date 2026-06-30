@@ -16,7 +16,7 @@ This repository contains code and documentation for **three related OneProt** st
 
 
 
-The recommended execution environment is provided as an Apptainer/Singularity container. Rebuilding the environment from scratch involves two stages.
+The recommended execution environment is provided as an Apptainer/Singularity container. Rebuilding the environment from scratch involves two stages. The container itself is available on [**zenodo**](https://zenodo.org/uploads/20997998). After it is executed, an environment needs to be activated inside (Step 3 of the below workflow). Typical execution scripts can be found in `train_oneptrot_ddp.sbatch`, `collect_embeddings.sbatch` and `saprot_fit.sbatch`
 
 ### 1. Build the base container
 
