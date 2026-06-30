@@ -400,7 +400,7 @@ def process_excel_file(excel_file, competitive_h5='competitive_pockets.h5',
 # Example usage
 if __name__ == "__main__":
     # Specify your Excel file path here
-    excel_file = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/Allosteric_and_competitive_inhibitors.csv-1.xls'  # Change this to your actual file path
+    excel_file = 'Allosteric_and_competitive_inhibitors.csv-1.xls'  # Change this to your actual file path
     
     process_excel_file(
         excel_file=excel_file,

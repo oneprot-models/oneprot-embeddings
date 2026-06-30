@@ -6,7 +6,7 @@
 # Define the task name and file path
 taskname=$1
 num=$2
-file="/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_${num}/downstream_results/${taskname}_results.csv"
+file="results_checkpoints_no_sweep_${num}/downstream_results/${taskname}_results.csv"
 
 # First pass: Find the maximum value in column 4 for each unique value in the first column
 awk -F',' 'NR > 1 && $7 != "nan                 " && $2 != "nan                 " {if (!($1 in max) || $7 > max[$1]) max[$1] = $7} END {for (key in max) print key "," max[key]}' "$file" > max_values.txt
@@ -14,7 +14,7 @@ awk -F',' 'NR > 1 && $7 != "nan                 " && $2 != "nan                 
 {
     head -n 1 "$file"
     awk -F',' 'NR == FNR {max[$1] = $2; next} NR > 1 && $7 == max[$1]' max_values.txt "$file"
-} > "/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_${num}/downstream_results/${taskname}_results_final_valid.csv"
+} > "results_checkpoints_no_sweep_${num}/downstream_results/${taskname}_results_final_valid.csv"
 
 # Clean up temporary file
 rm max_values.txt

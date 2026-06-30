@@ -45,20 +45,19 @@ SPLITS    = ['train', 'valid', 'test']
 
 # Split .txt directories (used to reconstruct row order)
 SPLIT_DIRS = {
-    'allosteric':    '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
-    'competitive':   '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-    # 'noncompetitive':'/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
+    'allosteric':    'PPI-site_splits/allosteric',
+    'competitive':   'PPI-site_splits/competitive',
 }
 # Original label assigned to each mechanism in the extraction script
 # MECHANISM_ORDER = [('allosteric', 0), ('competitive', 1), ('noncompetitive', 2)]
 MECHANISM_ORDER = [('allosteric', 1), ('competitive', 0)]
 
-CONFIG_PATH     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-27_06-21-43/config.yaml'
-CHECKPOINT_PATH = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt'
+CONFIG_PATH     = 'config.yaml'
+CHECKPOINT_PATH = 'epoch_029_04300-v2.ckpt'
 
 # Hardcoded BiomedBERT tokenizer snapshot (confirmed to contain vocab.txt)
 TOKENIZER_SNAPSHOT = (
-    '/p/scratch/hai_oneprot/huggingface/hub/'
+    'huggingface/hub/'
     'models--microsoft--BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext/'
     'snapshots/e1354b7a3a09615f6aba48dfad4b7a613eef7062'
 )

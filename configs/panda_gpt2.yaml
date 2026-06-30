@@ -19,8 +19,8 @@ tags: ["struct", "facebook/esm2_t36_3B_UR50D"]
 seed: 12345
 
 # specify trained OneProt here
-ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
-model_folder: /p/scratch/hai_oneprot/huggingface #/p/scratch/hai_oneprot/pandagpt_models/
+ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
+model_folder: <HUGGINGFACE_ROOT> #<PANDAGPT_MODEL_ROOT>/
 model_name: facebook/galactica-125m
 lora_r: 8
 lora_alpha: 16
@@ -51,7 +51,7 @@ data:
   modalities:
     pocket:
       dataset:
-        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        data_dir: <DATA_ROOT>/pretrain_dataset/50ss
         seq_tokenizer: facebook/esm2_t33_650M_UR50D
         use_struct_mask: true
         use_struct_coord_noise: true
@@ -63,7 +63,7 @@ data:
         test: 64
     seqsim:
       dataset:
-        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        data_dir: <DATA_ROOT>/pretrain_dataset/50ss
         seq_tokenizer: facebook/esm2_t33_650M_UR50D
         max_length: 1024
       batch_size:
@@ -72,7 +72,7 @@ data:
         test: 16
     struct_graph:
       dataset:
-        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        data_dir: <DATA_ROOT>/pretrain_dataset/50ss
         seq_tokenizer: facebook/esm2_t33_650M_UR50D
         use_struct_mask: true
         use_struct_coord_noise: true
@@ -84,8 +84,8 @@ data:
         test: 64
     struct_token:
       dataset:
-        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
-        filename: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/train_saprot.h5
+        data_dir: <DATA_ROOT>/pretrain_dataset/50ss
+        filename: <DATA_ROOT>/pretrain_dataset/50ss/train_saprot.h5
         seq_tokenizer: facebook/esm2_t33_650M_UR50D
         full: false
       batch_size:
@@ -94,7 +94,7 @@ data:
         test: 64
     text:
       dataset:
-        data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+        data_dir: <DATA_ROOT>/pretrain_dataset/50ss
         seq_tokenizer: facebook/esm2_t33_650M_UR50D
         text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
       batch_size:
@@ -213,7 +213,7 @@ logger:
 callbacks:
   model_checkpoint:
     _target_: pytorch_lightning.callbacks.ModelCheckpoint
-    dirpath: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
+    dirpath: <CHECKPOINT_ROOT>/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
     monitor: val/loss_best
     verbose: true
     save_last: true
@@ -235,7 +235,7 @@ callbacks:
     logging_interval: step
 paths:
   root_dir: ${oc.env:PROJECT_ROOT}
-  data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
+  data_dir: <DATA_ROOT>/pretrain_dataset/50ss
   log_dir: ${paths.root_dir}/logs/
   output_dir: ${hydra:runtime.output_dir}
   work_dir: ${hydra:runtime.cwd}
@@ -252,14 +252,14 @@ extras:
 # tags: all-modalities
 
 dataset:
-  csv_file_path: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/test_all.csv
-  data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss/
+  csv_file_path: <DATA_ROOT>/pretrain_dataset/50ss/test_all.csv
+  data_dir: <DATA_ROOT>/pretrain_dataset/50ss/
   max_sequence_length: 1024
   text_max_length: 512
   text_tokenizer: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
   seq_tokenizer: facebook/esm2_t33_650M_UR50D
   remove_hash: true
-  msa_model_name_or_path: /p/scratch/hai_oneprot/huggingface/models/msa/esm_msa1b_t12_100M_UR50S.pt
+  msa_model_name_or_path: <HUGGINGFACE_ROOT>/models/msa/esm_msa1b_t12_100M_UR50S.pt
   msa_depth: 50
   max_length: 1024
 

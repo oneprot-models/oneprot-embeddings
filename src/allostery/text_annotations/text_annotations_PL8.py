@@ -1,8 +1,8 @@
 """
 collect_uniprot_annotations_allosteric.py  —  run on LOGIN NODE (internet required)
 
-Split files: /p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/
-             splits/allosteric/train.txt, valid.txt, test.txt
+Split files: PPI-site_splits/allosteric/
+             train.txt, valid.txt, test.txt
              IDs of the form:  1ap8_A_M7G_214
 
 CSV file:    PL_part8_20230317_matrix_liganded_allosteric.csv
@@ -30,8 +30,8 @@ from tqdm import tqdm
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-SPLIT_DIR  = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive'
-CSV_FILE   = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/PL_part8_20230317_matrix_liganded_orthosteric_competitive.csv'
+SPLIT_DIR  = 'PPI-site_splits/competitive'
+CSV_FILE   = 'PL_part8_20230317_matrix_liganded_orthosteric_competitive.csv'
 SPLITS     = ['train', 'valid', 'test']
 
 UNIPROT_URL  = 'https://rest.uniprot.org/uniprotkb/{accession}?format=json'

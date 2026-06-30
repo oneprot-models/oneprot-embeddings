@@ -483,13 +483,13 @@ if __name__ == "__main__":
     # -------------------------------------------------------------------------
     # Configuration - EDIT THESE PATHS
     # -------------------------------------------------------------------------
-    config_path     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config_1.yaml'
-    checkpoint_path = '/p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt'
+    config_path     = 'config_1.yaml'
+    checkpoint_path = 'epoch_043_28400.ckpt'
     model_name      = 'oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity'
 
-    competitive_h5 = 'competitive_pockets_csv.h5'
-    allosteric_h5  = 'allosteric_pockets_csv.h5'
-    split_dir      = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3/'
+    competitive_h5 = 'competitive_pockets_kinsite.h5'
+    allosteric_h5  = 'allosteric_pockets_kinsite.h5'
+    split_dir      = 'KinSite_splits'
     output_dir     = 'embeddings/' + model_name
 
     # Path to the XLS file described in the prompt (used to extract UniProt annotations)
@@ -576,8 +576,8 @@ if __name__ == "__main__":
     if tokenizer_name_or_path is None or not os.path.isdir(tokenizer_name_or_path):
         _common_cache_roots = [
             os.path.expanduser('~/.cache/huggingface/hub'),
-            '/p/project1/hai_oneprot',
-            '/p/scratch/hai_oneprot',
+            '..',
+            '..',
         ]
         for root in _common_cache_roots:
             if not os.path.isdir(root):

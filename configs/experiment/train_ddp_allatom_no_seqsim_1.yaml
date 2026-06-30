@@ -15,8 +15,8 @@ tags: all-modalities-with-md
     #   dataset:
     #     num_frames: 100
     #     crop: 512
-    #     data_dir: /p/scratch/hai_profound/data/mdCATH_data
-    #     data_dir_csv: /p/project1/hai_oneprot/bazarova1/mdgen/splits/combined
+    #     data_dir: <DATA_ROOT>/mdCATH_data
+    #     data_dir_csv: <MDGEN_ROOT>/splits/combined
     #     suffix: "_i1"
     #   batch_size:
     #     train: 2
@@ -66,7 +66,7 @@ callbacks:
     every_n_train_steps: 100
     filename: "epoch_{epoch:03d}_{step:05d}"
     save_last: True 
-    #dirpath: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
+    #dirpath: <CHECKPOINT_ROOT>/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
     save_top_k: 500
     auto_insert_metric_name: false
     #mode: "max" 

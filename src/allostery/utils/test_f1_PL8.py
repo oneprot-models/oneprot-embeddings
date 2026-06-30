@@ -12,9 +12,9 @@ import torch
 
 # Collect all files
 name='merged_pocket_binary_text_comp'
-files = [f'/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_/downstream_results/{name}_MLP_results_final_valid.csv']
+files = [f'results_checkpoints_no_sweep_/downstream_results/{name}_MLP_results_final_valid.csv']
 for i in range(1, 10):
-    files.append(f'/p/project1/hai_oneprot/bazarova1/oneprot-refined/results_checkpoints_no_sweep_{i}/downstream_results/{name}_MLP_results_final_valid.csv')
+    files.append(f'results_checkpoints_no_sweep_{i}/downstream_results/{name}_MLP_results_final_valid.csv')
 
 # Read all files and collect data
 all_data = []

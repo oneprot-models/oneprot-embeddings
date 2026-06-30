@@ -6,9 +6,9 @@ defaults:
   - override hydra/sweeper: basic
 
 evaluate_on: ["train", "valid", "test"]
-emb_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/embeddings/
+emb_dir: <ONEPROT_REFINED_ROOT>/embeddings/
 
-results_dir: /p/project/hai_oneprot/bazarova1/oneprot-refined/results/
+results_dir: <ONEPROT_REFINED_ROOT>/results/
 
 sort_by: accuracy
 

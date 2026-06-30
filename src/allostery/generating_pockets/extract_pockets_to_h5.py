@@ -358,7 +358,7 @@ def process_annotations_batch(annotations_file, output_h5, count=100):
 print("\n\n")
 print("BATCH PROCESSING EXAMPLE")
 # Uncomment to process a full CSV file:
-annotations_file = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/PL_part8_20230317_matrix_liganded_orthosteric_noncompetitive.csv'
+annotations_file = 'PL_part8_20230317_matrix_liganded_orthosteric_noncompetitive.csv'
 process_annotations_batch(annotations_file, 'binding_pockets_orthosteric_noncompetitive.h5', count=100)
 
 # Test reading the H5 file with protein_to_graph

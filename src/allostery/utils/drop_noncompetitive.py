@@ -52,16 +52,16 @@ DROP_RANGES = {
 }
 
 ASD_SPLIT_DIRS = {
-    'allosteric':     '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
-    'competitive':    '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-    'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
+    'allosteric':     'PPI-site_splits/allosteric',
+    'competitive':    'PPI-site_splits/competitive',
+    'noncompetitive': 'PPI-site_splits/noncompetitive',
 }
 
 KINASE_SPLIT_DIR   = '0.3'
-PDB_TRAIN_CSV      = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb.csv'
-PDB_TEST_CSV       = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb.csv'
-PDB_TRAIN_TEXT_CSV = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb_text.csv'
-PDB_TEST_TEXT_CSV  = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb_text.csv'
+PDB_TRAIN_CSV      = 'ASD_original_splits/train_df_pdb.csv'
+PDB_TEST_CSV       = 'ASD_original_splits/test_df_pdb.csv'
+PDB_TRAIN_TEXT_CSV = 'ASD_original_splits/train_df_pdb_text.csv'
+PDB_TEST_TEXT_CSV  = 'ASD_original_splits/test_df_pdb_text.csv'
 
 # Task definitions: name -> has_text
 TASK_TYPES = {

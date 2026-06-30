@@ -41,8 +41,8 @@ data:
     # msa:
     #   dataset:
     #     _target_: src.data.datasets.msa_dataset.MSADataset
-    #     data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss
-    #     model_name_or_path: /p/scratch/hai_oneprot/huggingface/models/msa/esm_msa1b_t12_100M_UR50S.pt
+    #     data_dir: <DATA_ROOT>/pretrain_dataset/50ss
+    #     model_name_or_path: <HUGGINGFACE_ROOT>/models/msa/esm_msa1b_t12_100M_UR50S.pt
     #     seq_tokenizer: facebook/esm2_t33_650M_UR50D
     #     max_length: 128
     #     msa_depth: 50
@@ -96,7 +96,7 @@ model:
       learnable_logit_scale: false
     # msa:
     #   _target_: src.models.components.msa_encoder.MsaEncoder
-    #   model_name_or_path: /p/scratch/hai_oneprot/huggingface/models/msa/esm_msa1b_t12_100M_UR50S.pt
+    #   model_name_or_path: <HUGGINGFACE_ROOT>/models/msa/esm_msa1b_t12_100M_UR50S.pt
     #   pooling_type: identity
     #   proj_type: mlp
     #   output_dim: ${..sequence.output_dim}
@@ -115,10 +115,10 @@ trainer:
 callbacks:
   model_checkpoint:
     every_n_train_steps: 164 
-    dirpath: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
+    dirpath: <CHECKPOINT_ROOT>/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/
     save_top_k: 500
 
 task_name: train
-ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-18_14-52-15/best-v17.ckpt
-#ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_22-38-23/last.ckpt #/p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-44-36/best-v8.ckpt #null #/p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
+ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-18_14-52-15/best-v17.ckpt
+#ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_22-38-23/last.ckpt #<CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-44-36/best-v8.ckpt #null #<CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
 

@@ -309,8 +309,8 @@ if __name__ == "__main__":
 
     # Load config
     model_name = 'oneprot_md_combined_gpcr_no_struct_token_32900'
-    config_path = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-26_20-02-45/config.yaml'
-    checkpoint_path = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__17:42:35/epoch_015_01100-v4.ckpt'
+    config_path = 'config.yaml'
+    checkpoint_path = 'epoch_015_01100-v4.ckpt'
 
     with open(config_path, 'r') as f:
         cfg = OmegaConf.load(f)
@@ -405,8 +405,8 @@ if __name__ == "__main__":
     if tokenizer_name_or_path is None or not os.path.isdir(tokenizer_name_or_path):
         _common_cache_roots = [
             os.path.expanduser('~/.cache/huggingface/hub'),
-            '/p/project1/hai_oneprot',
-            '/p/scratch/hai_oneprot',
+            '..',
+            '..',
         ]
         print("  Scanning common cache locations for any ESM2 tokenizer...")
         for root in _common_cache_roots:
@@ -437,16 +437,16 @@ if __name__ == "__main__":
 
     # Define H5 files
     h5_files = {
-        'allosteric': '/p/project1/hai_oneprot/bazarova1/oneprot-panda/binding_pockets_seq_allosteric_competitive.h5',
-        'competitive': '/p/project1/hai_oneprot/bazarova1/oneprot-panda/binding_pockets_seq_orthosteric_competitive.h5',
-        # 'noncompetitive': '/p/project1/hai_oneprot/bazarova1/oneprot-panda/binding_pockets_seq_orthosteric_noncompetitive.h5'
+        'allosteric': 'binding_pockets_seq_allosteric_competitive.h5',
+        'competitive': 'binding_pockets_seq_orthosteric_competitive.h5',
+        # 'noncompetitive': 'binding_pockets_seq_orthosteric_noncompetitive.h5'
     }
 
     # Define split directories
     split_dirs = {
-        'allosteric': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
-        'competitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-        # 'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive'
+        'allosteric': 'PPI-site_splits/allosteric',
+        'competitive': 'PPI-site_splits/competitive',
+        # 'noncompetitive': 'splits/noncompetitive'
     }
 
     # Process all splits

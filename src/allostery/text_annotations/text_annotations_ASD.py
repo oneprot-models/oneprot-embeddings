@@ -2,8 +2,8 @@
 collect_uniprot_annotations_pdb.py  —  run on LOGIN NODE (internet required)
 
 Input files:
-    /p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb.csv
-    /p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb.csv
+    ASD_original_splits/train_df_pdb.csv
+    ASD_original_splits/test_df_pdb.csv
 
     Columns: pdb_id, chains, Sequences, Labels
     chains is a Python list string e.g. "['A']" or "['A', 'B']"
@@ -27,7 +27,7 @@ from tqdm import tqdm
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-DATA_DIR = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo'
+DATA_DIR = 'ASD_original_splits'
 SPLITS = {
     'train': 'train_df_pdb.csv',
     'test':  'test_df_pdb.csv',

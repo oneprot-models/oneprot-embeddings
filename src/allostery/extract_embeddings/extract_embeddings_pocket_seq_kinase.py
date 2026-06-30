@@ -449,8 +449,8 @@ if __name__ == "__main__":
     # -------------------------------------------------------------------------
     
     # Model configuration
-    config_path = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config_1.yaml'
-    checkpoint_path = '/p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt'
+    config_path = 'config_1.yaml'
+    checkpoint_path = 'epoch_043_28400.ckpt'
     model_name = 'oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity'  # Used for output naming, e.g. 'oneprot_md' or 'oneprot_no_md'
 
     # H5 files (output from process_pockets_from_excel.py)
@@ -458,7 +458,7 @@ if __name__ == "__main__":
     allosteric_h5 = 'allosteric_pockets_csv.h5'
     
     # Split directory (output from step2_create_splits.py)
-    split_dir = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3/'  # or 'splits' if using unverified splits
+    split_dir = 'KinSite_splits'  # or 'splits' if using unverified splits
     
     # Output directory for embeddings
     output_dir = 'embeddings/' + model_name
@@ -562,8 +562,8 @@ if __name__ == "__main__":
     if tokenizer_name_or_path is None or not os.path.isdir(tokenizer_name_or_path):
         _common_cache_roots = [
             os.path.expanduser('~/.cache/huggingface/hub'),
-            '/p/project1/hai_oneprot',
-            '/p/scratch/hai_oneprot',
+            '..',
+            '..',
         ]
         print("  Scanning common cache locations for any ESM2 tokenizer...")
         for root in _common_cache_roots:

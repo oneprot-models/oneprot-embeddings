@@ -1,6 +1,6 @@
 md:
   dataset:
-    data_dir: /p/scratch/hai_profound/data/mdCATH_data
+    data_dir: <DATA_ROOT>/mdCATH_data
     num_frames: 39
     frame_interval: null
     crop: 1024

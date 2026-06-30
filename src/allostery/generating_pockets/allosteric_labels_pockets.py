@@ -463,8 +463,8 @@ if __name__ == "__main__":
     # Example 2: Process multiple CSV files into one H5 file
     print("\n\nExample 2: Multiple CSV files")
     csv_files = [
-        '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb.csv',
-        '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb.csv'
+        'ASD_original_split/train_df_pdb.csv',
+        'ASD_original_split/test_df_pdb.csv'
     ]
     output_h5 = 'ASD_binding_pockets.h5'
     

@@ -13,9 +13,9 @@ tokenizer_name: facebook/esm2_t33_650M_UR50D #westlake-repl/SaProt_650M_AF2 #fac
 saprot_model: westlake-repl/SaProt_650M_AF2
 
 # Output directory
-#output_dir: "/p/scratch/hai_oneprot/bazarova1/embeddings/{model_name}"
-#output_dir: "/p/scratch/hai_profound/bazarova1/embeddings/{model_name}"
-output_dir: "/p/data1/bio-ai/bazarova1/embeddings/{model_name}"
+#output_dir: "<EMBEDDINGS_ROOT>/{model_name}"
+#output_dir: "<EMBEDDINGS_ROOT>/{model_name}"
+output_dir: "<EMBEDDINGS_ROOT>/{model_name}"
 
 
 
@@ -34,510 +34,510 @@ models:
   # - name: protrek
   # - name: protrek_35
   # - name: oneprot_struct_graph_pocket_text_small_matched
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-09-02__07:58:24/epoch_007_03000-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-09-03_04-20-52/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-09-02__07:58:24/epoch_007_03000-v4.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-09-03_04-20-52/config.yaml
   # - name: oneprot_text_md_atlas_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-13__00:54:22/epoch_139_02800-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-13_16-12-47/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-13__00:54:22/epoch_139_02800-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-13_16-12-47/config.yaml
 
   # - name: oneprot_text_md_atlas_pocket_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-16__09:47:47/epoch_029_00900-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-16_20-14-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-16__09:47:47/epoch_029_00900-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-16_20-14-54/config.yaml
 
   # - name: oneprot_text_md_atlas_pocket_struct_token
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-17__23:42:38/epoch_009_00300-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-18_07-12-55/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-17__23:42:38/epoch_009_00300-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-18_07-12-55/config.yaml
 
 
   # - name: oneprot_text_md_atlas_pocket_struct_graph
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-19__00:38:49/epoch_017_00700.ckpt
-  #   #ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-19__00:38:49/epoch_077_03100-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-19_00-39-56/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-19__00:38:49/epoch_017_00700.ckpt
+  #   #ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-19__00:38:49/epoch_077_03100-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-19_00-39-56/config.yaml
 
   # - name: oneprot_full_md_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-19__00:35:11/epoch_025_01300-v9.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-20_18-28-52/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-19__00:35:11/epoch_025_01300-v9.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-20_18-28-52/config.yaml
 
   # - name: oneprot_no_struct_graph_md_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-18__09:31:58/epoch_029_01200-v8.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-20_08-51-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-18__09:31:58/epoch_029_01200-v8.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-20_08-51-18/config.yaml
 
   # - name: oneprot_md_combined_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-09__15:16:41/epoch_014_01200-v6.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-11_10-17-53/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-07-09__15:16:41/epoch_014_01200-v6.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-11_10-17-53/config.yaml
 
   # - name: oneprot_md_combined_gpcr_32900
-  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-20_21-23-57/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-20_21-23-57/config.yaml
 
   # - name: oneprot_md_combined_gpcr_last
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-07-20__16:23:11/epoch_036_03300-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-21_06-20-04/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-07-20__16:23:11/epoch_036_03300-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-21_06-20-04/config.yaml
 
 
   # - name: oneprot_md_mdCATH_linear
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-07__18:49:23/epoch_036_00800.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-07_18-56-34/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-07__18:49:23/epoch_036_00800.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-07_18-56-34/config.yaml
 
   # - name: oneprot_md_mdCATH_mlp
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-07__22:55:30/epoch_036_00800.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-07_23-35-56/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-07__22:55:30/epoch_036_00800.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-07_23-35-56/config.yaml
 
   # - name: oneprot_md_atlas
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-06-07__20:01:44/epoch_049_00500.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-06-07_23-43-45/config.yaml
-  
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-06-07__20:01:44/epoch_049_00500.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-06-07_23-43-45/config.yaml
+
   #- name: esm3
   - name: oneprot_text_32900
-    ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:38:53/epoch_002_00700-v4.ckpt
-    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-39-37/config.yaml
+    ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-18__06:38:53/epoch_002_00700-v4.ckpt
+    config_path: <REPO_ROOT>/logs/train/runs/2025-03-18_06-39-37/config.yaml
 
   # - name: oneprot_pocket_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:40:40/epoch_034_05600-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_06-41-31/config.yaml
-  
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-18__06:40:40/epoch_034_05600-v4.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-18_06-41-31/config.yaml
+
   - name: oneprot_pocket_text_32900
-    ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-18__06:42:56/epoch_000_00300-v4.ckpt
-    config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-18_07-03-15/config.yaml
- 
+    ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-18__06:42:56/epoch_000_00300-v4.ckpt
+    config_path: <REPO_ROOT>/logs/train/runs/2025-03-18_07-03-15/config.yaml
+
   # - name: oneprot_struct_graph_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__07:24:23/epoch_008_02600-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-19_07-26-29/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-19__07:24:23/epoch_008_02600-v4.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-19_07-26-29/config.yaml
 
   # - name: oneprot_struct_graph_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__08:14:16/epoch_003_01900-v5.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-19_08-45-31/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-19__08:14:16/epoch_003_01900-v5.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-19_08-45-31/config.yaml
 
   # - name: oneprot_struct_graph_pocket_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-19__09:34:43/epoch_020_06600-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_05-15-56/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-19__09:34:43/epoch_020_06600-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-21_05-15-56/config.yaml
 
   # - name: oneprot_struct_graph_pocket_text_32900_sanity
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-20_14-26-29/config.yaml
 
   # - name: oneprot_struct_token_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__23:06:41/epoch_020_10400-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_23-08-49/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-20__23:06:41/epoch_020_10400-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-20_23-08-49/config.yaml
 
   # - name: oneprot_struct_token_pocket_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-21__09:33:58/epoch_012_04100-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_11-27-46/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-21__09:33:58/epoch_012_04100-v3.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-21_11-27-46/config.yaml
 
   # - name: oneprot_struct_token_pocket_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:24:49/epoch_008_04200-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-22__10:24:49/epoch_008_04200-v3.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-22_11-50-19/config.yaml
 
   # - name: oneprot_struct_token_struct_graph_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:28:01/epoch_005_03300-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_12-13-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-22__10:28:01/epoch_005_03300-v3.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-22_12-13-12/config.yaml
 
   # - name: oneprot_struct_token_struct_graph_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:29:48/epoch_009_09300-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_12-55-40/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-22__10:29:48/epoch_009_09300-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-22_12-55-40/config.yaml
 
   # - name: oneprot_struct_token_struct_graph_pocket_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_13-37-36/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-22__11:06:35/epoch_010_05100-v3.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-22_13-37-36/config.yaml
 
 
   # - name: oneprot_md_combined_gpcr_no_struct_graph_32900
-  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-27_06-21-43/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_oneprot_md/2025-07-25__18:31:15/epoch_029_04300-v2.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-27_06-21-43/config.yaml
 
   # - name: oneprot_md_combined_gpcr_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-08-02__12:13:14/epoch_055_02000-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-08-02_17-30-13/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-08-02__12:13:14/epoch_055_02000-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-08-02_17-30-13/config.yaml
 
 
   # - name: oneprot_md_combined_gpcr_no_struct_token_32900
-  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-25__17:42:35/epoch_015_01100-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-26_20-02-45/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_oneprot_md/2025-07-25__17:42:35/epoch_015_01100-v4.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-26_20-02-45/config.yaml
 
 
   # - name: oneprot_md_combined_gpcr_text_struct_token_32900
-  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-29__15:09:07/epoch_066_03600-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-30_22-55-26/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_oneprot_md/2025-07-29__15:09:07/epoch_066_03600-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-30_22-55-26/config.yaml
 
   # - name: oneprot_md_combined_gpcr_text_32900
-  #   ckpt_path: /p/data1/profound_data/checkpoints_oneprot_md/2025-07-28__08:59:31/epoch_161_05800-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-30_18-29-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_oneprot_md/2025-07-28__08:59:31/epoch_161_05800-v1.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-07-30_18-29-18/config.yaml
 
   # - name: oneprot_struct_token_text_32900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-23__15:25:52/epoch_006_03300-v3.ckpt
-  #   #config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-23_16-29-17/config.yaml
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-21_20-34-24/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_140325/manual_ckpts/2025-03-23__15:25:52/epoch_006_03300-v3.ckpt
+  #   #config_path: <REPO_ROOT>/logs/train/runs/2025-03-23_16-29-17/config.yaml
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-21_20-34-24/config.yaml
   # - name: protrek_35
   # - name: saprot
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v46.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
 
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW_1000  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v4.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW_2000  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v14.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v14.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW_3000  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v24.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v24.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW_4000  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v34.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v34.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_seqsim_AdamW_5000  #10439741 #5200
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_15-50-54/best-v44.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_15-50-54/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_15-50-54/best-v44.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_15-50-54/config.yaml
 
-  
+
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v82.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v82.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
 
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1_1000 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v7.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v7.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1_2000 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v17.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v17.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1_3000 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v27.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v27.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1_4000 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v37.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v37.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
   # - name: oneprot_struct_backbone_struct_pocket_text_AdamW_1_5000 #10430181 #8500
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_17-37-34/best-v47.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_17-37-37/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_17-37-34/best-v47.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_17-37-37/config.yaml
 
 
 
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v83.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v83.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
 
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1_1000 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v7.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v7.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1_2000 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v17.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v17.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1_3000 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v27.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v27.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1_4000 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v37.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v37.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_AdamW_1_5000 #10430050 #8600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_101024/2024-10-10_14-31-19/best-v47.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-10_14-31-19/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_101024/2024-10-10_14-31-19/best-v47.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-10_14-31-19/config.yaml
 
 
 
 
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_20-52-18/last.ckpt 
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_20-52-18/last.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
 
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_1000 #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_12-01-17/best-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_12-01-17/best-v4.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_2000 #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_20-52-18/best-v6.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_20-52-18/best-v6.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_3000 #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_20-52-18/best-v16.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_20-52-18/best-v16.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_4000 #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_20-52-18/best-v26.ckpt 
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_20-52-18/best-v26.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_5000 #10440880 #11400
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-12_20-52-18/best-v36.ckpt 
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-12_20-52-18/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-12_20-52-18/best-v36.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-12_20-52-18/config.yaml
 
 
 
 
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_00-15-12/best-v15.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-13_00-15-12/best-v15.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
 
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_1000 #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_00-15-12/best-v7.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-13_00-15-12/best-v7.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_2000 #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_11-40-17/best-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_11-40-17/best-v1.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_3000 #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_12-20-16/best-v7.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_12-20-16/best-v7.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_4000 #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_12-20-16/best-v17.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_12-20-16/best-v17.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_lora_seqsim_AdamW_5000 #18209 #1800
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_12-20-16/best-v27.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_00-15-12/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_12-20-16/best-v27.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_00-15-12/config.yaml
 
 
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_18-55-50/best-v20.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-13_18-55-50/best-v20.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
 
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi_1000  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_18-55-50/best-v1.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-13_18-55-50/best-v1.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi_2000  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-13_18-55-50/best-v11.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-13_18-55-50/best-v11.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi_3000  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_16-20-12/best.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_16-20-12/best.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi_4000  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_16-20-12/best-v10.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_16-20-12/best-v10.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
   # - name: oneprot_struct_allatom_struct_pocket_text_seqsim_AdamW_jedi_5000  #18207, 18242, 18260 #2900
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_19-18-00/best-v7.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-13_18-55-50/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_19-18-00/best-v7.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-13_18-55-50/config.yaml
 
 
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v32.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-14_16-49-04/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-14_16-49-04/best-v32.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-14_16-49-04/config.yaml
 
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi_1000  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v9.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-14_16-49-04/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-14_16-49-04/best-v9.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-14_16-49-04/config.yaml
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi_2000  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v19.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-14_16-49-04/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-14_16-49-04/best-v19.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-14_16-49-04/config.yaml
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi_3000  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-14_16-49-04/best-v29.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-14_16-49-04/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-14_16-49-04/best-v29.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-14_16-49-04/config.yaml
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi_4000  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_22-32-28/best-v6.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-16_22-32-28/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_22-32-28/best-v6.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-16_22-32-28/config.yaml
   # - name: oneprot_struct_allatom_struct_150_pocket_text_seqsim_AdamW_jedi_5000  #18396 #3300
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-16_22-32-28/best-v16.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-16_22-32-28/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-16_22-32-28/best-v16.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-16_22-32-28/config.yaml
 
-  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_1000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-42-39/best-v8.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_2000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-42-39/best-v18.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_3000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-42-39/best-v28.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_4000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-42-39/best-v38.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_5000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-18_14-52-15/best-v5.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-18_14-52-15/config.yaml
-
-
-
-  # - name: oneprot_struct_backbone_pocket_text_AdamW_1000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-44-36/best-v2.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_AdamW_2000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-44-36/best-v6.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_AdamW_3000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_04-44-36/best-v9.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_04-42-39/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_AdamW_4000  
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-17_22-38-23/best-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-17_22-38-23/config.yaml
-  # - name: oneprot_struct_backbone_pocket_text_AdamW_5000 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-18_15-58-23/best.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-18_15-58-23/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_1000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-42-39/best-v8.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_2000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-42-39/best-v18.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_3000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-42-39/best-v28.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_4000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-42-39/best-v38.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_seqsim_AdamW_5000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-18_14-52-15/best-v5.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-18_14-52-15/config.yaml
 
 
-  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_1000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_001_01000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_2000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_003_02000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_3000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_004_03000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_4000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_006_04000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_5000 
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_007_05000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-48/config.yaml
 
-  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_1000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_001_01000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_2000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_002_02000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_3000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_003_03000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_4000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_004_04000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/config.yaml
-  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_5000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_006_05000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-25_08-08-59/config.yaml 
+  # - name: oneprot_struct_backbone_pocket_text_AdamW_1000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-44-36/best-v2.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_AdamW_2000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-44-36/best-v6.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_AdamW_3000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_04-44-36/best-v9.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_04-42-39/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_AdamW_4000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-17_22-38-23/best-v3.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-17_22-38-23/config.yaml
+  # - name: oneprot_struct_backbone_pocket_text_AdamW_5000
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-18_15-58-23/best.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-18_15-58-23/config.yaml
 
-  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_1000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_001_01000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_2000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_002_02000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_3000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_003_03000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_4000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_004_04000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_5000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_006_05000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_11-06-06/config.yaml
 
-  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_1000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_000_00900.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_2000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_002_02100.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_3000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_003_03000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_4000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_003_03900.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/config.yaml
-  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_5000  
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_005_05100.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-smiles/logs/train/runs/2024-10-26_10-54-04/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_1000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_001_01000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_2000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_003_02000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_3000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_004_03000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_4000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_006_04000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_AdamW_5000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/checkpoints/epoch_007_05000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-48/config.yaml
+
+  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_1000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_001_01000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_2000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_002_02000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_3000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_003_03000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_4000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_004_04000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/config.yaml
+  # - name: oneprot_struct_struct_pocket_allatom_text_seqsim_AdamW_5000
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/checkpoints/epoch_006_05000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-25_08-08-59/config.yaml
+
+  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_1000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_001_01000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_2000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_002_02000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_3000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_003_03000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_4000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_004_04000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_AdamW_5000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/checkpoints/epoch_006_05000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_11-06-06/config.yaml
+
+  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_1000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_000_00900.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_2000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_002_02100.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_3000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_003_03000.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_4000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_003_03900.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/config.yaml
+  # - name: oneprot_struct_struct_pocket_text_smiles_seqsim_AdamW_5000
+  #   ckpt_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/checkpoints/epoch_005_05100.ckpt
+  #   config_path: <ONEPROT_SMILES_ROOT>/logs/train/runs/2024-10-26_10-54-04/config.yaml
 
   # - name: oneprot_full_A100_last_4920 downstream done
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__23:57:01/epoch_005_04920-v3.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-28_09-45-38/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_221024/manual_ckpts/2024-10-24__23:57:01/epoch_005_04920-v3.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-28_09-45-38/config.yaml
 
   # - name: oneprot_full_A100_last_9840 downstream running
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-10-24__23:57:01/epoch_005_04920-v4.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-28_09-45-38/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_221024/manual_ckpts/2024-10-24__23:57:01/epoch_005_04920-v4.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-28_09-45-38/config.yaml
 
-  # - name: oneprot_no_struct_token_A100_4920 downstream done 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v9.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  # - name: oneprot_no_struct_token_A100_4920 downstream done
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v9.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_9840 downstream running
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v20.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v20.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_14760 #downstream running 73472-73480
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v29.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v29.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_19680 #downstream running 10512591 10512600
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v39.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v39.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_24600 #downstream running
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v49.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v49.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_29520 #downstream running 10514352.. 10514359 73523..73527
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v59.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v59.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_34440 #downstream
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v69.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v69.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_39360 #downstream
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v79.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v79.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
   # - name: oneprot_no_struct_token_A100_49200 #downstream running
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_16-12-03/best-v99.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_16-12-03/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_16-12-03/best-v99.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_16-12-03/config.yaml
 
 
   # - name: oneprot_full_V100_last_16400 downstream done
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_002_16400.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_10-35-31/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_002_16400.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_10-35-31/config.yaml
 
   # - name: oneprot_full_V100_last_32800 downstream done
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_005_32800.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_10-35-31/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_005_32800.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_10-35-31/config.yaml
 
-  # - name: oneprot_full_V100_last_36080 #downstream running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_005_36080.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_10-35-31/config.yaml
+  # - name: oneprot_full_V100_last_36080 #downstream running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-10-30_10-35-31/epoch_005_36080.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_10-35-31/config.yaml
 
 
   # - name: oneprot_full_allatom_A100_5000 #downstream done
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_006_05000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_006_05000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
   # - name: oneprot_full_allatom_A100_10000 #downstream running 10512737..10512766
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_012_10000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_012_10000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
   # - name: oneprot_full_allatom_A100_15000 #downstream running 73481..73489
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_018_15000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_018_15000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
   # - name: oneprot_full_allatom_A100_20000 #downstream running
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_024_20000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_024_20000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
-  # - name: oneprot_full_allatom_A100_30000 # running 
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_036_30000.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
+  # - name: oneprot_full_allatom_A100_30000 # running
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_036_30000.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
-  # - name: oneprot_full_allatom_A100_32900 # running 
-  #   ckpt_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_040_32900.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-10-30_19-16-39/config.yaml
-    
-
-  # - name: oneprot_full_allatom_no_seqsim_A100_30000 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_025_16500.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
-
-  # - name: oneprot_full_allatom_no_seqsim_A100_32900 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_029_19400.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_14-06-07/config.yaml
+  # - name: oneprot_full_allatom_A100_32900 # running
+  #   ckpt_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/checkpoints/epoch_040_32900.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-10-30_19-16-39/config.yaml
 
 
+  # - name: oneprot_full_allatom_no_seqsim_A100_30000 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_025_16500.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_14-06-07/config.yaml
 
-  # - name: oneprot_full_allatom_no_seqsim_no_l1_A100_30000 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_038_25500.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_16-37-44/config.yaml
-
-  # - name: oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config_1.yaml
+  # - name: oneprot_full_allatom_no_seqsim_A100_32900 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_14-06-07/epoch_029_19400.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_14-06-07/config.yaml
 
 
 
-  # - name: oneprot_full_allatom_no_l1_A100_30000 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_032_26900.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_15-18-09/config.yaml
+  # - name: oneprot_full_allatom_no_seqsim_no_l1_A100_30000 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_038_25500.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_16-37-44/config.yaml
 
-  # - name: oneprot_full_allatom_no_l1_A100_31300 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_034_28200.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_15-18-09/config.yaml
+  # - name: oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_19-20-45/epoch_043_28400.ckpt
+  #   config_path: <REPO_ROOT>/logs/train/runs/2025-03-22_11-50-19/config_1.yaml
 
-  # - name: oneprot_full_allatom_no_l1_A100_32900 # running 
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_refined_111024/2024-11-06_14-32-34/epoch_002_01700.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-05_15-18-09/config.yaml
+
+
+  # - name: oneprot_full_allatom_no_l1_A100_30000 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_032_26900.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_15-18-09/config.yaml
+
+  # - name: oneprot_full_allatom_no_l1_A100_31300 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-05_15-18-09/epoch_034_28200.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_15-18-09/config.yaml
+
+  # - name: oneprot_full_allatom_no_l1_A100_32900 # running
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_refined_111024/2024-11-06_14-32-34/epoch_002_01700.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-05_15-18-09/config.yaml
 
 
   # - name: oneorot_3_modalities
-  #   ckpt_path: /p/scratch/hai_oneprot/checkpoints_221024/manual_ckpts/2024-11-17__11:53:46/best-v226.ckpt
-  #   config_path: /p/project1/hai_oneprot/bazarova1/oneprot-refined/logs/train/runs/2024-11-18_05-22-13/config.yaml
+  #   ckpt_path: <CHECKPOINT_ROOT>/checkpoints_221024/manual_ckpts/2024-11-17__11:53:46/best-v226.ckpt
+  #   config_path: <ONEPROT_REFINED_ROOT>/logs/train/runs/2024-11-18_05-22-13/config.yaml
 
 
 
@@ -545,141 +545,141 @@ tasks:
   # HumanPPI:
   #   label_type: "ppi"
   #   csv_files:
-  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_train.csv
-  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_valid.csv
-  #    - /p/scratch/hai_oneprot/merdivan1/csv_files/HumanPPI/normal_test.csv
+  #    - <DATA_ROOT>/csv_files/HumanPPI/normal_train.csv
+  #    - <DATA_ROOT>/csv_files/HumanPPI/normal_valid.csv
+  #    - <DATA_ROOT>/csv_files/HumanPPI/normal_test.csv
 
   # GO-BP:
   #   label_type: "multi-label"
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_BP_normal_test.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_BP_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_BP_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_BP_normal_test.csv
 
   # GO-CC:
   #   label_type: "multi-label"
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_CC_normal_test.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_CC_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_CC_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_CC_normal_test.csv
 
   # GO-MF:
   #   label_type: "multi-label"
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/GO/AF2_MF_normal_test.csv
-   
+  #     - <DATA_ROOT>/csv_files/GO/AF2_MF_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_MF_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/GO/AF2_MF_normal_test.csv
+
   # EC:
   #   label_type: "multi-label"
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/EC/AF2_normal_test.csv
-   
+  #     - <DATA_ROOT>/csv_files/EC/AF2_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/EC/AF2_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/EC/AF2_normal_test.csv
+
   # MetalIonBinding:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/MetalIonBinding/AF2_normal_test.csv
+  #     - <DATA_ROOT>/csv_files/MetalIonBinding/AF2_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/MetalIonBinding/AF2_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/MetalIonBinding/AF2_normal_test.csv
   # TopEnzyme:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_train_seq.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_valid_seq.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/TopEnzyme/Comb826_test_seq.csv
+  #     - <DATA_ROOT>/csv_files/TopEnzyme/Comb826_train_seq.csv
+  #     - <DATA_ROOT>/csv_files/TopEnzyme/Comb826_valid_seq.csv
+  #     - <DATA_ROOT>/csv_files/TopEnzyme/Comb826_test_seq.csv
   # DeepLoc2:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls2_normal_test.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls2_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls2_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls2_normal_test.csv
   # DeepLoc10:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/DeepLoc/cls10_normal_test.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls10_normal_train.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls10_normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/DeepLoc/cls10_normal_test.csv
   # ThermoStability:
   #   label_type: regression
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_train.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_valid.csv
-  #     - /p/scratch/hai_oneprot/merdivan1/csv_files/Thermostability/normal_test.csv
+  #     - <DATA_ROOT>/csv_files/Thermostability/normal_train.csv
+  #     - <DATA_ROOT>/csv_files/Thermostability/normal_valid.csv
+  #     - <DATA_ROOT>/csv_files/Thermostability/normal_test.csv
   ASD:
     label_type: "multi-label"
     csv_files:
-      - /p/data1/bio-ai/bazarova1/ASD_train.csv
-      - /p/data1/bio-ai/bazarova1/ASD_valid.csv
-      - /p/data1/bio-ai/bazarova1/ASD_test.csv
+      - <DATA_ROOT>/ASD_train.csv
+      - <DATA_ROOT>/ASD_valid.csv
+      - <DATA_ROOT>/ASD_test.csv
 
   # PL8:
   #   label_type: "multi-label"
   #   csv_files:
-  #     - /p/data1/bio-ai/bazarova1/PL8_train_fixed.csv
-  #     - /p/data1/bio-ai/bazarova1/PL8_valid_fixed.csv
-  #     - /p/data1/bio-ai/bazarova1/PL8_test_fixed.csv
+  #     - <DATA_ROOT>/PL8_train_fixed.csv
+  #     - <DATA_ROOT>/PL8_valid_fixed.csv
+  #     - <DATA_ROOT>/PL8_test_fixed.csv
 
 
 # tasks:
 #   HumanPPI:
 #     label_type: "ppi"
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/HumanPPI/foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/HumanPPI/foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/HumanPPI/foldseek_test.csv
-  
+#       - <DATA_ROOT>/saprot_foldseek_data/HumanPPI/foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/HumanPPI/foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/HumanPPI/foldseek_test.csv
+
 #   GO-BP:
 #     label_type: "multi-label"
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_BP_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_BP_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_BP_foldseek_test.csv
-  
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_BP_foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_BP_foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_BP_foldseek_test.csv
+
 #   GO-CC:
 #     label_type: "multi-label"
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_CC_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_CC_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_CC_foldseek_test.csv
-  
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_CC_foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_CC_foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_CC_foldseek_test.csv
+
 #   GO-MF:
 #     label_type: "multi-label"
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_MF_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_MF_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/GO/AF2_MF_foldseek_test.csv
-  
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_MF_foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_MF_foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/GO/AF2_MF_foldseek_test.csv
+
 #   EC:
 #     label_type: "multi-label"
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/EC/AF2_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/EC/AF2_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/EC/AF2_foldseek_test.csv
-  
+#       - <DATA_ROOT>/saprot_foldseek_data/EC/AF2_foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/EC/AF2_foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/EC/AF2_foldseek_test.csv
+
 #   MetalIonBinding:
 #     label_type: classification
 #     csv_files:
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_train.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_valid.csv
-#       - /p/scratch/hai_oneprot/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_test.csv    
+#       - <DATA_ROOT>/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_train.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_valid.csv
+#       - <DATA_ROOT>/saprot_foldseek_data/MetalIonBinding/AF2_foldseek_test.csv
   # DeepLoc2:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_train.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_valid.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls2_foldseek_test.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls2_foldseek_train.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls2_foldseek_valid.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls2_foldseek_test.csv
   # DeepLoc10:
   #   label_type: classification
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_train.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_valid.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/DeepLoc/cls10_foldseek_test.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls10_foldseek_train.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls10_foldseek_valid.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/DeepLoc/cls10_foldseek_test.csv
   # ThermoStability:
   #   label_type: regression
   #   csv_files:
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_train.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_valid.csv
-  #     - /p/scratch/hai_oneprot/saprot_foldseek_data/Thermostability/foldseek_test.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/Thermostability/foldseek_train.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/Thermostability/foldseek_valid.csv
+  #     - <DATA_ROOT>/saprot_foldseek_data/Thermostability/foldseek_test.csv
 

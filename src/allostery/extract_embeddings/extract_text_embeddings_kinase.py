@@ -36,11 +36,11 @@ from src.models.oneprot_module import OneProtLitModule
 # Configuration — EDIT THESE
 # ---------------------------------------------------------------------------
 MODEL_DIR   = 'embeddings/oneprot_struct_token_pocket_text_32900'
-SPLIT_DIR   = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3'
+SPLIT_DIR   = 'KinSite_splits'
 SPLITS      = ['train', 'valid', 'test']
 
-CONFIG_PATH     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-22_11-50-19/config.yaml'
-CHECKPOINT_PATH = '/p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-22__10:24:49/epoch_008_04200-v3.ckpt'
+CONFIG_PATH     = 'config.yaml'
+CHECKPOINT_PATH = 'epoch_008_04200-v3.ckpt'
 
 H5_ID_COL     = 'h5_identifier'
 MECHANISM_COL = 'Mechanism'
@@ -249,7 +249,7 @@ def load_model_and_tokenizer(config_path: str, checkpoint_path: str, device: str
     # The BiomedBERT tokenizer and config live in a different snapshot than
     # the model weights. Hardcode the correct snapshot path directly.
     TOKENIZER_SNAPSHOT = (
-        '/p/scratch/hai_oneprot/huggingface/hub/'
+        'huggingface/hub/'
         'models--microsoft--BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext/'
         'snapshots/e1354b7a3a09615f6aba48dfad4b7a613eef7062'
     )

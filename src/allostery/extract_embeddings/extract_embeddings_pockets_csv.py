@@ -168,7 +168,7 @@ def save_embeddings_to_csv_safe(embeddings_list, output_csv):
 
 
 def process_all_splits(h5_files, split_dirs, model, model_name, modality='pocket', 
-                      output_dir='/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/embeddings/',
+                      output_dir='embeddings/',
                       device='cuda'):
     """
     Process all H5 files and their splits to create embedding CSVs.
@@ -301,8 +301,8 @@ if __name__ == "__main__":
     #     filename="config.yaml",
     # )
     model_name='oneprot_struct_graph_pocket_text_32900'
-    config_path='/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-03-20_14-26-29/config.yaml'
-    checkpoint_path='/p/scratch/hai_oneprot/checkpoints_140325/manual_ckpts/2025-03-20__13:53:39/epoch_010_05100-v3.ckpt'
+    config_path='config.yaml'
+    checkpoint_path='epoch_010_05100-v3.ckpt'
 
     with open(config_path, 'r') as f:
         cfg = OmegaConf.load(f)
@@ -373,16 +373,14 @@ if __name__ == "__main__":
 
     # Define H5 files
     h5_files = {
-        'allosteric': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_allosteric.h5',
-        'competitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_orthosteric_competitive.h5',
-        'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/binding_pockets_orthosteric_noncompetitive.h5'
+        'allosteric': 'binding_pockets_allosteric.h5',
+        'competitive': 'binding_pockets_orthosteric_competitive.h5',
     }
     
     # Define split directories
     split_dirs = {
-        'allosteric': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
-        'competitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-        'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive'
+        'allosteric': 'PPI-site_splits/allosteric',
+        'competitive': 'PPI-site_splits/competitive',
     }
     
     # Process all splits

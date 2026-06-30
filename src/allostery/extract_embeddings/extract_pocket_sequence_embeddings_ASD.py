@@ -466,8 +466,8 @@ if __name__ == "__main__":
     
     # Load config
     model_name = "oneprot_md_combined_gpcr_32900"
-    config_path = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-20_21-23-57/config.yaml'
-    checkpoint_path = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt'
+    config_path = 'config.yaml'
+    checkpoint_path = 'epoch_012_01100-v1.ckpt'
 
     with open(config_path, 'r') as f:
         cfg = OmegaConf.load(f)

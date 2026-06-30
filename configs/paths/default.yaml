@@ -4,17 +4,17 @@
 root_dir: ${oc.env:PROJECT_ROOT}
 
 # path to data directory
-data_dir: /p/scratch/hai_oneprot/merdivan1/pretrain_dataset/50ss #data_dir: ${paths.root_dir}/data/
+data_dir: <DATA_ROOT>/pretrain_dataset/50ss #data_dir: ${paths.root_dir}/data/
 
 # path to logging directory
 log_dir: ${paths.root_dir}/logs/
-#log_dir: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/logs/
+#log_dir: <CHECKPOINT_ROOT>/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/logs/
 
 # path to output directory, created dynamically by hydra
 # path generation pattern is specified in `configs/hydra/default.yaml`
 # use it to store all files generated during the run, like ckpts and metrics
 output_dir: ${hydra:runtime.output_dir}
-#output_dir: /p/scratch/hai_oneprot/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/outputs/
+#output_dir: <CHECKPOINT_ROOT>/checkpoints_refined_111024/${now:%Y-%m-%d}_${now:%H-%M-%S}/outputs/
 
 # path to working directory
 work_dir: ${hydra:runtime.cwd}

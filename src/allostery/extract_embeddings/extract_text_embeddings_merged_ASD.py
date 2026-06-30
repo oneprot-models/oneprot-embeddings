@@ -56,24 +56,23 @@ KINASE_SPLIT_DIR = '0.3'   # contains train.csv, val.csv, test.csv
 
 # ASD allosteric/competitive/noncompetitive split .txt dirs
 ASD_SPLIT_DIRS = {
-    'allosteric':     '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/allosteric',
-    'competitive':    '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/competitive',
-#    'noncompetitive': '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/splits/noncompetitive',
+    'allosteric':     'PPI-site_splits/allosteric',
+    'competitive':    'PPI-site_splits/competitive',
 }
 ASD_MECHANISM_ORDER = [('allosteric', 0), ('competitive', 1), ('noncompetitive', 2)]
 
 # PDB text annotation CSVs (produced by collect_uniprot_annotations_pdb.py)
-PDB_DATA_DIR = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo'
-PDB_TRAIN_CSV = os.path.join(PDB_DATA_DIR, 'train_df_pdb.csv')
-PDB_TEST_CSV  = os.path.join(PDB_DATA_DIR, 'test_df_pdb.csv')
-PDB_TRAIN_TEXT_CSV = os.path.join(PDB_DATA_DIR, 'train_df_pdb_text.csv')
-PDB_TEST_TEXT_CSV  = os.path.join(PDB_DATA_DIR, 'test_df_pdb_text.csv')
+PDB_DATA_DIR = '.'
+PDB_TRAIN_CSV = os.path.join(PDB_DATA_DIR, 'ASD_original_split/train_df_pdb.csv')
+PDB_TEST_CSV  = os.path.join(PDB_DATA_DIR, 'ASD_original_split/test_df_pdb.csv')
+PDB_TRAIN_TEXT_CSV = os.path.join(PDB_DATA_DIR, 'ASD_original_split/train_df_pdb_text.csv')
+PDB_TEST_TEXT_CSV  = os.path.join(PDB_DATA_DIR, 'ASD_original_split/test_df_pdb_text.csv')
 
-CONFIG_PATH     = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-20_21-23-57/config.yaml'
-CHECKPOINT_PATH = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt'
+CONFIG_PATH     = 'config.yaml'
+CHECKPOINT_PATH = 'epoch_012_01100-v1.ckpt'
 
 TOKENIZER_SNAPSHOT = (
-    '/p/scratch/hai_oneprot/huggingface/hub/'
+    'huggingface/hub/'
     'models--microsoft--BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext/'
     'snapshots/e1354b7a3a09615f6aba48dfad4b7a613eef7062'
 )

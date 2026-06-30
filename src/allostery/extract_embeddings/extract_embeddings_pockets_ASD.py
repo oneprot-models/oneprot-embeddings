@@ -381,8 +381,8 @@ if __name__ == "__main__":
     
     # Load config
     model_name = "oneprot_md_combined_gpcr_32900"
-    config_path = '/p/project1/hai_oneprot/bazarova1/oneprot-panda/logs/train/runs/2025-07-20_21-23-57/config.yaml'
-    checkpoint_path = '/p/data1/profound_data/checkpoints_oneprot_md/2025-07-20__16:23:11/epoch_012_01100-v1.ckpt'
+    config_path = 'config.yaml'
+    checkpoint_path = 'epoch_012_01100-v1.ckpt'
 
     with open(config_path, 'r') as f:
         cfg = OmegaConf.load(f)
@@ -447,9 +447,9 @@ if __name__ == "__main__":
             module.eval()
     
     # Define paths
-    h5_file = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/ASD_binding_pockets.h5'
-    train_csv = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb.csv'
-    test_csv = '/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb.csv'
+    h5_file = 'ASD_binding_pockets.h5'
+    train_csv = 'train_df_pdb.csv' #original files from the ASD paper
+    test_csv = 'test_df_pdb.csv'
     
     # Process H5 file and create embeddings
     process_h5_to_embeddings(
