@@ -149,7 +149,7 @@ The repository provides the complete workflow for reproducing the experiments, i
 - downstream MLP training and evaluation,
 - generation of the figures and analyses reported in the manuscript.
 
-Detailed workflows are provided in **`src/allostery/`**.
+Detailed workflows are provided in (**`src/allostery/`**)[https://github.com/oneprot-models/oneprot-embeddings/tree/main/src/allostery].
 
 The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contains:
 
