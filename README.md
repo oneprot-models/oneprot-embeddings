@@ -6,7 +6,7 @@ This repository contains code and documentation for **three related OneProt** st
 |---|---:|---|
 | [OneProt: Towards multi-modal protein foundation models via latent space alignment of sequence, structure, binding sites and text encoders](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013679) | PLOS Computational Biology | [Original OneProt](#original-oneprot) |
 | [When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models](https://openreview.net/forum?id=Q6DuJPwH2U) |ICLR 2026 Foundational Models for Science | [OneProt MD extension](#md-extension) |
-| [Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction]() | In preparation | [Allostery presiction with OneProt](#allostery-paper) |
+| [Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction]() | In preparation | [Allostery prediction with OneProt](#allostery-paper) |
 
 - The **original OneProt model** aligns protein sequence, structure, binding-site, and text encoders in a shared latent space.
 - The **MD extension** adds time-resolved molecular-dynamics trajectories as an additional modality.
