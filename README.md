@@ -12,6 +12,10 @@ This repository contains code and documentation for **three related OneProt** st
 - The **MD extension** adds time-resolved molecular-dynamics trajectories as an additional modality.
 - The **Allosteric Site prediction** study uses OneProt-derived representations for downstream analyses of allosteric versus competitive/orthosteric binding sites across a number of different separability regimes
 
+# Environment
+
+
+
 
 # Original OneProt
 
@@ -76,38 +80,6 @@ DownStream Tasks:
 - [**SaProt**](https://www.biorxiv.org/content/10.1101/2023.10.01.)
 <br>
 
-## Environment
-We recommend using PyTorch version 2.1.0 with CUDA-12.1 with the corresponding version of torch-geometric, available for installation via 
 
-```
-pip install torch_geometric
-```
-
-```
-pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
-```
-
-The remaining package requirements are available in the `requirements.txt` file
-
-# MD extension
-
-## Using singularity container
-
-A singularity container, containing most of the necessary packages is available form [**zenodo**](https://zenodo.org/records/14481845). However, on top of it one still needs to create a small environment. For that the following is required
-```
-pip install torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.1.0+cu121.html
-```
-As well as the packages below
-
-```
-wandb
-faiss-gpu
-transformers
-biopandas
-```
-Therefore, a workflow of activating required environment  within a batch script may look as follows:
-```
-srun --cpu-bind=none bash -c "export CUDA_VISIBLE_DEVICES=\"0,1,2,3\"; export PYTHONPATH=\"\"; export HYDRA_FULL_ERROR=1; apptainer run --nv singularity_docker_jupyter.sif bash -c \"source environment_folder/venv/bin/activate && python src/script_of_your_choice.py\""
-```
 
 
