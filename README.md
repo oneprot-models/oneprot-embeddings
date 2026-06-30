@@ -237,6 +237,8 @@ Run from the repository root:
 ```bash
 python src/saprot_fit_mlp.py
 python src/saprot_fit_mlp_balanced.py
+```
+
 
 ## Task Coverage
 
