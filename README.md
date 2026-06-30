@@ -5,7 +5,7 @@ This repository contains code and documentation for **three related OneProt** st
 | Study | Status | Documentation |
 |---|---:|---|
 | [OneProt: Towards multi-modal protein foundation models via latent space alignment of sequence, structure, binding sites and text encoders](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1013679) | PLOS Computational Biology | [Original OneProt](#original-oneprot) |
-| [When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models](https://openreview.net/forum?id=Q6DuJPwH2U) |ICLR 2026 Foundational Models for Science | [OneProt MD extension](#md-extension) |
+| [When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models](https://openreview.net/forum?id=Q6DuJPwH2U) |ICLR 2026 Foundational Models for Science | [OneProt MD extension](#oneprot-md-extension) |
 | [Multimodal Protein Foundation Models Reveal Dataset-Driven Separability Regimes in Allosteric Site Prediction]() | In preparation | [Allostery prediction with OneProt](#allostery-prediction-with-oneprot) |
 
 - The **original OneProt model** aligns protein sequence, structure, binding-site, and text encoders in a shared latent space.
@@ -135,6 +135,41 @@ DownStream Tasks:
 <br>
 
 # OneProt MD extension
+
+This directory contains the code accompanying the manuscript [**"When Protein Dynamics Matter: Integrating Molecular Dynamics into Protein Foundation Models."**](https://openreview.net/forum?id=Q6DuJPwH2U)
+
+The study extends the original OneProt framework by introducing **molecular dynamics (MD) trajectories** as an additional biological modality. In addition to protein sequence, structure, binding pockets, and functional text annotations, the extended model learns representations of **time-resolved conformational dynamics** using a latent molecular dynamics encoder based on **MDGen** ([Jing et al., 2024](https://arxiv.org/abs/2409.17808)). The resulting MD embeddings are jointly aligned with the remaining OneProt modalities through multimodal contrastive learning, enabling downstream tasks to exploit complementary dynamic information beyond static protein structures.
+
+The repository provides the complete workflow for reproducing the experiments, including:
+
+- preparation and preprocessing of molecular dynamics trajectories,
+- extraction of latent MD representations,
+- multimodal pretraining of the MD-extended OneProt architecture,
+- downstream evaluation using frozen multimodal embeddings.
+
+The implementation of the MD extension is located in:
+
+- **`src/data/datasets/md_dataset.py`** – molecular dynamics dataset preparation and loading,
+- **`src/models/components/md_encoder.py`** – latent MD encoder based on the MDGen architecture.
+
+## Dataset
+
+The MD modality was pretrained using trajectories collected from three complementary molecular dynamics resources:
+
+| Dataset | Description |
+|----------|-------------|
+| **mdCATH** | Large-scale molecular dynamics simulations of structurally diverse globular proteins. |
+| **GPCRmd** | Molecular dynamics trajectories of membrane proteins and GPCRs. |
+| **ATLAS** | Additional all-atom molecular dynamics simulations providing complementary structural and dynamical diversity. |
+
+Together, these datasets provide broad coverage of protein families, structural folds, and conformational regimes. During preprocessing, trajectories are standardized and converted into the representations required by the latent MD encoder before multimodal contrastive pretraining.
+
+The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contains:
+
+- pretrained MD-extended OneProt checkpoints,
+- configuration files required to reproduce the experiments,
+
+These resources enable reproduction of all experiments without repeating the computationally intensive multimodal pretraining stage.
 
 # Allostery prediction with OneProt
 
