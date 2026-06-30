@@ -12,6 +12,8 @@ This repository contains code and documentation for **three related OneProt** st
 - The **MD extension** adds time-resolved molecular-dynamics trajectories as an additional modality.
 - The **Allosteric Site prediction** study uses OneProt-derived representations for downstream analyses of allosteric versus competitive/orthosteric binding sites across a number of different separability regimes
 
+Downstream framework is common for all three papers and described in [**Downstream**](#downstream) below
+
 # Environment
 
 
@@ -158,5 +160,146 @@ The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contai
 - train/validation/test splits for all benchmark datasets.
 
 These resources enable reproduction of all experiments without regenerating the underlying pocket representations or pretrained model checkpoints.
+
+# Downstream
+
+## Saprot MLP Downstream Evaluation Scripts
+
+This document describes the two Saprot-related MLP evaluation scripts:
+
+- `src/saprot_fit_mlp.py`
+- `src/saprot_fit_mlp_balanced.py`
+
+Both scripts train a PyTorch Lightning MLP head on precomputed protein embeddings and evaluate downstream prediction tasks. They use Hydra configuration from `configs/saprot_mlp.yaml`.
+
+## Shared Purpose
+
+These scripts are used to benchmark embeddings on downstream biological prediction tasks. They do not generate embeddings themselves. Instead, they:
+
+1. Load precomputed train/validation/test embeddings using `load_data(cfg)`.
+2. Build an MLP classifier or regressor on top of the embeddings.
+3. Train the MLP with PyTorch Lightning.
+4. Evaluate on validation and test splits.
+5. Save metrics with `save_results_to_csv`.
+
+## `src/saprot_fit_mlp.py`
+
+This is the standard MLP downstream evaluation script.
+
+It supports multiple task types, including:
+
+- Binary classification tasks
+- Multiclass classification tasks
+- Multilabel prediction tasks
+- Regression tasks such as thermostability
+- Sequence/pocket-style allostery tasks with masked labels
+
+The script determines the MLP input dimension from `cfg.model_type`. For example, Saprot and ESM2-style embeddings use 1280-dimensional inputs, while other model types may use different embedding sizes. For paired or concatenated tasks, the input dimension is multiplied accordingly.
+
+The script sweeps over MLP hyperparameters from `cfg.sweep`, including:
+
+- Learning rate
+- Batch size
+- Number of epochs
+- Hidden dimensions
+- Dropout
+- Batch normalization
+- Layer normalization
+- Activation function
+- Residual connections
+- Task name
+- Model type
+
+Use this script for the normal downstream MLP evaluation workflow.
+
+## `src/saprot_fit_mlp_balanced.py`
+
+This script is a class-balanced variant of `saprot_fit_mlp.py`.
+
+It follows the same training and evaluation pipeline, but adds one important preprocessing step for selected merged binary [**allostery tasks**](allostery-prediction-with-oneprot): during training data setup, it balances positive and negative classes by subsampling the majority class.
+
+This is useful when merged binary datasets are strongly imbalanced and the model might otherwise learn to favor the majority class.
+
+For balanced tasks, results are saved with a `_balanced` suffix in the task name so they can be distinguished from the standard MLP runs.
+
+## Main Difference
+
+`src/saprot_fit_mlp.py` uses the training data as loaded.
+
+`src/saprot_fit_mlp_balanced.py` modifies selected binary merged allostery training sets by balancing positive and negative examples before training.
+
+Validation and test sets are not balanced manually; they are used for evaluation as loaded.
+
+## Typical Usage
+
+Run from the repository root:
+
+```bash
+python src/saprot_fit_mlp.py
+python src/saprot_fit_mlp_balanced.py
+
+## Task Coverage
+
+Both scripts span general protein benchmark tasks and allostery-specific pocket/site prediction tasks. The code still uses historical `task_name` identifiers in some places; in repository-facing documentation, these can be mapped to the current dataset names:
+
+- `PL8` corresponds to **PPI-Site**.
+- `Kinase_*` tasks correspond to **KinSite**.
+- `merged_pocket*` tasks correspond to **Dual-Site**, the merged PPI-Site + KinSite dataset.
+- `ASD_merged_*` tasks correspond to **AlloDiverse**, where ASD data are appended to the merged site dataset.
+
+The task families covered by `src/saprot_fit_mlp.py` include:
+
+- General binary protein prediction:
+  - `MetalIonBinding`
+  - `DeepLoc2`
+  - `HumanPPI`
+
+- Protein function / ontology prediction:
+  - `EC`
+  - `GO-BP`
+  - `GO-MF`
+  - `GO-CC`
+
+- Localization / multiclass classification:
+  - `DeepLoc10`
+
+- Regression:
+  - `ThermoStability`
+
+- Enzyme classification:
+  - `TopEnzyme`
+
+- Allostery and pocket/site prediction:
+  - `PL8` / **PPI-Site**
+  - `Kinase_pocket` / **KinSite**
+  - `Kinase_combined` / **KinSite**
+  - `merged_pocket` / **Dual-Site**
+  - `merged_pocket_sequence` / **Dual-Site**
+  - `merged_pocket_binary` / **Dual-Site**
+  - `merged_pocket_sequence_binary` / **Dual-Site**
+  - `ASD_merged_pocket_binary` / **AlloDiverse**
+  - `ASD_merged_pocket_sequence_binary` / **AlloDiverse**
+
+- Text-augmented or concatenated allostery variants:
+  - `Kinase_combined_text`
+  - `Kinase_pocket_text`
+  - `ASD_pockets_binary_text`
+  - `ASD_pockets_sequence_binary_text`
+  - `merged_pocket_binary_text`
+  - `merged_pocket_sequence_binary_text`
+  - `ASD_merged_pocket_binary_text`
+  - `ASD_merged_pocket_sequence_binary_text`
+
+The `src/saprot_fit_mlp_balanced.py` script covers the same broad MLP evaluation workflow, but its balancing logic is specifically applied to selected merged binary allostery tasks, especially:
+
+- `ASD_merged_pocket_binary`
+- `ASD_merged_pocket_sequence_binary`
+- `ASD_merged_pocket_binary_text`
+- `ASD_merged_pocket_sequence_binary_text`
+- Corresponding `_comp` variants
+
+These balanced tasks are saved with a `_balanced` suffix so they can be distinguished from the standard unbalanced MLP runs.
+
+
 
 
