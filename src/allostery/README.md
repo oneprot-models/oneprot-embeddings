@@ -2,8 +2,6 @@
 
 This document describes the allostery data preparation, embedding extraction,
 merging, text-annotation, and downstream evaluation workflow in this repository.
-It was prepared from `Allostery_workflow.docx` and checked against the scripts
-under `src/allostery`.
 
 The workflow is currently script-driven: most scripts use hardcoded paths and
 configuration variables near the bottom or top of each file. Before running a
@@ -14,7 +12,7 @@ configuration file, and radius/count settings.
 
 ```text
 src/allostery/
-  generating_pockets/     Build pocket H5 files from PL8, ASD, and kinase inputs
+  generating_pockets/     Build pocket H5 files from PPI-Site, ASD, and KinSite inputs
   extract_embeddings/     Extract pocket, sequence, text, and merged embeddings
   text_annotations/       Collect UniProt/PDB text annotations for text embeddings
   utils/                  Split, merge, balancing, label, and evaluation utilities
@@ -45,7 +43,7 @@ flowchart TD
 - Run scripts from the repository root, for example:
 
   ```bash
-  cd /p/project1/hai_oneprot/bazarova1/oneprot-panda
+  cd oneprot-embeddings
   ```
 
 - If imports such as `src.models.oneprot_module` fail, set:
@@ -57,8 +55,7 @@ flowchart TD
 - Pocket generation scripts download PDB files and need network access unless
   the structures are already cached in `pdb_files/`.
 
-- Text annotation scripts call RCSB and UniProt APIs. Run them on a login node
-  or another machine with internet access.
+- Text annotation scripts call RCSB and UniProt APIs. 
 
 - Embedding extraction scripts need the OneProt environment, PyTorch,
   torch-geometric, Hydra/OmegaConf, Transformers, h5py, pandas, NumPy, tqdm,
@@ -79,40 +76,13 @@ flowchart TD
 
 ## Important Naming Notes
 
-- The original workflow document refers to:
-
-  ```text
-  src/allostery/generating_pockets/extract_pocket_seqs_to_h5.py
-  ```
-
-  The file present in the repository is:
-
-  ```text
-  src/allostery/generating_pockets/extract_pocket_seq_to_h5.py
-  ```
-
-  Use the singular `seq` filename unless the repository is later renamed.
-
-- The PL8 embedding output folders are named `ASD_pockets` and
+- The PPI-site embedding output folders are named `ASD_pockets` and
   `ASD_pockets_sequence` in the current scripts. This is inherited naming in
   the scripts, not a typo in this documentation.
-
-- The workflow note says "7 models" but lists six model names. Confirm whether
-  a seventh model should be included before running a full model sweep.
 
 - H5 scripts open output files in append mode in several places. Use a fresh
   output filename for each run, especially when changing radius/count values.
 
-- Include the pocket radius/count in output filenames. For example:
-
-  ```text
-  binding_pockets_seq_allosteric_count50.h5
-  binding_pockets_seq_allosteric_count20.h5
-  ASD_binding_pockets_count50.h5
-  ASD_binding_pockets_count20.h5
-  competitive_pockets_csv_count50.h5
-  allosteric_pockets_csv_count50.h5
-  ```
 
 ## Model Configuration
 
@@ -124,7 +94,7 @@ config_path = "..."
 checkpoint_path = "..."
 ```
 
-The model names, config paths, and checkpoint paths are collected in:
+The model names, config paths, and checkpoint paths are collected in zenodo and need to be added to:
 
 ```text
 configs/collect_embeddings.yaml
@@ -136,21 +106,21 @@ checkpoint path into the script you are running.
 Models listed in the workflow note:
 
 ```text
-oneprot_pocket_text_32900
-oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity
-oneprot_md_combined_gpcr_no_struct_graph_32900
-oneprot_struct_graph_pocket_text_32900
-oneprot_md_combined_gpcr_32900
-oneprot_struct_token_pocket_text_32900
+Pocket+Text (oneprot_pocket_text_32900)
+Pocket+Text+SG+ST (oneprot_full_allatom_no_seqsim_no_l1_A100_32900_sanity)
+Pocket+Text+ST+MD (oneprot_md_combined_gpcr_no_struct_graph_32900)
+Pocket+Text+SG+MD (oneprot_md_combined_gpcr_no_struct_token_32900)
+Pocket+Text+SG (oneprot_struct_graph_pocket_text_32900)
+Pocket+Text+SG+ST+MD (oneprot_md_combined_gpcr_32900)
+Pocket+Text+ST (oneprot_struct_token_pocket_text_32900)
 ```
 
 ## Stage 1: Generate Pocket H5 Files
 
 Pocket H5 files are the structural inputs used by the embedding scripts. Run
-the generation scripts separately for each desired pocket radius/count, commonly
-`count=50` and `count=20`.
+the generation scripts separately for each desired pocket radius/count, default is 100.
 
-### PL8 Pockets
+### PPI-site Pockets
 
 Script:
 
@@ -160,7 +130,7 @@ src/allostery/generating_pockets/extract_pocket_seq_to_h5.py
 
 Purpose:
 
-- Parses PL8 cavity annotations.
+- Parses PPI-site cavity annotations.
 - Downloads/loads PDB structures.
 - Finds ligand centers.
 - Extracts nearby pocket atoms/residues using `count`.
@@ -169,8 +139,8 @@ Purpose:
 Inputs from the workflow:
 
 ```text
-/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/PL_part8_20230317_matrix_liganded_allosteric.csv
-/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/PL_part8_20230317_matrix_liganded_orthosteric_competitive.csv
+PL_part8_20230317_matrix_liganded_allosteric.csv
+PL_part8_20230317_matrix_liganded_orthosteric_competitive.csv
 ```
 
 Edit near the bottom of the script:
@@ -179,15 +149,6 @@ Edit near the bottom of the script:
 annotations_file = "..."
 process_annotations_batch(annotations_file, "...output_name.h5", count=100)
 ```
-
-Recommended runs:
-
-- Run allosteric with `count=50`.
-- Run allosteric with `count=20`.
-- Run orthosteric competitive with `count=50`.
-- Run orthosteric competitive with `count=20`.
-
-Use distinct output names for each mechanism and count.
 
 Example command:
 
@@ -212,8 +173,8 @@ Purpose:
 Default inputs in the script:
 
 ```text
-/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/train_df_pdb.csv
-/p/data1/profound_data/CDPPILBP/ippidb-pdb-analyses-042023-zenodo/test_df_pdb.csv
+ASD_original_splits/train_df_pdb.csv
+ASD_original_splits/test_df_pdb.csv
 ```
 
 Edit near the bottom:
@@ -230,18 +191,13 @@ process_multiple_csv_files(
 )
 ```
 
-Recommended runs:
-
-- Set `count=50` and use an output name that includes `50`.
-- Set `count=20` and use an output name that includes `20`.
-
 Example command:
 
 ```bash
 python src/allostery/generating_pockets/allosteric_labels_pockets.py
 ```
 
-### Kinase Pockets
+### KinSite Pockets
 
 Script:
 
@@ -258,20 +214,15 @@ Purpose:
 Edit near the bottom:
 
 ```python
-excel_file = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/Allosteric_and_competitive_inhibitors.csv-1.xls"
+excel_file = "Allosteric_and_competitive_inhibitors.csv-1.xls"
 
 process_excel_file(
     excel_file=excel_file,
-    competitive_h5="competitive_pockets_csv.h5",
-    allosteric_h5="allosteric_pockets_csv.h5",
+    competitive_h5="competitive_pockets_kinsite.h5",
+    allosteric_h5="allosteric_pockets_kinsite.h5",
     count=100,
 )
 ```
-
-Recommended runs:
-
-- Set `count=50` and use output names that include `50`.
-- Set `count=20` and use output names that include `20`.
 
 Example command:
 
@@ -293,7 +244,7 @@ src/allostery/text_annotations/text_annotations_PL8.py
 
 Purpose:
 
-- Parses PL8 cavity IDs.
+- Parses PPI-site cavity IDs.
 - Maps cavity IDs to UniProt IDs.
 - Fetches UniProt annotations.
 - Writes split text files with annotation text.
@@ -316,7 +267,7 @@ Expected output format:
 split_id | uniprot_id | annotation_text
 ```
 
-### Kinase Text Annotations
+### KinSite Text Annotations
 
 Script:
 
@@ -326,7 +277,7 @@ src/allostery/text_annotations/text_annotations_kinase.py
 
 Purpose:
 
-- Reads kinase split CSVs from `0.3/`.
+- Reads kinase split CSVs from `KinSite_splits`.
 - Fetches UniProt annotation text.
 - Writes `train_text.csv`, `valid_text.csv`, and `test_text.csv`.
 
@@ -340,7 +291,7 @@ h5_identifier
 Edit:
 
 ```python
-SPLIT_DIR = "0.3"
+SPLIT_DIR = "KinSite_splits"
 UNIPROT_COL = "Uniprot ID"
 H5_COL = "h5_identifier"
 ```
@@ -363,8 +314,8 @@ Purpose:
 Default inputs:
 
 ```text
-train_df_pdb.csv
-test_df_pdb.csv
+ASD_original_splits/train_df_pdb.csv
+ASD_original_splits/test_df_pdb.csv
 ```
 
 Expected outputs:
@@ -374,12 +325,12 @@ train_df_pdb_text.csv
 test_df_pdb_text.csv
 ```
 
-## Stage 3: Extract PL8 Embeddings
+## Stage 3: Extract PPI-site Embeddings
 
 Before running each script, update the H5 file paths to point to the H5 files
 generated for the desired radius/count.
 
-### PL8 Pocket-Only Embeddings
+### PPI-site Pocket-Only Embeddings
 
 Script:
 
@@ -389,7 +340,7 @@ src/allostery/extract_embeddings/extract_embeddings_pockets.py
 
 Purpose:
 
-- Loads PL8 pocket H5 files.
+- Loads PPI-site pocket H5 files.
 - Reads allosteric and competitive split IDs.
 - Runs the model pocket branch.
 - Saves pocket-only `.pt` embeddings.
@@ -426,7 +377,7 @@ Example command:
 python src/allostery/extract_embeddings/extract_embeddings_pockets.py
 ```
 
-### PL8 Pocket + Sequence Embeddings
+### PPI-site Pocket + Sequence Embeddings
 
 Script:
 
@@ -436,7 +387,7 @@ src/allostery/extract_embeddings/extract_embeddings_pocket_sequence.py
 
 Purpose:
 
-- Loads PL8 pocket sequence H5 files.
+- Loads PPI-site pocket sequence H5 files.
 - Extracts pocket embeddings and sequence embeddings.
 - Concatenates pocket and sequence representations.
 - Saves `.pt` embeddings.
@@ -481,8 +432,8 @@ src/allostery/extract_embeddings/text_embeddings_PL8.py
 
 Purpose:
 
-- Loads existing PL8 pocket-only and pocket+sequence `.pt` files.
-- Loads PL8 annotation text from split text files.
+- Loads existing PPI-site pocket-only and pocket+sequence `.pt` files.
+- Loads PPI-site annotation text from split text files.
 - Encodes text using the model text branch.
 - Concatenates text embeddings onto existing embeddings.
 
@@ -548,7 +499,7 @@ model_name = "..."
 
 competitive_h5 = "competitive_pockets_csv.h5"
 allosteric_h5 = "allosteric_pockets_csv.h5"
-split_dir = "/p/project1/hai_oneprot/bazarova1/oneprot-panda/0.3/"
+split_dir = "KiSite_splits"
 output_dir = "embeddings/" + model_name
 ```
 
@@ -613,7 +564,7 @@ Example command:
 python src/allostery/extract_embeddings/extract_text_embeddings_kinase.py
 ```
 
-## Stage 5: Merge PL8 and Kinase Embeddings
+## Stage 5: Merge PPI-site and KinSite Embeddings
 
 Script:
 
@@ -623,7 +574,7 @@ src/allostery/extract_embeddings/merge_embeddings_text.py
 
 Purpose:
 
-- Merges compatible PL8 and kinase embeddings within each model directory.
+- Merges compatible PPI-site and kinase embeddings within each model directory.
 - Writes merged pocket, pocket+sequence, text, and non-text variants.
 - Preserves labels after applying explicit label maps.
 
@@ -841,7 +792,7 @@ Edit near the top:
 
 ```python
 MODEL_DIR = "embeddings/<model_name>"
-KINASE_SPLIT_DIR = "0.3"
+KINASE_SPLIT_DIR = "KinSite_splits"
 
 ASD_SPLIT_DIRS = {
     "allosteric": ".../splits/allosteric",
@@ -951,27 +902,25 @@ find embeddings/<model_name>/<folder> -maxdepth 2 -type f -name '*.pt' | sort
 
 ## Recommended Run Checklist
 
-1. Generate PL8 H5 files for allosteric and competitive mechanisms at each
-   desired `count`.
+1. Generate PPI-site H5 files for allosteric and competitive mechanisms.
 
-2. Generate ASD H5 files at each desired `count`.
+2. Generate ASD H5 files`.
 
-3. Generate kinase H5 files for allosteric and competitive mechanisms at each
-   desired `count`.
+3. Generate KinSite H5 files for allosteric and competitive mechanisms.
 
-4. Generate text annotation files for PL8, kinase, and ASD if text embeddings
+4. Generate text annotation files for PPI-site, KinSite, and ASD if text embeddings
    will be used.
 
 5. For each model:
 
    - Copy `model_name`, `config_path`, and `checkpoint_path` from
      `configs/collect_embeddings.yaml`.
-   - Extract PL8 pocket-only embeddings.
-   - Extract PL8 pocket+sequence embeddings.
-   - Add PL8 text embeddings.
-   - Extract kinase pocket and pocket+sequence embeddings.
-   - Add kinase text embeddings.
-   - Merge PL8 and kinase embeddings.
+   - Extract PPI-site pocket-only embeddings.
+   - Extract PPI-site pocket+sequence embeddings.
+   - Add PPI-site text embeddings.
+   - Extract KinSite pocket and pocket+sequence embeddings.
+   - Add KinSite text embeddings.
+   - Merge PPI-site and kinase embeddings.
    - Extract ASD pocket-only embeddings.
    - Extract ASD pocket+sequence embeddings.
    - Append ASD embeddings to the merged sets.
@@ -1035,20 +984,3 @@ embeddings/<model_name>/
 - Some scripts use `valid` while others use `val`. Check split names before
   assuming a folder is missing.
 
-## Maintenance Recommendations
-
-The current workflow is functional but highly manual. For long-term repository
-use, consider gradually converting the scripts to accept command-line arguments
-or YAML configuration for:
-
-- Input CSV/H5 paths.
-- Output H5/PT paths.
-- Pocket radius/count.
-- Model name.
-- Config path.
-- Checkpoint path.
-- Split directories.
-- Tokenizer cache paths.
-
-That would reduce accidental overwrites and make full model sweeps much easier
-to reproduce.
