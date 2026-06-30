@@ -188,6 +188,20 @@ The repository provides the complete workflow for reproducing the experiments, i
 
 Detailed workflows are provided in (**`src/allostery/`**)[https://github.com/oneprot-models/oneprot-embeddings/tree/main/src/allostery].
 
+## Benchmark Datasets
+
+The framework is evaluated on four benchmark datasets representing progressively increasing levels of intrinsic separability between orthosteric and allosteric binding sites. Rather than serving solely as independent benchmarks, these datasets were deliberately selected to span distinct structural, functional, and statistical regimes, enabling systematic investigation of how dataset composition influences multimodal representation learning.
+
+| Dataset | Positive class | Negative class | Biological regime |
+|---------|---------------:|---------------:|------------------|
+| **PPI-Site** | 1,689 allosteric | 1,845 orthosteric competitive | Low separability |
+| **KinSite** | 172 allosteric kinase pockets | 3,363 ATP-binding pockets | Intermediate separability |
+| **Dual-Site** | 1,861 allosteric | 5,203 orthosteric | Intermediate separability |
+| **AlloDiverse** | 15,904 allosteric | 5,203 orthosteric | High separability |
+
+The PPI-Site dataset contains experimentally resolved protein–protein interaction binding sites where allosteric and orthosteric pockets frequently occur within closely related structural contexts, making discrimination particularly challenging. KinSite comprises kinase inhibitor complexes in which orthosteric ATP-binding sites are highly evolutionarily conserved whereas allosteric pockets are structurally heterogeneous. Dual-Site combines the PPI-Site and KinSite benchmarks to evaluate generalization across complementary biological regimes. Finally, AlloDiverse augments experimentally resolved pockets with reconstructed allosteric regions from the Allosteric Database (ASD), substantially increasing structural and functional diversity and representing a high-separability regime.
+
+
 The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contains:
 
 - pretrained OneProt checkpoints,
@@ -195,6 +209,8 @@ The accompanying Zenodo archive (https://doi.org/10.5281/zenodo.20997998) contai
 - train/validation/test splits for all benchmark datasets.
 
 These resources enable reproduction of all experiments without regenerating the underlying pocket representations or pretrained model checkpoints.
+
+
 
 # Downstream
 
