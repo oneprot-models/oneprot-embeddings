@@ -1,0 +1,2 @@
+Bootstrap: docker
+From: nvcr.io/nvidia/pyg:28.03-py3

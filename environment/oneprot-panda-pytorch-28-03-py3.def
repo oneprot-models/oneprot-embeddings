@@ -1,0 +1,37 @@
+Bootstrap: localimage
+From: pyg-28-03-py3-arm64.sif
+
+%environment
+    export TZ=Etc/UTC
+    export DEBIAN_FRONTEND=noninteractive
+
+%post
+    # Set timezone and prevent interactive prompts
+    export TZ=Etc/UTC
+    export DEBIAN_FRONTEND=noninteractive
+
+    echo "Updating and installing system dependencies..."
+    apt-get update \
+       && apt-get install -y --no-install-recommends \
+       libboost-dev libboost-python-dev libboost-numpy-dev libboost-iostreams-dev libaio-dev \
+       && rm -rf /var/lib/apt/lists/*
+
+
+    apt-get update \
+       && apt-get install -y --no-install-recommends \
+       infiniband-diags \
+       pciutils \
+       libboost-python-dev libboost-numpy-dev libboost-iostreams-dev libaio-dev \
+       && rm -rf /var/lib/apt/lists/*
+
+    cd /workspace/oneprot-panda
+
+    pip install torch-geometric
+
+    pip install torch_scatter torch_sparse torch_cluster torch_spline_conv
+    pip install -r requirements_pyg_25_03.txt
+    
+
+%files
+   container/requirements_pyg_25_03.txt /workspace/oneprot-panda/requirements_pyg_25_03.txt
+

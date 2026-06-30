@@ -1,8 +1,6 @@
 # Add here the pip packages you would like to install on this virtual environment / kernel
 pip
 ipykernel
-rdkit==2024.9.6
-dive-into-graphs==1.1.0
 mdtraj==1.9.9
 openpyxl==3.1.5
 statsmodels==0.14.6
